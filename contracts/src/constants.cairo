@@ -1,0 +1,23 @@
+// Realm
+
+pub const REALM_ID: u32 = 1;
+
+// Room
+
+pub const ROOM_WIDTH: u8 = 15;
+pub const ROOM_HEIGHT: u8 = 15;
+pub const ROOM_STEPS: u16 = 500;
+pub const ROOM_NORTH_POSITION: u8 = ROOM_WIDTH * ROOM_HEIGHT - 1 - ROOM_WIDTH / 2;
+pub const ROOM_EAST_POSITION: u8 = ROOM_HEIGHT / 2 * ROOM_WIDTH;
+pub const ROOM_SOUTH_POSITION: u8 = ROOM_WIDTH / 2;
+pub const ROOM_WEST_POSITION: u8 = ROOM_EAST_POSITION + ROOM_WIDTH - 1;
+pub const ROOM_BEAST_COUNT: u8 = 2;
+pub const ROOM_ITEM_COUNT: u8 = 1;
+
+// Adventurer
+
+pub const ADVENTURER_DEFAULT_HEALTH: u16 = 100;
+pub const ADVENTURER_DEFAULT_LEVEL: u8 = 1;
+pub const ADVENTURER_DEFAULT_GOLD: u16 = 100;
+pub const ADVENTURER_DEFAULT_POSITION: u8 = ROOM_WIDTH * ROOM_HEIGHT / 2;
+

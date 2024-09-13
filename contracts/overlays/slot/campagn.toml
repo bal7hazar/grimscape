@@ -1,0 +1,10 @@
+tag = "grimscape-campagn"
+writes = [
+    "grimscape-Player",
+    "grimscape-Realm",
+    "grimscape-Dungeon",
+    "grimscape-Room",
+    "grimscape-Adventurer",
+    "grimscape-Mob",
+]
+init_calldata = []

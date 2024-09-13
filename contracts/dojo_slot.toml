@@ -1,0 +1,21 @@
+[world]
+name = "Grimscape"
+description = "A fully onchain RPG game."
+cover_uri = "file://assets/cover.png"
+icon_uri = "file://assets/icon.png"
+website = "https://github.com/bal7hazar/grimscape"
+seed = "grimscape"
+
+[world.socials]
+x = "https://x.com/ohayo_dojo"
+discord = "https://discord.gg/FB2wR6uF"
+github = "https://github.com/bal7hazar/grimscape"
+telegram = "https://t.me/dojoengine"
+
+[namespace]
+default = "grimscape"
+
+[env]
+rpc_url = "http://localhost:5050/"
+account_address = "0x132b64272baaa3914d87a37c9b8034171601fc41976e8b9ffaf54d6ed9db3f8"
+private_key = "0x212362587a24cb437514f8902d2e2f0b214ff805eac68513956df52024fb878"

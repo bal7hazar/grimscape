@@ -1,0 +1,20 @@
+[package]
+cairo-version = "=2.7.0"
+name = "grimscape"
+version = "0.0.0"
+
+[cairo]
+sierra-replace-ids = true
+
+[scripts]
+dev = "sozo clean && sozo build && sozo migrate plan && sozo migrate apply"
+slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile slot migrate plan && sozo --profile slot migrate apply"
+
+[dependencies]
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.11" }
+origami_map = { git = "https://github.com/dojoengine/origami", ref = "b3f7311" }
+origami_random = { git = "https://github.com/dojoengine/origami", ref = "b3f7311" }
+
+[[target.dojo]]
+
+[profile.slot]

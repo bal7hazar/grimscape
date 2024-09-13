@@ -41,9 +41,6 @@ fn test_campagn_move() {
     systems.campagn.move(Direction::West.into());
 
     // [Assert] Adventurer
-    let player = store.get_player(context.player_id);
-    let realm = store.get_realm(constants::REALM_ID);
-    let dungeon = store.get_dungeon(realm.id, realm.dungeon_count);
     let adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
     assert_eq!(adventurer.position, adventurer_position + 1);
 }

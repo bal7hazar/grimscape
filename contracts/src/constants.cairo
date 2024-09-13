@@ -6,7 +6,7 @@ pub const REALM_ID: u32 = 1;
 
 pub const ROOM_WIDTH: u8 = 15;
 pub const ROOM_HEIGHT: u8 = 15;
-pub const ROOM_STEPS: u16 = 500;
+pub const ROOM_STEPS: u16 = 300;
 pub const ROOM_NORTH_POSITION: u8 = ROOM_WIDTH * ROOM_HEIGHT - 1 - ROOM_WIDTH / 2;
 pub const ROOM_EAST_POSITION: u8 = ROOM_HEIGHT / 2 * ROOM_WIDTH;
 pub const ROOM_SOUTH_POSITION: u8 = ROOM_WIDTH / 2;

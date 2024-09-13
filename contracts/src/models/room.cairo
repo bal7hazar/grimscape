@@ -132,6 +132,17 @@ impl RoomImpl of RoomTrait {
     }
 
     #[inline]
+    fn search_next(self: Room, from: u8, to: u8) -> u8 {
+        let map: Map = MapTrait::new(self.grid, constants::ROOM_WIDTH, constants::ROOM_HEIGHT, 0);
+        let mut path: Span<u8> = map.search_path(from, to);
+        if path.is_empty() {
+            from
+        } else {
+            *path.pop_back().unwrap()
+        }
+    }
+
+    #[inline]
     fn can_interact(self: Room, position: u8, direction: Direction) -> bool {
         let target = self.next(position, direction);
         target != position && !self.is_free(target)
@@ -229,6 +240,10 @@ impl RoomImpl of RoomTrait {
 
     #[inline]
     fn move(ref self: Room, from: u8, to: u8) {
+        // [Check] From and to positions are different, otherwise leave as is
+        if from == to {
+            return;
+        }
         // [Check] Target position if free
         self.assert_is_free(to);
         // [Effect] Update positions

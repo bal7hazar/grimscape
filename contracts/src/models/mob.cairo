@@ -58,19 +58,12 @@ impl MobImpl of MobTrait {
 
     #[inline]
     fn take(ref self: Mob, damage: u16) {
-        if self.is_dead() {
-            return;
-        }
         self.health -= core::cmp::min(self.health, damage.into());
     }
 
     #[inline]
-    fn move(ref self: Mob, map: felt252, target: u8) {
-        let map: Map = MapTrait::new(map, constants::ROOM_WIDTH, constants::ROOM_HEIGHT, 0);
-        let mut path: Span<u8> = map.search_path(self.position, target);
-        if !path.is_empty() {
-            self.position = *path.pop_back().unwrap();
-        }
+    fn move(ref self: Mob, position: u8) {
+        self.position = position;
     }
 }
 

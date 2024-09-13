@@ -40,5 +40,6 @@ mod tests {
     mod test_campagn_setup;
     mod test_campagn_move;
     mod test_campagn_explore;
+    mod test_campagn_interact;
 }
 

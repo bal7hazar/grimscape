@@ -216,6 +216,8 @@ mod PlayableComponent {
             let mut room = store
                 .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
             if !room.is_explored() {
+                // [Effect] Update the adventurer seed
+                adventurer.seed = Seeder::reseed(adventurer.seed, direction.into());
                 // [Effect] Setup and Explore the room
                 room.setup();
                 room.explore(adventurer.seed);
@@ -248,7 +250,7 @@ mod PlayableComponent {
                 // [Effect] Create mob
                 let seed = Seeder::reseed(room.seed, mob_id.into());
                 let beast: Beast = BeastTrait::from(seed);
-                let mob = MobTrait::new(
+                let mut mob = MobTrait::new(
                     room.realm_id,
                     room.dungeon_id,
                     room.adventurer_id,
@@ -259,6 +261,7 @@ mod PlayableComponent {
                     beast
                 );
                 // [Effect] Store mob
+                mob.setup(1, seed);
                 store.set_mob(mob);
                 mob_id += 1;
             };
@@ -276,14 +279,13 @@ mod PlayableComponent {
                 // [Effect] Move mob
                 let mut mob = store
                     .get_mob(room.realm_id, room.dungeon_id, adventurer.id, room.x, room.y, mob_id);
-                let from = mob.position;
-                mob.move(room.map(), adventurer.position);
+                let next = room.search_next(mob.position, adventurer.position);
                 // [Effect] Attack if possible, otherwise move
-                if mob.position == adventurer.position {
-                    mob.position = from; // FIXME: Move back, need to be done differently
+                if next == adventurer.position {
                     adventurer.take(mob.damage());
-                } else {
-                    room.move(from, mob.position);
+                } else if next != mob.position && !mob.is_dead() {
+                    room.move(mob.position, next);
+                    mob.move(next);
                 }
                 // [Effect] Update mob
                 store.set_mob(mob);

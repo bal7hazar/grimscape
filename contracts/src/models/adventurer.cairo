@@ -56,9 +56,6 @@ impl AdventurerImpl of AdventurerTrait {
 
     #[inline]
     fn take(ref self: Adventurer, damage: u16) {
-        if self.is_dead() {
-            return;
-        }
         self.health -= core::cmp::min(self.health, damage.into());
     }
 
@@ -83,7 +80,6 @@ impl AdventurerImpl of AdventurerTrait {
         let height: u8 = constants::ROOM_HEIGHT;
         let (x, y) = (self.position % width, self.position / width);
         self.position = match direction {
-            Direction::None => self.position,
             Direction::North => {
                 if y < height - 1 {
                     self.position + width
@@ -106,6 +102,7 @@ impl AdventurerImpl of AdventurerTrait {
             } else {
                 self.position
             } },
+            _ => self.position,
         };
     }
 }

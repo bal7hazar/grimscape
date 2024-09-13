@@ -183,6 +183,8 @@ impl RoomImpl of RoomTrait {
             if entities % 2 == 1 {
                 positions.append(index);
             }
+            entities / 2;
+            index += 1;
         };
         // [Return] Entity positions
         positions

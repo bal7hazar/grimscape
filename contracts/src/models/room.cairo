@@ -24,25 +24,28 @@ mod errors {
     const ROOM_POSITION_NOT_FREE: felt252 = 'Room: position not free';
     const ROOM_CANNOT_LEAVE: felt252 = 'Room: cannot leave';
     const ROOM_CANNOT_INTERACT: felt252 = 'Room: cannot interact';
+    const ROOM_INVALID_SIZE: felt252 = 'Room: invalid size';
 }
 
 #[generate_trait]
 impl RoomImpl of RoomTrait {
     #[inline]
     fn new(realm_id: u32, dungeon_id: u32, adventurer_id: u32, x: i32, y: i32) -> Room {
-        Room {
+        let mut room = Room {
             realm_id,
             dungeon_id,
             adventurer_id,
             x,
             y,
-            width: constants::ROOM_WIDTH,
-            height: constants::ROOM_HEIGHT,
+            width: 0,
+            height: 0,
             mob_count: 0,
             entities: 0,
             grid: 0,
             seed: 0
-        }
+        };
+        room.setup();
+        room
     }
 
     #[inline]
@@ -135,6 +138,20 @@ impl RoomImpl of RoomTrait {
     }
 
     #[inline]
+    fn setup(ref self: Room) {
+        // [Check] Room is not explored
+        self.assert_not_explored();
+        // [Check] Width and height are valid
+        let width = constants::ROOM_WIDTH;
+        let height = constants::ROOM_HEIGHT;
+        assert(width > 0 && height > 0, errors::ROOM_INVALID_SIZE);
+        assert(width * height <= 255, errors::ROOM_INVALID_SIZE);
+        // [Effect] Update width and height
+        self.width = width;
+        self.height = height;
+    }
+
+    #[inline]
     fn explore(ref self: Room, seed: felt252) {
         // [Check] Seed is valid
         assert(seed != 0, errors::ROOM_INVALID_SEED);
@@ -183,7 +200,7 @@ impl RoomImpl of RoomTrait {
             if entities % 2 == 1 {
                 positions.append(index);
             }
-            entities / 2;
+            entities /= 2;
             index += 1;
         };
         // [Return] Entity positions

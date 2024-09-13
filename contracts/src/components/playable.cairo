@@ -126,8 +126,8 @@ mod PlayableComponent {
             let mut room = store
                 .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
             let from = adventurer.position;
-            let to = adventurer.move(direction.into());
-            room.move(from, to);
+            adventurer.move(direction.into());
+            room.move(from, adventurer.position);
 
             // [Effect] Move mobs
             self.move_mobs(ref room, ref adventurer, ref store);
@@ -216,7 +216,8 @@ mod PlayableComponent {
             let mut room = store
                 .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
             if !room.is_explored() {
-                // [Effect] Explore the room
+                // [Effect] Setup and Explore the room
+                room.setup();
                 room.explore(adventurer.seed);
                 // [Effect] Add entities
                 room.add(adventurer.position);
@@ -242,7 +243,7 @@ mod PlayableComponent {
         fn spawn_mobs(
             self: @ComponentState<TContractState>, room: Room, ref mobs: Array<u8>, ref store: Store
         ) {
-            let mut mob_id = room.mob_count;
+            let mut mob_id = 1;
             while let Option::Some(position) = mobs.pop_front() {
                 // [Effect] Create mob
                 let seed = Seeder::reseed(room.seed, mob_id.into());
@@ -259,7 +260,7 @@ mod PlayableComponent {
                 );
                 // [Effect] Store mob
                 store.set_mob(mob);
-                mob_id -= 1;
+                mob_id += 1;
             };
         }
 
@@ -276,12 +277,13 @@ mod PlayableComponent {
                 let mut mob = store
                     .get_mob(room.realm_id, room.dungeon_id, adventurer.id, room.x, room.y, mob_id);
                 let from = mob.position;
-                let to = mob.move(room.map(), adventurer.position);
+                mob.move(room.map(), adventurer.position);
                 // [Effect] Attack if possible, otherwise move
-                if to == adventurer.position {
+                if mob.position == adventurer.position {
+                    mob.position = from; // FIXME: Move back, need to be done differently
                     adventurer.take(mob.damage());
                 } else {
-                    room.move(from, to);
+                    room.move(from, mob.position);
                 }
                 // [Effect] Update mob
                 store.set_mob(mob);

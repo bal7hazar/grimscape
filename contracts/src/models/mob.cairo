@@ -65,13 +65,12 @@ impl MobImpl of MobTrait {
     }
 
     #[inline]
-    fn move(ref self: Mob, map: felt252, target: u8) -> u8 {
+    fn move(ref self: Mob, map: felt252, target: u8) {
         let map: Map = MapTrait::new(map, constants::ROOM_WIDTH, constants::ROOM_HEIGHT, 0);
         let mut path: Span<u8> = map.search_path(self.position, target);
         if !path.is_empty() {
             self.position = *path.pop_back().unwrap();
         }
-        self.position
     }
 }
 

@@ -38,5 +38,7 @@ mod helpers {
 mod tests {
     mod setup;
     mod test_campagn_setup;
+    mod test_campagn_move;
+    mod test_campagn_explore;
 }
 

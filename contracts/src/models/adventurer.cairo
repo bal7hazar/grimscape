@@ -78,11 +78,11 @@ impl AdventurerImpl of AdventurerTrait {
     }
 
     #[inline]
-    fn move(ref self: Adventurer, direction: Direction) -> u8 {
+    fn move(ref self: Adventurer, direction: Direction) {
         let width: u8 = constants::ROOM_WIDTH;
         let height: u8 = constants::ROOM_HEIGHT;
         let (x, y) = (self.position % width, self.position / width);
-        match direction {
+        self.position = match direction {
             Direction::None => self.position,
             Direction::North => {
                 if y < height - 1 {
@@ -106,7 +106,7 @@ impl AdventurerImpl of AdventurerTrait {
             } else {
                 self.position
             } },
-        }
+        };
     }
 }
 

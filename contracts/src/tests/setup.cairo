@@ -17,7 +17,6 @@ mod setup {
 
     use grimscape::models::index;
     use grimscape::types::direction::Direction;
-    use grimscape::types::category::Category;
     use grimscape::helpers::seeder::Seeder;
     use grimscape::systems::campagn::{
         campagn, ICampagn, ICampagnDispatcher, ICampagnDispatcherTrait
@@ -47,12 +46,11 @@ mod setup {
         // [Setup] World
         let models = array![
             index::player::TEST_CLASS_HASH,
-            index::factory::TEST_CLASS_HASH,
+            index::realm::TEST_CLASS_HASH,
             index::dungeon::TEST_CLASS_HASH,
             index::room::TEST_CLASS_HASH,
-            index::team::TEST_CLASS_HASH,
+            index::adventurer::TEST_CLASS_HASH,
             index::mob::TEST_CLASS_HASH,
-            index::challenge::TEST_CLASS_HASH,
         ];
         let world = spawn_test_world(array!["grimscape"].span(), models.span());
 
@@ -75,7 +73,7 @@ mod setup {
         // [Setup] Context
         set_contract_address(PLAYER());
         systems.campagn.signup(PLAYER_NAME);
-        systems.campagn.spawn();
+        systems.campagn.create();
         let context = Context { player_id: PLAYER().into(), player_name: PLAYER_NAME, };
 
         // [Return]

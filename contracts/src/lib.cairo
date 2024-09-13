@@ -33,9 +33,10 @@ mod helpers {
     mod math;
     mod seeder;
 }
-// #[cfg(test)]
-// mod tests {
-//     // mod setup;
-// }
 
+#[cfg(test)]
+mod tests {
+    mod setup;
+    mod test_campagn_setup;
+}
 

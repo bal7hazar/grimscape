@@ -92,7 +92,7 @@ impl RoomImpl of RoomTrait {
 
     #[inline]
     fn is_free(self: Room, position: u8) -> bool {
-        let map: u256 = self.entities.into();
+        let map: u256 = self.grid.into() ^ self.entities.into();
         1 == Bitmap::get(map, position)
     }
 

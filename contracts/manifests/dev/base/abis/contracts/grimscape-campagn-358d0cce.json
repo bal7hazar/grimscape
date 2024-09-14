@@ -129,11 +129,11 @@
   {
     "type": "impl",
     "name": "IDojoInitImpl",
-    "interface_name": "grimscape::systems::campagn::actions::IDojoInit"
+    "interface_name": "grimscape::systems::campagn::campagn::IDojoInit"
   },
   {
     "type": "interface",
-    "name": "grimscape::systems::campagn::actions::IDojoInit",
+    "name": "grimscape::systems::campagn::campagn::IDojoInit",
     "items": [
       {
         "type": "function",
@@ -146,12 +146,12 @@
   },
   {
     "type": "impl",
-    "name": "ActionsImpl",
-    "interface_name": "grimscape::systems::campagn::IActions"
+    "name": "CampagnImpl",
+    "interface_name": "grimscape::systems::campagn::ICampagn"
   },
   {
     "type": "interface",
-    "name": "grimscape::systems::campagn::IActions",
+    "name": "grimscape::systems::campagn::ICampagn",
     "items": [
       {
         "type": "function",
@@ -283,7 +283,7 @@
   },
   {
     "type": "event",
-    "name": "grimscape::systems::campagn::actions::Event",
+    "name": "grimscape::systems::campagn::campagn::Event",
     "kind": "enum",
     "variants": [
       {

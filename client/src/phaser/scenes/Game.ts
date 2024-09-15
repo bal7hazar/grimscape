@@ -1,10 +1,14 @@
 import { EventBus } from "../EventBus";
 import { Scene } from "phaser";
 import { Tilemap } from "../helpers/tilemap";
+import GameManager from "../managers/game";
 
 export class Game extends Scene {
+  grid: bigint | null = null;
   map: Phaser.Tilemaps.Tilemap | null = null;
+  tileset: Phaser.Tilemaps.Tileset | null = null;
   animatedTiles: any = undefined;
+  rooms: string[] = [];
 
   constructor() {
     super("Game");
@@ -13,6 +17,8 @@ export class Game extends Scene {
   init() {}
 
   preload() {
+    // Camera
+    this.cameras.main.scaleManager.scaleMode = Phaser.Scale.ScaleModes.RESIZE;
     // Tilemap
     this.load.scenePlugin(
       "AnimatedTiles",
@@ -21,7 +27,7 @@ export class Game extends Scene {
       "animatedTiles",
     );
     this.load.image("tiles", "assets/tilemaps/tileset.png");
-    this.load.tilemapTiledJSON("tilemap", Tilemap.generate(15, 15, 0x201BFB1A1C6DD43279CF5275AF5AE3669B5B1CC456B87BD864F0080n));
+    this.load.tilemapTiledJSON("tilemap", "assets/tilemaps/tilemap.json");
   }
 
   create() {
@@ -31,20 +37,8 @@ export class Game extends Scene {
       width: this.renderer.width,
       height: this.renderer.height,
     });
-    const tileset = this.map.addTilesetImage("tileset", "tiles");
-    this.map.createLayer("Ground", tileset!);
-    this.map.createLayer("Details", tileset!);
-    this.map.createLayer("Fog", tileset!);
-    this.animatedTiles.init(this.map);
+    this.tileset = this.map.addTilesetImage("tileset", "tiles");
 
-    // Camera
-    this.cameras.main.scaleManager.scaleMode = Phaser.Scale.ScaleModes.RESIZE;
-    this.cameras.main.setZoom(3);
-    this.cameras.main.scrollX =
-      -this.renderer.width / 2 + this.map.widthInPixels / 2;
-    this.cameras.main.scrollY =
-      -this.renderer.height / 2 + this.map.heightInPixels / 2;
-    
     // Listeners
     this.scale.on("resize", this.resize, this);
 
@@ -52,8 +46,36 @@ export class Game extends Scene {
     EventBus.emit("current-scene-ready", this);
   }
 
-  update(time: number, delta: number) {
-    
+  update() {
+    const room = GameManager.getInstance().room;
+    if (!!room && this.grid !== room.grid && !this.rooms.includes(`${room.x}-${room.y}`)) {
+      // Create room
+      const tilemap = Tilemap.generate(room.width, room.height, room.grid);
+      this.generate(tilemap, room.x, room.y);
+      // Update camera
+      this.cameras.main.scrollX = -this.renderer.width / 2 + this.map!.widthInPixels / 2;
+      this.cameras.main.scrollY = -this.renderer.height / 2 + this.map!.heightInPixels / 2;
+      this.cameras.main.setZoom(3);
+      // Store room
+      this.rooms.push(`${room.x}-${room.y}`);
+      this.grid = room.grid;
+    }
+  }
+
+  generate(data: any, x: number, y: number) {
+    data.layers.forEach((layer: any) => {
+      const name = `${layer.name}-${x}-${y}`;
+      const worldX = x * this.map!.width * this.map!.tileWidth;
+      const worldY = y * this.map!.height * this.map!.tileWidth;
+      const newLayer = this.map!.createBlankLayer(name, this.tileset!, worldX, worldY);
+      layer.data.forEach((tile: any, index: number) => {
+        if (!tile) return;
+        const x = index % data.width;
+        const y = Math.floor(index / data.width);
+        newLayer!.putTileAt(tile, x, y);
+      });
+    });
+    this.animatedTiles.init(this.map!);
   }
 
   resize(

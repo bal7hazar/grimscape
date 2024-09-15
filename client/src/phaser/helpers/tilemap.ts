@@ -72,6 +72,21 @@ export const Tilemap: Tilemap = {
       // ■ ■ ■
       // ■ ■ ■
       return FULL_WALL[Math.floor(Math.random() * FULL_WALL.length)];
+    } else if (self && nbs.n && nbs.s && nbs.e && nbs.w && !nbs.ne && !nbs.nw && nbs.se && nbs.sw) {
+      // □ ■ □
+      // ■ ■ ■
+      // ■ ■ ■
+      return SOUTH_WALL[Math.floor(Math.random() * SOUTH_WALL.length)];
+    } else if (self && nbs.n && nbs.s && !nbs.e && nbs.w && !nbs.sw) {
+      // * ■ *
+      // ■ ■ □
+      // □ ■ *
+      return CENTER_SINGLE_VERTICAL_WALL[Math.floor(Math.random() * CENTER_SINGLE_VERTICAL_WALL.length)];
+    } else if (self && nbs.n && nbs.s && nbs.e && !nbs.w && !nbs.se) {
+      // * ■ *
+      // □ ■ ■
+      // * ■ □
+      return CENTER_SINGLE_VERTICAL_WALL[Math.floor(Math.random() * CENTER_SINGLE_VERTICAL_WALL.length)];
     } else if (self && !nbs.n && !nbs.s && !nbs.e && !nbs.w) {
       // * □ *
       // □ ■ □
@@ -302,159 +317,51 @@ export const Tilemap: Tilemap = {
 
   generate(width: number, height: number, tilemap: bigint) {
     const ground = this.extract(width, height, tilemap);
-    return { compressionlevel:-1,
-      height: height,
-      infinite:false,
+    return {
+      height,
+      width,
       layers:[
-             {
-              data: ground,
-              height,
-              id: 1,
-              name: "Ground",
-              opacity: 1,
-              type: "tilelayer",
-              visible: true,
-              width,
-              x: 0,
-              y: 0,
-             }, 
-             {
-              data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 72,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              height,
-              id: 3,
-              name: "Details",
-              opacity:1,
-              type: "tilelayer",
-              visible: true,
-              width,
-              x: 0,
-              y: 0
-             }, 
-             {
-              data:[75, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 77,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
-                 95, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 97],
-              height,
-              id:7,
-              name:"Fog",
-              opacity:1,
-              type:"tilelayer",
-              visible:true,
-              width,
-              x:0,
-              y:0
-             }],
-      nextlayerid:8,
-      nextobjectid:1,
-      orientation:"orthogonal",
-      renderorder:"right-down",
-      tiledversion:"1.10.2",
-      tileheight:16,
-      tilesets:[
-             {
-              columns:10,
-              firstgid:1,
-              image:"tileset.png",
-              imageheight:160,
-              imagewidth:160,
-              margin:0,
-              name:"tileset",
-              spacing:0,
-              tilecount:100,
-              tileheight:16,
-              tiles:[
-                     {
-                      animation:[
-                             {
-                              duration:200,
-                              tileid:71
-                             }, 
-                             {
-                              duration:200,
-                              tileid:72
-                             }, 
-                             {
-                              duration:200,
-                              tileid:73
-                             }, 
-                             {
-                              duration:200,
-                              tileid:72
-                             }],
-                      id:71
-                     }, 
-                     {
-                      animation:[
-                             {
-                              duration:200,
-                              tileid:81
-                             }, 
-                             {
-                              duration:200,
-                              tileid:82
-                             }, 
-                             {
-                              duration:200,
-                              tileid:83
-                             }, 
-                             {
-                              duration:200,
-                              tileid:82
-                             }],
-                      id:81
-                     }, 
-                     {
-                      animation:[
-                             {
-                              duration:200,
-                              tileid:91
-                             }, 
-                             {
-                              duration:200,
-                              tileid:92
-                             }, 
-                             {
-                              duration:200,
-                              tileid:93
-                             }, 
-                             {
-                              duration:200,
-                              tileid:92
-                             }],
-                      id:91
-                     }],
-              tilewidth:16
-             }],
-      tilewidth:16,
-      type:"map",
-      version:1.10,
-      width:15
-     }
+        {
+          data: ground,
+          name: "Ground",
+        }, 
+        {
+          data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 72,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          name: "Details",
+        }, 
+        {
+          data:[75, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 77,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
+              95, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 97],
+          name:"Fog",
+        }
+      ],
+    }
   },
 }

@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Account } from "@/ui/components/Account";
-import { ModeToggle } from "@/ui/components/Theme";
 import { useDojo } from "@/dojo/useDojo";
 import { usePlayer } from "@/hooks/usePlayer";
 import {
@@ -21,7 +20,6 @@ import {
 import { Button } from "../elements/button";
 import { User } from "lucide-react";
 import logo from "/assets/logo.png";
-// import { Leaderboard } from "../modules/Leaderboard";
 
 export const Header = () => {
   const {
@@ -63,7 +61,6 @@ export const Header = () => {
             {player.name}
           </p>
         )}
-        <ModeToggle />
         {/* <Leaderboard /> */}
         <Sheet>
           <SheetTrigger asChild className="cursor-pointer">

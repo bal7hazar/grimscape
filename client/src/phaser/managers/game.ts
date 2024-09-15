@@ -1,24 +1,21 @@
-import { Game } from "@/dojo/game/models/game";
-import { BuilderDeck } from "@/dojo/game/types/deck";
-import { BuildingDeck } from "@/dojo/game/types/deck";
-import SellManager from "./sell";
-import BuyManager from "./buy";
+import { Realm } from "@/dojo/models/realm";
+import { Dungeon } from "@/dojo/models/dungeon";
+import { Adventurer } from "@/dojo/models/adventurer";
+import { Room } from "@/dojo/models/room";
+import { Mob } from "@/dojo/models/mob";
 
 class GameManager {
   static instance: GameManager;
-  public game: Game | null = null;
-  public start: () => void = () => {};
-  public hire: (builderId: number) => void = () => {};
-  public select: (buildingId: number) => void = () => {};
-  public send: (builderId: number, buildingId: number) => void = () => {};
-  public buy: (quantity: number) => void = () => {};
-  public sell: (quantity: number) => void = () => {};
-  private builder: number = 0;
-  private building: number = 0;
-  private selected: { builder: number; building: number } = {
-    builder: 0,
-    building: 0,
-  };
+  public realm: Realm | null = null;
+  public dungeon: Dungeon | null = null;
+  public adventurer: Adventurer | null = null;
+  public room: Room | null = null;
+  public mobs: Mob[] = [];
+  public create: () => void = () => {};
+  public move: (direction: number) => void = () => {};
+  public interact: (direction: number) => void = () => {};
+  public explore: (direction: number) => void = () => {};
+  public direction: number = 0;
 
   constructor() {
     if (GameManager.instance) {
@@ -34,167 +31,73 @@ class GameManager {
     return GameManager.instance;
   }
 
-  setGame(game: Game | null) {
-    if (!game) return;
-    this.game = game;
-    this.builder = game.builders ? game.builders[0] : 0;
-    this.building = game.buildings ? game.buildings[0] : 0;
+  getDirection() {
+    return this.direction;
   }
 
-  getBuilderId() {
-    return this.builder;
+  setDirection(direction: number) {
+    this.direction = direction;
   }
 
-  getBuilder(id: number) {
-    return BuilderDeck.get(id);
+  setRealm(realm: Realm | null) {
+    if (!realm) return;
+    this.realm = realm;
   }
 
-  getBuilderIndex() {
-    return this.game?.builders.indexOf(this.builder) || 0;
+  setDungeon(dungeon: Dungeon | null) {
+    if (!dungeon) return;
+    this.dungeon = dungeon;
   }
 
-  getWorkerByIndex(index: number) {
-    return BuilderDeck.get(this.game?.workers[index] || 0);
+  setAdventurer(adventurer: Adventurer | null) {
+    if (!adventurer) return;
+    this.adventurer = adventurer;
   }
 
-  getSelectedBuilderId() {
-    return this.selected.builder;
+  setRoom(room: Room | null) {
+    if (!room) return;
+    this.room = room;
   }
 
-  getSelectedBuilder() {
-    return BuilderDeck.get(this.selected.builder);
+  setMobs(mobs: Mob[]) {
+    if (!mobs) return;
+    this.mobs = mobs;
   }
 
-  getWorkers() {
-    return this.game?.workers || [];
+  setCreate(action: () => void) {
+    this.create = action;
   }
 
-  getBuildingId() {
-    return this.building;
+  setMove(action: (direction: number) => void) {
+    this.move = action;
   }
 
-  getConstructions() {
-    return this.game?.constructions || [];
+  setInteract(action: (direction: number) => void) {
+    this.interact = action;
   }
 
-  getBuilding() {
-    return BuildingDeck.get(this.building);
+  setExplore(action: (direction: number) => void) {
+    this.explore = action;
   }
 
-  getBuildingIndex() {
-    return this.game?.buildings.indexOf(this.building) || 0;
+  callCreate() {
+    if (!this.create) return;
+    this.create();
   }
 
-  getSelectedBuildingId() {
-    return this.selected.building;
+  callMove() {
+    if (!this.move || !this.adventurer) return;
+    this.move(this.getDirection());
   }
 
-  getSelectedBuilding() {
-    return BuildingDeck.get(this.selected.building);
+  callInteract() {
+    if (!this.interact || !this.adventurer) return;
+    this.interact(this.getDirection());
   }
 
-  getBuilderResource(builderId: number) {
-    const version = BuilderDeck.getVersion(builderId);
-    return BuilderDeck.get(builderId).getResource(version);
-  }
-
-  isBuilt(id: number) {
-    return this.game?.structures.includes(id);
-  }
-
-  isIdle(id: number) {
-    return this.game?.works[id - 1] === 0;
-  }
-
-  setBuilding(index: number) {
-    if (!this.game) return;
-    this.building = this.game.buildings[index] || this.game.buildings[0];
-  }
-
-  setBuilder(index: number) {
-    if (!this.game) return;
-    this.builder = this.game.builders[index] || this.game.builders[0];
-  }
-
-  setSelectedBuilding(index: number) {
-    this.selected.building = index;
-  }
-
-  setSelectedBuilder(index: number) {
-    this.selected.builder = index;
-  }
-
-  setStart(action: () => void) {
-    this.start = action;
-  }
-
-  setHire(action: (builderId: number) => void) {
-    this.hire = action;
-  }
-
-  setSelect(action: (buildingId: number) => void) {
-    this.select = action;
-  }
-
-  setSend(action: (builderId: number, buildingId: number) => void) {
-    this.send = action;
-  }
-
-  setBuy(action: (quantity: number) => void) {
-    this.buy = action;
-  }
-
-  setSell(action: (quantity: number) => void) {
-    this.sell = action;
-  }
-
-  canSend() {
-    const builderId = this.getSelectedBuilderId();
-    const buildingId = this.getSelectedBuildingId();
-    const isIdle = this.isIdle(builderId);
-    const isBuilt = this.isBuilt(buildingId);
-    const builder = GameManager.getInstance().getBuilder(builderId);
-    const cost = builder.getCost();
-    return (
-      !!this.game &&
-      !this.game.isOver() &&
-      !!this.send &&
-      !!builderId &&
-      !!buildingId &&
-      isIdle &&
-      !isBuilt &&
-      this.game.gold >= cost
-    );
-  }
-
-  callStart() {
-    if (!this.start) return;
-    this.start();
-  }
-
-  callHire() {
-    if (!this.hire || !this.game) return;
-    this.hire(this.getBuilderId());
-  }
-
-  callSelect() {
-    if (!this.select || !this.game) return;
-    this.select(this.getBuildingId());
-  }
-
-  callSend() {
-    if (!this.canSend()) return;
-    this.send(this.getSelectedBuilderId(), this.getSelectedBuildingId());
-  }
-
-  callBuy() {
-    if (!this.buy || !this.game) return;
-    this.buy(BuyManager.getInstance().getAction());
-  }
-
-  callSell() {
-    if (!this.sell || !this.game) return;
-    this.sell(SellManager.getInstance().getGold());
+  callExplore() {
+    if (!this.explore || !this.adventurer) return;
+    this.explore(this.getDirection());
   }
 }
 

@@ -83,7 +83,7 @@ export class Game extends Scene {
         // Update camera
         this.cameras.main.scrollX = -this.renderer.width / 2 + this.map!.widthInPixels / 2;
         this.cameras.main.scrollY = -this.renderer.height / 2 + this.map!.heightInPixels / 2;
-        this.cameras.main.setZoom(3);
+        this.cameras.main.setZoom(2.5);
         // Store room
         this.rooms.push(key);
       });

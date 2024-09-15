@@ -100,13 +100,8 @@ export default class Character extends Phaser.GameObjects.Container {
       return;
     }
 
-    // // Tx processing case
-    // if (GameManager.getInstance().processing && this.binded) {
-    //   return;
-    // }
-
     // Waiting case
-    if (!this.target && !GameManager.getInstance().processing) {
+    if (!this.target) {
       // Sync real position
       const x = this.step * adventurer.getX() + this.offset;
       const y = this.step * adventurer.getY() + this.offset;
@@ -131,6 +126,7 @@ export default class Character extends Phaser.GameObjects.Container {
       return;
     }
 
+    // Standing at target case
     if (
       !!this.target &&
       this.character.x === this.target.x &&
@@ -140,6 +136,7 @@ export default class Character extends Phaser.GameObjects.Container {
       return;
     }
 
+    // Moving to target case
     if (!!this.target) {
       const speed = SPEED;
       if (this.character.x < this.target.x) {

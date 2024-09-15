@@ -16,7 +16,6 @@ class GameManager {
   public interact: (direction: number) => void = () => {};
   public explore: (direction: number) => void = () => {};
   public direction: number = 0;
-  public processing: boolean = false;
 
   constructor() {
     if (GameManager.instance) {
@@ -42,31 +41,26 @@ class GameManager {
 
   setRealm(realm: Realm | null) {
     if (!realm) return;
-    this.processing = false;
     this.realm = realm;
   }
 
   setDungeon(dungeon: Dungeon | null) {
     if (!dungeon) return;
-    this.processing = false;
     this.dungeon = dungeon;
   }
 
   setAdventurer(adventurer: Adventurer | null) {
     if (!adventurer) return;
-    this.processing = false;
     this.adventurer = adventurer;
   }
 
   setRooms(rooms: Room[]) {
     if (!rooms) return;
-    this.processing = false;
     this.rooms = rooms;
   }
 
   setMobs(mobs: Mob[]) {
     if (!mobs) return;
-    this.processing = false;
     this.mobs = mobs;
   }
 
@@ -88,25 +82,21 @@ class GameManager {
 
   callCreate() {
     if (!this.create) return;
-    this.processing = true;
     this.create();
   }
 
   callMove() {
     if (!this.move || !this.adventurer) return;
-    this.processing = true;
     this.move(this.getDirection());
   }
 
   callInteract() {
     if (!this.interact || !this.adventurer) return;
-    this.processing = true;
     this.interact(this.getDirection());
   }
 
   callExplore() {
     if (!this.explore || !this.adventurer) return;
-    this.processing = true;
     this.explore(this.getDirection());
   }
 }

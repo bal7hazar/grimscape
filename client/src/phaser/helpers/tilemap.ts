@@ -1,7 +1,7 @@
 // Constants
 
 // Walls
-const WALLS: number[] = [66, 70, 37, 2, 3, 4, 5, 42, 43, 44, 45, 52, 53, 16, 26, 36, 11, 21, 31, 6, 1, 46, 41, 51, 55, 54, 56, 38, 39, 40, 67, 57, 47];
+export const WALLS: number[] = [66, 70, 37, 2, 3, 4, 5, 42, 43, 44, 45, 52, 53, 16, 26, 36, 11, 21, 31, 6, 1, 46, 41, 51, 55, 54, 56, 38, 39, 40, 67, 57, 47];
 const WALL: number[] = [66];
 const FULL_WALL: number[] = [70];
 const SINGLE_WALL: number[] = [37];
@@ -25,7 +25,7 @@ const CENTER_SINGLE_VERTICAL_WALL: number[] = [57];
 const SOUTH_SINGLE_VERTICAL_WALL: number[] = [47];
 
 // Floors
-const FLOORS = [23, 24, 10, 20, 30, 7, 8, 9, 10, 17, 18, 19, 20, 27, 28, 29, 30, 61, 13, 14, 33, 34, 25, 22, 71, 91, 64, 62, 15, 12, 35, 32, 63, 81, 65];
+export const FLOORS = [23, 24, 10, 20, 30, 7, 8, 9, 10, 17, 18, 19, 20, 27, 28, 29, 30, 61, 13, 14, 33, 34, 25, 22, 71, 91, 64, 62, 15, 12, 35, 32, 63, 81, 65];
 const FLOOR: number[] = [23, 24, 10, 20, 30, 7, 8, 9, 10, 17, 18, 19, 20, 27, 28, 29, 30];
 const SINGLE_FLOOR: number[] = [61];
 const NORTH_OPENING_FLOOR: number[] = [13, 14];
@@ -338,7 +338,7 @@ export const Tilemap: Tilemap = {
       layers:[
         {
           data: tiles.floors,
-          name: "ground",
+          name: "floors",
         }, 
         {
           data: tiles.walls,

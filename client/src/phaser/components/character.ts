@@ -1,5 +1,6 @@
 import { Adventurer } from "@/dojo/models/adventurer";
 import GameManager from "../managers/game";
+import { WALLS } from "../helpers/tilemap";
 
 const SPEED: number = 1;
 
@@ -10,15 +11,13 @@ export default class Character extends Phaser.GameObjects.Container {
   private offset: { x: number, y: number };
   private targets: { x: number; y: number }[] = [];
   private animation: string = "human-fighter-idle-down";
-  private bounds: { minX: number; minY: number; maxX: number; maxY: number };
-  private binded: boolean = false;
+  private layers: Phaser.Tilemaps.TilemapLayer[] = [];
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
     step: number,
-    bounds: { minX: number; minY: number; maxX: number; maxY: number },
     binded: boolean,
   ) {
     super(scene, x, y);
@@ -26,8 +25,6 @@ export default class Character extends Phaser.GameObjects.Container {
     // Parameters
     this.step = step;
     this.offset = { x: step / 2, y:  2 * step / 5 };
-    this.bounds = bounds;
-    this.binded = binded;
 
     // Images
     this.sprite = new Phaser.GameObjects.Sprite(
@@ -169,39 +166,48 @@ export default class Character extends Phaser.GameObjects.Container {
     }
   }
 
+  collides(x: number, y: number) {
+    const tiles = this.layers.map((layer) => layer.getTileAtWorldXY(x, y, true)).filter((tile) => !!tile);
+    return tiles.some((tile) => WALLS.includes(tile.index));
+  }
+
   move(direction: "UP" | "DOWN" | "LEFT" | "RIGHT") {
-    if (this.targets.length > 0 || !this.visible) return;
+    if (this.targets.length > 0 || !this.visible || !this.layers) return;
     const initial = { x: this.sprite.x, y: this.sprite.y };
     switch (direction) {
       case "UP":
         const up = { x: initial.x, y: initial.y - this.step };
-        if (up.y < this.bounds.minY) return;
+        if (this.collides(up.x, up.y)) return;
         this.targets.push(up);
         GameManager.getInstance().setDirection(1);
         GameManager.getInstance().callMove();
         break;
       case "DOWN":
         const down = { x: initial.x, y: initial.y + this.step };
-        if (down.y > this.bounds.maxY) return;
+        if (this.collides(down.x, down.y)) return;
         this.targets.push(down);
         GameManager.getInstance().setDirection(3);
         GameManager.getInstance().callMove();
         break;
       case "LEFT":
         const left = { x: initial.x - this.step, y: initial.y };
-        if (left.x < this.bounds.minX) return;
+        if (this.collides(left.x, left.y)) return;
         this.targets.push(left);
         GameManager.getInstance().setDirection(4);
         GameManager.getInstance().callMove();
         break;
       case "RIGHT":
         const right = { x: initial.x + this.step, y: initial.y };
-        if (right.x > this.bounds.maxX) return;
+        if (this.collides(right.x, right.y)) return;
         this.targets.push(right);
         GameManager.getInstance().setDirection(2);
         GameManager.getInstance().callMove();
         break;
     }
+  }
+
+  setCollision(layers: Phaser.Tilemaps.TilemapLayer[]) {
+    this.layers = layers;
   }
 
   getDirection() {

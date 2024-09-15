@@ -4,6 +4,7 @@ import { Tilemap } from "../helpers/tilemap";
 import GameManager from "../managers/game";
 import { Room } from "@/dojo/models/room";
 import Character from "../components/character";
+import { WALLS } from "../helpers/tilemap";
 
 // Constants
 
@@ -49,18 +50,11 @@ export class Game extends Scene {
     
     // Player
     const step = this.map!.tileWidth;
-    const bounds = {
-      minX: 0,
-      minY: 0,
-      maxX: this.map.widthInPixels - 2 * step,
-      maxY: this.map.heightInPixels - 2 * step,
-    };
     const character = new Character(
       this,
       0,
       0,
       step,
-      bounds,
       true,
     );
     this.player = this.add.existing(character);
@@ -68,7 +62,7 @@ export class Game extends Scene {
     this.player.setDepth(1);
 
     // Physics
-    // this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+    // this.physics.collideTiles(character.sprite, tilemap);
 
     // Cameras]
     this.cameras.main.setZoom(2.5);
@@ -94,6 +88,8 @@ export class Game extends Scene {
         // Store room
         this.rooms.push(key);
       });
+      // Update player layers
+      this.player!.setCollision(this.map!.layers.map((layer) => layer.tilemapLayer));
     }
 
     // Update player
@@ -113,7 +109,7 @@ export class Game extends Scene {
       const cameraY = -this.renderer.height / 2 + this.map!.heightInPixels / 2 + worldY;
       if (!this.target && (this.cameras.main.scrollX !== cameraX || this.cameras.main.scrollY !== cameraY)) {
         // Create camera position order if the camera is not at the expected position
-          this.target = { fromX: this.cameras.main.scrollX, fromY: this.cameras.main.scrollY, toX: cameraX, toY: cameraY };
+        this.target = { fromX: this.cameras.main.scrollX, fromY: this.cameras.main.scrollY, toX: cameraX, toY: cameraY };
       } else if (!!this.target && Math.abs(this.cameras.main.scrollX - this.target.toX) < CAMERAS_EPSILON && this.cameras.main.scrollY - this.target.toY < CAMERAS_EPSILON) {
         // Camera is close to the target, then fix it
         this.cameras.main.scrollX = this.target.toX;
@@ -125,7 +121,6 @@ export class Game extends Scene {
         const dy = this.target.toY - this.target.fromY;
         this.cameras.main.scrollX += dx * CAMERA_SPEED;
         this.cameras.main.scrollY += dy * CAMERA_SPEED;
-        console.log(this.cameras.main.scrollX, this.cameras.main.scrollY, this.target.toX, this.target.toY)
       }
     }
   }

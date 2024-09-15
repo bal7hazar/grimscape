@@ -69,8 +69,10 @@ export class Game extends Scene {
   generate(data: any, x: number, y: number) {
     data.layers.forEach((layer: any) => {
       const name = `${layer.name}-${x}-${y}`;
-      const worldX = x * this.map!.width * this.map!.tileWidth;
-      const worldY = y * this.map!.height * this.map!.tileWidth;
+      const signX = x == 0 ? 0 : x / Math.abs(x);
+      const signY = y == 0 ? 0 : y / Math.abs(y);
+      const worldX = x * this.map!.width * this.map!.tileWidth + signX;
+      const worldY = y * this.map!.height * this.map!.tileWidth + signY;
       const newLayer = this.map!.createBlankLayer(name, this.tileset!, worldX, worldY);
       layer.data.forEach((tile: any, index: number) => {
         if (!tile) return;

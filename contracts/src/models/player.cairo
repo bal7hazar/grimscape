@@ -6,8 +6,6 @@ mod errors {
     const PLAYER_NOT_CREATED: felt252 = 'Player: does not exist';
     const PLAYER_ALREADY_CREATED: felt252 = 'Player: already exist';
     const PLAYER_INVALID_NAME: felt252 = 'Player: invalid name';
-    const PLAYER_NOT_STARTED: felt252 = 'Player: has already started';
-    const PLAYER_ALREADY_STARTED: felt252 = 'Player: has not sarted';
 }
 
 #[generate_trait]
@@ -30,18 +28,8 @@ impl PlayerImpl of PlayerTrait {
 
     #[inline]
     fn start(ref self: Player, adventurer_id: u32) {
-        // [Check] Player has not started
-        self.assert_not_started();
         // [Effect] Update team id
         self.adventurer_id = adventurer_id;
-    }
-
-    #[inline]
-    fn surrender(ref self: Player) {
-        // [Check] Player has started
-        self.assert_has_started();
-        // [Effect] Update team id
-        self.adventurer_id = 0;
     }
 }
 
@@ -55,16 +43,6 @@ impl PlayerAssert of AssertTrait {
     #[inline]
     fn assert_not_created(self: Player) {
         assert(0 == self.name, errors::PLAYER_ALREADY_CREATED);
-    }
-
-    #[inline]
-    fn assert_has_started(self: Player) {
-        assert(0 != self.adventurer_id, errors::PLAYER_NOT_STARTED);
-    }
-
-    #[inline]
-    fn assert_not_started(self: Player) {
-        assert(0 == self.adventurer_id, errors::PLAYER_ALREADY_STARTED);
     }
 }
 

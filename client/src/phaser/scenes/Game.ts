@@ -4,7 +4,6 @@ import { Tilemap } from "../helpers/tilemap";
 import GameManager from "../managers/game";
 import { Room } from "@/dojo/models/room";
 import Character from "../components/character";
-import { WALLS } from "../helpers/tilemap";
 
 // Constants
 
@@ -66,6 +65,7 @@ export class Game extends Scene {
     EventBus.on("center-camera", this.center, this);
     this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
       if (!pointer.isDown) return;
+      this.target = null;
       this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
       this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
     });
@@ -116,9 +116,6 @@ export class Game extends Scene {
       const dy = this.target.toY - this.target.fromY;
       this.cameras.main.scrollX += dx * CAMERA_SPEED;
       this.cameras.main.scrollY += dy * CAMERA_SPEED;
-    } else {
-      // Events
-      this.center();
     }
 
   }

@@ -101,7 +101,6 @@ export default class Character extends Phaser.GameObjects.Container {
       if (this.sprite.x !== x || this.sprite.y !== y) {
         const target = { x, y };
         this.targets.push(target);
-        EventBus.emit("center-camera", this.scene);
         return;
       }
       // Nothing case
@@ -142,6 +141,9 @@ export default class Character extends Phaser.GameObjects.Container {
       const dy = Math.min(this.sprite.y - target.y, speed);
       this.sprite.y -= dy;
     }
+
+    // Update camera
+    EventBus.emit("center-camera");
   }
 
   play(direction: "UP" | "DOWN" | "LEFT" | "RIGHT") {

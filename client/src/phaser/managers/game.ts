@@ -12,9 +12,7 @@ class GameManager {
   public rooms: Room[] = [];
   public mobs: Mob[] = [];
   public create: () => void = () => {};
-  public move: (direction: number) => void = () => {};
-  public interact: (direction: number) => void = () => {};
-  public explore: (direction: number) => void = () => {};
+  public perform: (direction: number) => void = () => {};
   public direction: number = 0;
 
   constructor() {
@@ -68,16 +66,8 @@ class GameManager {
     this.create = action;
   }
 
-  setMove(action: (direction: number) => void) {
-    this.move = action;
-  }
-
-  setInteract(action: (direction: number) => void) {
-    this.interact = action;
-  }
-
-  setExplore(action: (direction: number) => void) {
-    this.explore = action;
+  setPerform(action: (direction: number) => void) {
+    this.perform = action;
   }
 
   callCreate() {
@@ -85,19 +75,9 @@ class GameManager {
     this.create();
   }
 
-  callMove() {
-    if (!this.move || !this.adventurer) return;
-    this.move(this.getDirection());
-  }
-
-  callInteract() {
-    if (!this.interact || !this.adventurer) return;
-    this.interact(this.getDirection());
-  }
-
-  callExplore() {
-    if (!this.explore || !this.adventurer) return;
-    this.explore(this.getDirection());
+  callPerform() {
+    if (!this.perform || !this.adventurer) return;
+    this.perform(this.getDirection());
   }
 }
 

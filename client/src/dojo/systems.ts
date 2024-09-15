@@ -121,20 +121,22 @@ export function systems({
     );
   };
 
-  const move = async ({ account, key, position, ...props }: any) => {
+  const perform = async ({ account, key, position, x, y, ...props }: any) => {
     const adventurerId = uuid();
     clientModels.models.Adventurer.addOverride(adventurerId, {
       entity: key,
       value: {
         position,
+        x,
+        y,
       },
     });
 
     try {
       await handleTransaction(
         account,
-        () => client.campagn.move({ account, ...props }),
-        "Player has moved.",
+        () => client.campagn.perform({ account, ...props }),
+        "Player has performed an action.",
       );
       // Sleep 5 seconds for indexer to index
       await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -144,30 +146,12 @@ export function systems({
     } finally {
       clientModels.models.Adventurer.removeOverride(adventurerId);
     }
-  }
-
-  const interact = async ({ account, ...props }: any) => {
-    await handleTransaction(
-      account,
-      () => client.campagn.interact({ account, ...props }),
-      "Player has interacted.",
-    );
-  }
-
-  const explore = async ({ account, ...props }: any) => {
-    await handleTransaction(
-      account,
-      () => client.campagn.explore({ account, ...props }),
-      "Player has entered into a new room.",
-    );
-  }
+  };
 
   return {
     signup,
     rename,
     create,
-    move,
-    interact,
-    explore,
+    perform,
   };
 }

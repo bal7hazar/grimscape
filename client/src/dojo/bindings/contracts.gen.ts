@@ -93,68 +93,28 @@ export async function setupWorld(provider: DojoProvider) {
         };
             
 
-    
-        // Call the `move` system with the specified Account and calldata
-        const move = async (props: { account: Account, direction: number }) => {
-            try {
-                return await provider.execute(
-                    props.account,
-                    {
-                        contractName: contract_name,
-                        entrypoint: "move",
-                        calldata: [props.direction],
-                    },
-                    "grimscape"
-                );
-            } catch (error) {
-                console.error("Error executing move:", error);
-                throw error;
-            }
-        };
-            
 
-    
-        // Call the `interact` system with the specified Account and calldata
-        const interact = async (props: { account: Account, direction: number }) => {
+        // Call the `perform` system with the specified Account and calldata
+        const perform = async (props: { account: Account, direction: number }) => {
             try {
                 return await provider.execute(
                     props.account,
                     {
                         contractName: contract_name,
-                        entrypoint: "interact",
+                        entrypoint: "perform",
                         calldata: [props.direction],
                     },
                     "grimscape"
                 );
             } catch (error) {
-                console.error("Error executing interact:", error);
-                throw error;
-            }
-        };
-            
-
-    
-        // Call the `explore` system with the specified Account and calldata
-        const explore = async (props: { account: Account, direction: number }) => {
-            try {
-                return await provider.execute(
-                    props.account,
-                    {
-                        contractName: contract_name,
-                        entrypoint: "explore",
-                        calldata: [props.direction],
-                    },
-                    "grimscape"
-                );
-            } catch (error) {
-                console.error("Error executing explore:", error);
+                console.error("Error executing action:", error);
                 throw error;
             }
         };
             
 
         return {
-            world, signup, rename, create, move, interact, explore
+            world, signup, rename, create, perform,
         };
     }
 

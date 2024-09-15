@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x7ed26f49b77cb5b7b2144fae087637a741f98b079f93c8c8c86dd8a3e1004f"
-class_hash = "0x7e3db85f223daed66b92cf40a79c9c0a4de582c291d430638058859ca26ed65"
-original_class_hash = "0x7e3db85f223daed66b92cf40a79c9c0a4de582c291d430638058859ca26ed65"
+class_hash = "0x520671de58240f6b2b2450340cca900167a3af41d1613534461177236d43c63"
+original_class_hash = "0x520671de58240f6b2b2450340cca900167a3af41d1613534461177236d43c63"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/grimscape-campagn-358d0cce.json"
 reads = []
@@ -43,9 +43,7 @@ systems = [
     "signup",
     "rename",
     "create",
-    "move",
-    "interact",
-    "explore",
+    "perform",
 ]
 manifest_name = "grimscape-campagn-358d0cce"
 

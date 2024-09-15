@@ -89,6 +89,12 @@ impl RoomImpl of RoomTrait {
     }
 
     #[inline]
+    fn can_interact(self: Room, position: u8, direction: Direction) -> bool {
+        let target = self.next(position, direction);
+        target != position && !self.is_free(target)
+    }
+
+    #[inline]
     fn is_explored(self: Room) -> bool {
         self.seed != 0
     }
@@ -140,12 +146,6 @@ impl RoomImpl of RoomTrait {
         } else {
             *path.pop_back().unwrap()
         }
-    }
-
-    #[inline]
-    fn can_interact(self: Room, position: u8, direction: Direction) -> bool {
-        let target = self.next(position, direction);
-        target != position && !self.is_free(target)
     }
 
     #[inline]

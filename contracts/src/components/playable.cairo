@@ -103,28 +103,65 @@ mod PlayableComponent {
             store.set_player(player);
         }
 
-        fn move(self: @ComponentState<TContractState>, world: IWorldDispatcher, direction: u8) {
+        fn perform(self: @ComponentState<TContractState>, world: IWorldDispatcher, direction: u8) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
             // [Check] Player exists
             let player_id: felt252 = get_caller_address().into();
-            let player = store.get_player(player_id);
+            let mut player = store.get_player(player_id);
             player.assert_is_created();
 
             // [Check] Dungeon is not done
-            let realm = store.get_realm(REALM_ID);
+            let mut realm = store.get_realm(REALM_ID);
             let dungeon_id = realm.dungeon_count;
-            let dungeon = store.get_dungeon(realm.id, dungeon_id);
+            let mut dungeon = store.get_dungeon(realm.id, dungeon_id);
             dungeon.assert_not_done();
 
             // [Check] Adventurer is not dead
             let mut adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
             adventurer.assert_not_dead();
 
-            // [Effect] Move adventurer
+            // [Effect] Perform action
+            let direction: Direction = direction.into();
             let mut room = store
                 .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
+
+            // [Effect] Perform an interaction is possible
+            if room.can_interact(adventurer.position, direction) {
+                return self
+                    .interact(
+                        direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
+                    );
+            }
+
+            // [Effect] Perform an exploration if possible
+            if room.can_leave(adventurer.position, direction) {
+                return self
+                    .explore(
+                        direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
+                    );
+            }
+
+            self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room)
+        }
+    }
+
+    #[generate_trait]
+    impl PrivateImpl<
+        TContractState, +HasComponent<TContractState>
+    > of PrivateTrait<TContractState> {
+        #[inline]
+        fn move(
+            self: @ComponentState<TContractState>,
+            direction: Direction,
+            ref store: Store,
+            ref realm: Realm,
+            ref dungeon: Dungeon,
+            ref adventurer: Adventurer,
+            ref room: Room,
+        ) {
+            // [Effect] Move adventurer
             let from = adventurer.position;
             adventurer.move(direction.into());
             room.move(from, adventurer.position);
@@ -137,31 +174,16 @@ mod PlayableComponent {
             store.set_adventurer(adventurer);
         }
 
-        fn interact(self: @ComponentState<TContractState>, world: IWorldDispatcher, direction: u8) {
-            // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
-
-            // [Check] Player exists
-            let player_id: felt252 = get_caller_address().into();
-            let player = store.get_player(player_id);
-            player.assert_is_created();
-
-            // [Check] Dungeon is not done
-            let realm = store.get_realm(REALM_ID);
-            let dungeon_id = realm.dungeon_count;
-            let dungeon = store.get_dungeon(realm.id, dungeon_id);
-            dungeon.assert_not_done();
-
-            // [Check] Adventurer is not dead
-            let mut adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
-            adventurer.assert_not_dead();
-
-            // [Check] Entity to interact with exists
-            let direction: Direction = direction.into();
-            let mut room = store
-                .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
-            room.assert_can_interact(adventurer.position, direction);
-
+        #[inline]
+        fn interact(
+            self: @ComponentState<TContractState>,
+            direction: Direction,
+            ref store: Store,
+            ref realm: Realm,
+            ref dungeon: Dungeon,
+            ref adventurer: Adventurer,
+            ref room: Room,
+        ) {
             // [Effect] Attack the mob
             // TODO: manage different cases
             let target = room.next(adventurer.position, direction);
@@ -180,31 +202,16 @@ mod PlayableComponent {
             store.set_adventurer(adventurer);
         }
 
-        fn explore(self: @ComponentState<TContractState>, world: IWorldDispatcher, direction: u8) {
-            // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
-
-            // [Check] Player exists
-            let player_id: felt252 = get_caller_address().into();
-            let player = store.get_player(player_id);
-            player.assert_is_created();
-
-            // [Check] Dungeon is not done
-            let realm = store.get_realm(REALM_ID);
-            let dungeon_id = realm.dungeon_count;
-            let dungeon = store.get_dungeon(realm.id, dungeon_id);
-            dungeon.assert_not_done();
-
-            // [Check] Adventurer is not dead
-            let mut adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
-            adventurer.assert_not_dead();
-
-            // [Check] The adventurer can leave the current room
-            let direction: Direction = direction.into();
-            let mut room = store
-                .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
-            room.assert_can_leave(adventurer.position, direction.into());
-
+        #[inline]
+        fn explore(
+            self: @ComponentState<TContractState>,
+            direction: Direction,
+            ref store: Store,
+            ref realm: Realm,
+            ref dungeon: Dungeon,
+            ref adventurer: Adventurer,
+            ref room: Room,
+        ) {
             // [Effect] Remove adventurer from the current room
             room.remove(adventurer.position);
             store.set_room(room);
@@ -235,12 +242,7 @@ mod PlayableComponent {
             store.set_room(room);
             store.set_adventurer(adventurer);
         }
-    }
 
-    #[generate_trait]
-    impl PrivateImpl<
-        TContractState, +HasComponent<TContractState>
-    > of PrivateTrait<TContractState> {
         #[inline]
         fn spawn_mobs(
             self: @ComponentState<TContractState>, room: Room, ref mobs: Array<u8>, ref store: Store

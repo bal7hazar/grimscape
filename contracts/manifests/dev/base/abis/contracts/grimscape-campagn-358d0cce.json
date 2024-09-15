@@ -186,31 +186,7 @@
       },
       {
         "type": "function",
-        "name": "move",
-        "inputs": [
-          {
-            "name": "direction",
-            "type": "core::integer::u8"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "view"
-      },
-      {
-        "type": "function",
-        "name": "interact",
-        "inputs": [
-          {
-            "name": "direction",
-            "type": "core::integer::u8"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "view"
-      },
-      {
-        "type": "function",
-        "name": "explore",
+        "name": "perform",
         "inputs": [
           {
             "name": "direction",

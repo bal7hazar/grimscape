@@ -180,28 +180,28 @@ export default class Character extends Phaser.GameObjects.Container {
         if (this.collides(up.x, up.y)) return;
         this.targets.push(up);
         GameManager.getInstance().setDirection(1);
-        GameManager.getInstance().callMove();
+        GameManager.getInstance().callPerform();
         break;
       case "DOWN":
         const down = { x: initial.x, y: initial.y + this.step };
         if (this.collides(down.x, down.y)) return;
         this.targets.push(down);
         GameManager.getInstance().setDirection(3);
-        GameManager.getInstance().callMove();
+        GameManager.getInstance().callPerform();
         break;
       case "LEFT":
         const left = { x: initial.x - this.step, y: initial.y };
         if (this.collides(left.x, left.y)) return;
         this.targets.push(left);
         GameManager.getInstance().setDirection(4);
-        GameManager.getInstance().callMove();
+        GameManager.getInstance().callPerform();
         break;
       case "RIGHT":
         const right = { x: initial.x + this.step, y: initial.y };
         if (this.collides(right.x, right.y)) return;
         this.targets.push(right);
         GameManager.getInstance().setDirection(2);
-        GameManager.getInstance().callMove();
+        GameManager.getInstance().callPerform();
         break;
     }
   }

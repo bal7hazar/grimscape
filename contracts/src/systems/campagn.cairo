@@ -13,9 +13,7 @@ trait ICampagn<TContractState> {
     fn signup(self: @TContractState, name: felt252);
     fn rename(self: @TContractState, name: felt252);
     fn create(self: @TContractState);
-    fn move(self: @TContractState, direction: u8);
-    fn interact(self: @TContractState, direction: u8);
-    fn explore(self: @TContractState, direction: u8);
+    fn perform(self: @TContractState, direction: u8);
 }
 
 // Contracts
@@ -81,16 +79,8 @@ mod campagn {
             self.playable.create(self.world())
         }
 
-        fn move(self: @ContractState, direction: u8) {
-            self.playable.move(self.world(), direction)
-        }
-
-        fn interact(self: @ContractState, direction: u8) {
-            self.playable.interact(self.world(), direction)
-        }
-
-        fn explore(self: @ContractState, direction: u8) {
-            self.playable.explore(self.world(), direction)
+        fn perform(self: @ContractState, direction: u8) {
+            self.playable.perform(self.world(), direction)
         }
     }
 }

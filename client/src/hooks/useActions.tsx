@@ -8,13 +8,13 @@ import { useDungeon } from "./useDungeon";
 import { useAdventurer } from "./useAdventurer";
 import { useMobs } from "./useMobs";
 import { useRooms } from "./useRooms";
-import { ROOM_WIDTH } from "@/dojo/constants";
+import { ROOM_HEIGHT, ROOM_WIDTH } from "@/dojo/constants";
 
 export const useActions = () => {
   const {
     account: { account },
     setup: {
-      systemCalls: { signup, create, move, interact, explore },
+      systemCalls: { signup, create, perform },
     },
   } = useDojo();
 
@@ -39,43 +39,53 @@ export const useActions = () => {
     [account],
   );
 
-  const handleMove = useCallback(
+  const handlePerform = useCallback(
     async (direction: number) => {
       if (!adventurer || !adventurerKey) return;
       let position = adventurer.position;
+      const localX = position % ROOM_WIDTH;
+      const localY = Math.floor(position / ROOM_WIDTH);
+      let x = adventurer.x;
+      let y = adventurer.y;
       switch (direction) {
         case 1:
-          position += ROOM_WIDTH;
+          if (localY < ROOM_HEIGHT - 1) {
+            position += ROOM_WIDTH;
+          } else {
+            y += 1;
+            position = localX;
+          }
           break;
         case 2:
-          position -= 1;
+          if (localX > 0) {
+            position -= 1;
+          } else {
+            x += 1;
+            position = ROOM_WIDTH * localY + ROOM_WIDTH - 1;
+          }
           break;
         case 3:
-          position -= ROOM_WIDTH;
+          if (localY > 0) {
+            position -= ROOM_WIDTH;
+          } else {
+            y -= 1;
+            position = ROOM_WIDTH * (ROOM_HEIGHT - 1) + localX;
+          }
           break;
         case 4:
-          position += 1;
+          if (localX < ROOM_WIDTH - 1) {
+            position += 1;
+          } else {
+            x -= 1;
+            position = ROOM_WIDTH * localY;
+          }
           break;
         default:
           return;
       }
-      await move({ account, key: adventurerKey, position, direction });
+      await perform({ account, key: adventurerKey, position, x, y, direction });
     },
     [account, adventurer, adventurerKey],
-  );
-
-  const handleInteract = useCallback(
-    async (direction: number) => {
-      await interact({ account, direction });
-    },
-    [account],
-  );
-
-  const handleExplore = useCallback(
-    async (direction: number) => {
-      await explore({ account, direction });
-    },
-    [account],
   );
 
   const playerManager = useMemo(() => {
@@ -95,10 +105,8 @@ export const useActions = () => {
 
   useEffect(() => {
     gameManager.setCreate(handleCreate);
-    gameManager.setMove(handleMove);
-    gameManager.setInteract(handleInteract);
-    gameManager.setExplore(handleExplore);
-  }, [handleCreate, handleMove, handleInteract, handleExplore, gameManager]);
+    gameManager.setPerform(handlePerform);
+  }, [handleCreate, handlePerform, gameManager]);
 
   useEffect(() => {
     gameManager.setRealm(realm);

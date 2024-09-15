@@ -2,9 +2,9 @@ import { EventBus } from "../EventBus";
 import { Scene } from "phaser";
 import { Tilemap } from "../helpers/tilemap";
 import GameManager from "../managers/game";
+import { Room } from "@/dojo/models/room";
 
 export class Game extends Scene {
-  grid: bigint | null = null;
   map: Phaser.Tilemaps.Tilemap | null = null;
   tileset: Phaser.Tilemaps.Tileset | null = null;
   animatedTiles: any = undefined;
@@ -47,18 +47,22 @@ export class Game extends Scene {
   }
 
   update() {
-    const room = GameManager.getInstance().room;
-    if (!!room && this.grid !== room.grid && !this.rooms.includes(`${room.x}-${room.y}`)) {
-      // Create room
-      const tilemap = Tilemap.generate(room.width, room.height, room.grid);
-      this.generate(tilemap, room.x, room.y);
-      // Update camera
-      this.cameras.main.scrollX = -this.renderer.width / 2 + this.map!.widthInPixels / 2;
-      this.cameras.main.scrollY = -this.renderer.height / 2 + this.map!.heightInPixels / 2;
-      this.cameras.main.setZoom(3);
-      // Store room
-      this.rooms.push(`${room.x}-${room.y}`);
-      this.grid = room.grid;
+    const rooms = GameManager.getInstance().rooms;
+    if (!!rooms && this.rooms.length !== rooms.length) {
+      rooms.forEach((room: Room) => {
+        // Check if room is already created
+        const key = `${room.x}-${room.y}`;
+        if (this.rooms.includes(key)) return;
+        // Create room
+        const tilemap = Tilemap.generate(room.width, room.height, room.grid);
+        this.generate(tilemap, room.x, room.y);
+        // Update camera
+        this.cameras.main.scrollX = -this.renderer.width / 2 + this.map!.widthInPixels / 2;
+        this.cameras.main.scrollY = -this.renderer.height / 2 + this.map!.heightInPixels / 2;
+        this.cameras.main.setZoom(3);
+        // Store room
+        this.rooms.push(key);
+      });
     }
   }
 

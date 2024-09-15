@@ -1,4 +1,4 @@
-import { Player } from "@/dojo/game/models/player";
+import { Player } from "@/dojo/models/player";
 
 class PlayerManager {
   static instance: PlayerManager;

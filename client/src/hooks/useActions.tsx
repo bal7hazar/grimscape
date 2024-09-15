@@ -6,8 +6,8 @@ import GameManager from "@/phaser/managers/game";
 import { useRealm } from "./useRealm";
 import { useDungeon } from "./useDungeon";
 import { useAdventurer } from "./useAdventurer";
-import { useRoom } from "./useRoom";
 import { useMobs } from "./useMobs";
+import { useRooms } from "./useRooms";
 
 export const useActions = () => {
   const {
@@ -21,7 +21,7 @@ export const useActions = () => {
   const { realm } = useRealm();
   const { dungeon } = useDungeon({ dungeonId: realm?.dungeon_count || 0 });
   const { adventurer } = useAdventurer({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
-  const { room } = useRoom({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
+  const { rooms } = useRooms({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
   const { mobs } = useMobs({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
 
   const handleSignup = useCallback(
@@ -94,8 +94,8 @@ export const useActions = () => {
   }, [gameManager, adventurer]);
 
   useEffect(() => {
-    gameManager.setRoom(room);
-  }, [gameManager, room]);
+    gameManager.setRooms(rooms);
+  }, [gameManager, rooms]);
 
   useEffect(() => {
     gameManager.setMobs(mobs);

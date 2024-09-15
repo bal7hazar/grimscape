@@ -1,4 +1,5 @@
 import { Scene } from "phaser";
+import AnimationManager from "../managers/animation";
 
 export class Preloader extends Scene {
   constructor() {
@@ -23,11 +24,17 @@ export class Preloader extends Scene {
   }
 
   preload() {
+    // Units
+    this.load.spritesheet("assassin-black", "assets/units/assassin-black.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
   }
 
   create() {
     // Managers
-
+    AnimationManager.getInstance().addAnimations(this);
+    
     // Start soundtracks
 
     // Start scene

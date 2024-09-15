@@ -41,4 +41,49 @@ export class Adventurer {
   getY() {
     return ROOM_HEIGHT - 1 - Math.floor(this.position / ROOM_WIDTH) - this.y * ROOM_HEIGHT;
   }
+
+  getNext(direction: number) {
+    let position = this.position;
+    const localX = position % ROOM_WIDTH;
+    const localY = Math.floor(position / ROOM_WIDTH);
+    let x = this.x;
+    let y = this.y;
+    switch (direction) {
+      case 1:
+        if (localY < ROOM_HEIGHT - 1) {
+          position += ROOM_WIDTH;
+        } else {
+          y += 1;
+          position = localX;
+        }
+        break;
+      case 2:
+        if (localX > 0) {
+          position -= 1;
+        } else {
+          x += 1;
+          position = ROOM_WIDTH * localY + ROOM_WIDTH - 1;
+        }
+        break;
+      case 3:
+        if (localY > 0) {
+          position -= ROOM_WIDTH;
+        } else {
+          y -= 1;
+          position = ROOM_WIDTH * (ROOM_HEIGHT - 1) + localX;
+        }
+        break;
+      case 4:
+        if (localX < ROOM_WIDTH - 1) {
+          position += 1;
+        } else {
+          x -= 1;
+          position = ROOM_WIDTH * localY;
+        }
+        break;
+      default:
+        break;
+    };
+    return ({ position, x, y });
+  }
 }

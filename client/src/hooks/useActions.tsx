@@ -42,47 +42,7 @@ export const useActions = () => {
   const handlePerform = useCallback(
     async (direction: number) => {
       if (!adventurer || !adventurerKey) return;
-      let position = adventurer.position;
-      const localX = position % ROOM_WIDTH;
-      const localY = Math.floor(position / ROOM_WIDTH);
-      let x = adventurer.x;
-      let y = adventurer.y;
-      switch (direction) {
-        case 1:
-          if (localY < ROOM_HEIGHT - 1) {
-            position += ROOM_WIDTH;
-          } else {
-            y += 1;
-            position = localX;
-          }
-          break;
-        case 2:
-          if (localX > 0) {
-            position -= 1;
-          } else {
-            x += 1;
-            position = ROOM_WIDTH * localY + ROOM_WIDTH - 1;
-          }
-          break;
-        case 3:
-          if (localY > 0) {
-            position -= ROOM_WIDTH;
-          } else {
-            y -= 1;
-            position = ROOM_WIDTH * (ROOM_HEIGHT - 1) + localX;
-          }
-          break;
-        case 4:
-          if (localX < ROOM_WIDTH - 1) {
-            position += 1;
-          } else {
-            x -= 1;
-            position = ROOM_WIDTH * localY;
-          }
-          break;
-        default:
-          return;
-      }
+      const { position, x, y } = adventurer.getNext(direction);
       await perform({ account, key: adventurerKey, position, x, y, direction });
     },
     [account, adventurer, adventurerKey],

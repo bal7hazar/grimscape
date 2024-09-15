@@ -110,7 +110,7 @@ export class Game extends Scene {
       if (!this.target && (this.cameras.main.scrollX !== cameraX || this.cameras.main.scrollY !== cameraY)) {
         // Create camera position order if the camera is not at the expected position
         this.target = { fromX: this.cameras.main.scrollX, fromY: this.cameras.main.scrollY, toX: cameraX, toY: cameraY };
-      } else if (!!this.target && Math.abs(this.cameras.main.scrollX - this.target.toX) < CAMERAS_EPSILON && this.cameras.main.scrollY - this.target.toY < CAMERAS_EPSILON) {
+      } else if (!!this.target && Math.abs(this.cameras.main.scrollX - this.target.toX) < CAMERAS_EPSILON && Math.abs(this.cameras.main.scrollY - this.target.toY) < CAMERAS_EPSILON) {
         // Camera is close to the target, then fix it
         this.cameras.main.scrollX = this.target.toX;
         this.cameras.main.scrollY = this.target.toY;  

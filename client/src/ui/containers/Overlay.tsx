@@ -13,7 +13,7 @@ export const Overlay = () => {
   const {
     account: { account },
     setup: {
-      systemCalls: { signup, create, move, interact, explore },
+      systemCalls: { signup, create },
     },
   } = useDojo();
 
@@ -28,7 +28,7 @@ export const Overlay = () => {
   const { mobs } = useMobs({ dungeonId: realm?.dungeon_count || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
 
   return (
-    <div className="w-full flex justify-between items-center px-8 py-2 absolute top-1/2 left-0 -translate-y-1/2">
+    <div className="w-100 flex justify-between items-center px-8 py-2 absolute top-1/2 left-0 -translate-y-1/2">
       <div className="flex flex-col gap-2">
         <Input value={name} onChange={(e: any) => setName(e.target.value)} />
         <Input value={direction} onChange={(e: any) => setDirection(e.target.value)} />
@@ -37,15 +37,6 @@ export const Overlay = () => {
         </Button>
         <Button variant="outline" onClick={() => create({ account })}>
           Create
-        </Button>
-        <Button variant="outline" onClick={() => move({ account, direction })}>
-          Move
-        </Button>
-        <Button variant="outline" onClick={() => interact({ account, direction })}>
-          Interact
-        </Button>
-        <Button variant="outline" onClick={() => explore({ account, direction })}>
-          Explore
         </Button>
       </div>
     </div>

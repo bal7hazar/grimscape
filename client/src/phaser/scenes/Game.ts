@@ -3,12 +3,14 @@ import { Scene } from "phaser";
 import { Tilemap } from "../helpers/tilemap";
 import GameManager from "../managers/game";
 import { Room } from "@/dojo/models/room";
+import Character from "../components/character";
 
 export class Game extends Scene {
   map: Phaser.Tilemaps.Tilemap | null = null;
   tileset: Phaser.Tilemaps.Tileset | null = null;
   animatedTiles: any = undefined;
   rooms: string[] = [];
+  player: Character | null = null;
 
   constructor() {
     super("Game");
@@ -38,6 +40,27 @@ export class Game extends Scene {
       height: this.renderer.height,
     });
     this.tileset = this.map.addTilesetImage("tileset", "tiles");
+    
+    // Player
+    const size = this.map!.tileWidth;
+    const bounds = {
+      minX: 0,
+      minY: 0,
+      maxX: this.map.widthInPixels - 2 * size,
+      maxY: this.map.heightInPixels - 2 * size,
+    };
+    const character = new Character(
+      this,
+      0,
+      0,
+      0,
+      size,
+      bounds,
+      true,
+    );
+    this.player = this.add.existing(character);
+    this.player.setVisible(false);
+    this.player.setDepth(1);
 
     // Listeners
     this.scale.on("resize", this.resize, this);
@@ -47,6 +70,7 @@ export class Game extends Scene {
   }
 
   update() {
+    // Update map
     const rooms = GameManager.getInstance().rooms;
     if (!!rooms && this.rooms.length !== rooms.length) {
       rooms.forEach((room: Room) => {
@@ -63,6 +87,12 @@ export class Game extends Scene {
         // Store room
         this.rooms.push(key);
       });
+    }
+    // Update player
+    const adventurer = GameManager.getInstance().adventurer;
+    if (!!adventurer) {
+      this.player?.setVisible(true);
+      this.player?.update(adventurer);
     }
   }
 

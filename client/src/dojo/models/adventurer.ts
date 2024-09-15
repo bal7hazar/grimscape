@@ -1,5 +1,5 @@
 import { ComponentValue } from "@dojoengine/recs";
-import { ROOM_WIDTH } from "../constants";
+import { ROOM_HEIGHT, ROOM_WIDTH } from "../constants";
 
 export class Adventurer {
   public realm_id: number;
@@ -35,10 +35,10 @@ export class Adventurer {
   }
 
   getX() {
-    return this.position % ROOM_WIDTH;
+    return ROOM_WIDTH - 1 - this.position % ROOM_WIDTH;
   }
 
   getY() {
-    return Math.floor(this.position / ROOM_WIDTH);
+    return ROOM_HEIGHT - 1 - Math.floor(this.position / ROOM_WIDTH);
   }
 }

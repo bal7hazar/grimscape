@@ -1,9 +1,11 @@
 import type { IWorld } from "./bindings/contracts.gen";
 import { toast } from "sonner";
 import * as SystemTypes from "./bindings/contracts.gen";
+import { uuid } from "@latticexyz/utils";
 import { ClientModels } from "./models";
-import { shortenHex } from "@dojoengine/utils";
+import { getEntityIdFromKeys, shortenHex } from "@dojoengine/utils";
 import { Account } from "starknet";
+import { Entity } from "@dojoengine/recs";
 
 export type SystemCalls = ReturnType<typeof systems>;
 
@@ -119,12 +121,29 @@ export function systems({
     );
   };
 
-  const move = async ({ account, ...props }: any) => {
-    await handleTransaction(
-      account,
-      () => client.campagn.move({ account, ...props }),
-      "Player has moved.",
-    );
+  const move = async ({ account, key, position, ...props }: any) => {
+    const adventurerId = uuid();
+    clientModels.models.Adventurer.addOverride(adventurerId, {
+      entity: key,
+      value: {
+        position,
+      },
+    });
+
+    try {
+      await handleTransaction(
+        account,
+        () => client.campagn.move({ account, ...props }),
+        "Player has moved.",
+      );
+      // Sleep 5 seconds for indexer to index
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    } catch (error: any) {
+      clientModels.models.Adventurer.removeOverride(adventurerId);
+      toast.error(extractedMessage(error.message));
+    } finally {
+      clientModels.models.Adventurer.removeOverride(adventurerId);
+    }
   }
 
   const interact = async ({ account, ...props }: any) => {

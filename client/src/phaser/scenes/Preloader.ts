@@ -25,7 +25,7 @@ export class Preloader extends Scene {
 
   preload() {
     // Units
-    this.load.spritesheet("assassin-black", "assets/units/assassin-black.png", {
+    this.load.spritesheet("human-fighter", "assets/units/human-fighter.png", {
       frameWidth: 32,
       frameHeight: 32,
     });

@@ -8,6 +8,7 @@ import { useDungeon } from "./useDungeon";
 import { useAdventurer } from "./useAdventurer";
 import { useMobs } from "./useMobs";
 import { useRooms } from "./useRooms";
+import { ROOM_WIDTH } from "@/dojo/constants";
 
 export const useActions = () => {
   const {
@@ -20,7 +21,7 @@ export const useActions = () => {
   const { player } = usePlayer({ playerId: account.address });
   const { realm } = useRealm();
   const { dungeon } = useDungeon({ dungeonId: realm?.dungeon_count || 0 });
-  const { adventurer } = useAdventurer({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
+  const { adventurer, key: adventurerKey } = useAdventurer({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
   const { rooms } = useRooms({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
   const { mobs } = useMobs({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
 
@@ -40,9 +41,27 @@ export const useActions = () => {
 
   const handleMove = useCallback(
     async (direction: number) => {
-      await move({ account, direction });
+      if (!adventurer || !adventurerKey) return;
+      let position = adventurer.position;
+      switch (direction) {
+        case 1:
+          position += ROOM_WIDTH;
+          break;
+        case 2:
+          position -= 1;
+          break;
+        case 3:
+          position -= ROOM_WIDTH;
+          break;
+        case 4:
+          position += 1;
+          break;
+        default:
+          return;
+      }
+      await move({ account, key: adventurerKey, position, direction });
     },
-    [account],
+    [account, adventurer, adventurerKey],
   );
 
   const handleInteract = useCallback(

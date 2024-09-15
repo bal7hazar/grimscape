@@ -5,6 +5,7 @@ import { Dungeon } from "./models/dungeon";
 import { Adventurer } from "./models/adventurer";
 import { Room } from "./models/room";
 import { Mob } from "./models/mob";
+import { overridableComponent } from "@dojoengine/recs";
 
 export type ClientModels = ReturnType<typeof models>;
 
@@ -16,6 +17,12 @@ export function models({
   return {
     models: {
       ...contractModels,
+      Player: overridableComponent(contractModels.Player),
+      Realm: overridableComponent(contractModels.Realm),
+      Dungeon: overridableComponent(contractModels.Dungeon),
+      Adventurer: overridableComponent(contractModels.Adventurer),
+      Room: overridableComponent(contractModels.Room),
+      Mob: overridableComponent(contractModels.Mob),
     },
     classes: {
       Player,

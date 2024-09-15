@@ -1,6 +1,7 @@
 // Constants
 
 // Walls
+const WALLS: number[] = [66, 70, 37, 2, 3, 4, 5, 42, 43, 44, 45, 52, 53, 16, 26, 36, 11, 21, 31, 6, 1, 46, 41, 51, 55, 54, 56, 38, 39, 40, 67, 57, 47];
 const WALL: number[] = [66];
 const FULL_WALL: number[] = [70];
 const SINGLE_WALL: number[] = [37];
@@ -24,6 +25,7 @@ const CENTER_SINGLE_VERTICAL_WALL: number[] = [57];
 const SOUTH_SINGLE_VERTICAL_WALL: number[] = [47];
 
 // Floors
+const FLOORS = [23, 24, 10, 20, 30, 7, 8, 9, 10, 17, 18, 19, 20, 27, 28, 29, 30, 61, 13, 14, 33, 34, 25, 22, 71, 91, 64, 62, 15, 12, 35, 32, 63, 81, 65];
 const FLOOR: number[] = [23, 24, 10, 20, 30, 7, 8, 9, 10, 17, 18, 19, 20, 27, 28, 29, 30];
 const SINGLE_FLOOR: number[] = [61];
 const NORTH_OPENING_FLOOR: number[] = [13, 14];
@@ -56,7 +58,7 @@ export interface Neighbors {
 export interface Tilemap {
   evaluate(nbs: Neighbors, value: number): number;
   neighbors(width: number, height: number, index: number, bitmap: number[]): Neighbors;
-  extract(width: number, height: number, tilemap: bigint): number[];
+  extract(width: number, height: number, tilemap: bigint): { floors: number[], walls: number[] };
   generate(width: number, height: number, tilemap: bigint): any;
 }
 
@@ -309,21 +311,38 @@ export const Tilemap: Tilemap = {
   extract(width: number, height: number, tilemap: bigint) {
     const n = width * height;
     const bitmap: number[] = tilemap.toString(2).padStart(n, '0').split('').reverse().map((value: string) => parseInt(value));
-    return bitmap.map((value: number, index: number) => {
+    const floors: number[] = [];
+    const walls: number[] = [];
+    bitmap.forEach((value: number, index: number) => {
       const neighbors: Neighbors = this.neighbors(width, height, index, bitmap);
-      return this.evaluate(neighbors, value);
-    }).reverse();
+      const tile = this.evaluate(neighbors, value);
+      if (FLOORS.includes(tile)) {
+        floors.push(tile);
+        walls.push(0);
+      } else if (WALLS.includes(tile)) {
+        floors.push(0);
+        walls.push(tile);
+      } else {
+        floors.push(0);
+        walls.push(0);
+      }
+    });
+    return { floors: floors.reverse(), walls: walls.reverse()};
   },
 
   generate(width: number, height: number, tilemap: bigint) {
-    const ground = this.extract(width, height, tilemap);
+    const tiles = this.extract(width, height, tilemap);
     return {
       height,
       width,
       layers:[
         {
-          data: ground,
-          name: "Ground",
+          data: tiles.floors,
+          name: "ground",
+        }, 
+        {
+          data: tiles.walls,
+          name: "walls",
         }, 
         {
           data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -341,7 +360,7 @@ export const Tilemap: Tilemap = {
               0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
               0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
               0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          name: "Details",
+          name: "details",
         }, 
         {
           data:[75, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 76, 77,
@@ -359,7 +378,7 @@ export const Tilemap: Tilemap = {
               85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
               85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 87,
               95, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 97],
-          name:"Fog",
+          name:"fog",
         }
       ],
     }

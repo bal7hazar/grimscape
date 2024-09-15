@@ -35,10 +35,10 @@ export class Adventurer {
   }
 
   getX() {
-    return ROOM_WIDTH - 1 - this.position % ROOM_WIDTH;
+    return ROOM_WIDTH - 1 - this.position % ROOM_WIDTH + this.x * ROOM_WIDTH;
   }
 
   getY() {
-    return ROOM_HEIGHT - 1 - Math.floor(this.position / ROOM_WIDTH);
+    return ROOM_HEIGHT - 1 - Math.floor(this.position / ROOM_WIDTH) - this.y * ROOM_HEIGHT;
   }
 }

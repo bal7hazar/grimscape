@@ -1,11 +1,11 @@
 import { Adventurer } from "@/dojo/models/adventurer";
 import GameManager from "../managers/game";
 import { WALLS } from "../helpers/tilemap";
+import { EventBus } from "../EventBus";
 
 const SPEED: number = 1;
 
 export default class Character extends Phaser.GameObjects.Container {
-  public hitbox: Phaser.GameObjects.Rectangle;
   public sprite: Phaser.GameObjects.Sprite;
   private step: number;
   private offset: { x: number, y: number };
@@ -35,12 +35,6 @@ export default class Character extends Phaser.GameObjects.Container {
     );
     this.sprite.play(this.animation);
 
-    // Hitbox
-    this.hitbox = new Phaser.GameObjects.Rectangle(scene, x, y, 1, 1).setOrigin(
-      0.5,
-      0.5,
-    );
-
     // Bindings
     if (binded) {
       this.bind();
@@ -48,11 +42,9 @@ export default class Character extends Phaser.GameObjects.Container {
 
     // Depths
     this.sprite.setDepth(2);
-    this.hitbox.setDepth(3);
 
     // Add to container
     this.add(this.sprite);
-    this.add(this.hitbox);
     this.sort("depth");
   }
 
@@ -90,8 +82,6 @@ export default class Character extends Phaser.GameObjects.Container {
       if (this.sprite.x !== x || this.sprite.y !== y) {
         this.sprite.x = x;
         this.sprite.y = y;
-        this.hitbox.x = this.sprite.x;
-        this.hitbox.y = this.sprite.y;
       }
       return;
     }
@@ -105,14 +95,13 @@ export default class Character extends Phaser.GameObjects.Container {
       if (this.sprite.x === 0 && this.sprite.y === 0) {
         this.sprite.x = x;
         this.sprite.y = y;
-        this.hitbox.x = this.sprite.x;
-        this.hitbox.y = this.sprite.y;
         return;
       }
       // To sync case
       if (this.sprite.x !== x || this.sprite.y !== y) {
         const target = { x, y };
         this.targets.push(target);
+        EventBus.emit("center-camera", this.scene);
         return;
       }
       // Nothing case
@@ -153,8 +142,6 @@ export default class Character extends Phaser.GameObjects.Container {
       const dy = Math.min(this.sprite.y - target.y, speed);
       this.sprite.y -= dy;
     }
-    this.hitbox.x = this.sprite.x;
-    this.hitbox.y = this.sprite.y;
   }
 
   play(direction: "UP" | "DOWN" | "LEFT" | "RIGHT") {

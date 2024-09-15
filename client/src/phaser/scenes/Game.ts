@@ -61,12 +61,14 @@ export class Game extends Scene {
     this.player.setVisible(false);
     this.player.setDepth(1);
 
-    // Physics
-    // this.physics.collideTiles(character.sprite, tilemap);
-
     // Cameras]
     this.cameras.main.setZoom(2.5);
-
+    EventBus.on("center-camera", this.center, this);
+    this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
+      if (!pointer.isDown) return;
+      this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
+      this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
+    });
     // Listeners
     this.scale.on("resize", this.resize, this);
 
@@ -90,6 +92,8 @@ export class Game extends Scene {
       });
       // Update player layers
       this.player!.setCollision(this.map!.layers.map((layer) => layer.tilemapLayer));
+      // Reset camera
+      EventBus.emit("center-camera");
     }
 
     // Update player
@@ -98,31 +102,40 @@ export class Game extends Scene {
       // Update player
       this.player?.setVisible(true);
       this.player?.update(adventurer);
-      // Update Camera
-      const x = adventurer.x;
-      const y = -adventurer.y;
-      const signX = x == 0 ? 0 : x / Math.abs(x);
-      const signY = y == 0 ? 0 : y / Math.abs(y);
-      const worldX = x * this.map!.width * this.map!.tileWidth + signX;
-      const worldY = y * this.map!.height * this.map!.tileWidth + signY;
-      const cameraX = -this.renderer.width / 2 + this.map!.widthInPixels / 2 + worldX;
-      const cameraY = -this.renderer.height / 2 + this.map!.heightInPixels / 2 + worldY;
-      if (!this.target && (this.cameras.main.scrollX !== cameraX || this.cameras.main.scrollY !== cameraY)) {
-        // Create camera position order if the camera is not at the expected position
-        this.target = { fromX: this.cameras.main.scrollX, fromY: this.cameras.main.scrollY, toX: cameraX, toY: cameraY };
-      } else if (!!this.target && Math.abs(this.cameras.main.scrollX - this.target.toX) < CAMERAS_EPSILON && Math.abs(this.cameras.main.scrollY - this.target.toY) < CAMERAS_EPSILON) {
-        // Camera is close to the target, then fix it
-        this.cameras.main.scrollX = this.target.toX;
-        this.cameras.main.scrollY = this.target.toY;  
-        this.target = null;
-      } else if (!!this.target) {
-        // Move camera to target
-        const dx = this.target.toX - this.target.fromX;
-        const dy = this.target.toY - this.target.fromY;
-        this.cameras.main.scrollX += dx * CAMERA_SPEED;
-        this.cameras.main.scrollY += dy * CAMERA_SPEED;
-      }
     }
+
+    // Update Camera
+    if (!!this.target && Math.abs(this.cameras.main.scrollX - this.target.toX) < CAMERAS_EPSILON && Math.abs(this.cameras.main.scrollY - this.target.toY) < CAMERAS_EPSILON) {
+      // Camera is close to the target, then fix it
+      this.cameras.main.scrollX = this.target.toX;
+      this.cameras.main.scrollY = this.target.toY;  
+      this.target = null;
+    } else if (!!this.target) {
+      // Move camera to target
+      const dx = this.target.toX - this.target.fromX;
+      const dy = this.target.toY - this.target.fromY;
+      this.cameras.main.scrollX += dx * CAMERA_SPEED;
+      this.cameras.main.scrollY += dy * CAMERA_SPEED;
+    } else {
+      // Events
+      this.center();
+    }
+
+  }
+
+  center() {
+    const adventurer = GameManager.getInstance().adventurer;
+    if (!adventurer || !this.cameras.main) return;
+    const x = adventurer.x;
+    const y = -adventurer.y;
+    const signX = x == 0 ? 0 : x / Math.abs(x);
+    const signY = y == 0 ? 0 : y / Math.abs(y);
+    const worldX = x * this.map!.width * this.map!.tileWidth + signX;
+    const worldY = y * this.map!.height * this.map!.tileWidth + signY;
+    const cameraX = -this.renderer.width / 2 + this.map!.widthInPixels / 2 + worldX;
+    const cameraY = -this.renderer.height / 2 + this.map!.heightInPixels / 2 + worldY;
+    if (this.cameras.main.scrollX === cameraX && this.cameras.main.scrollY === cameraY) return;
+    this.target = { fromX: this.cameras.main.scrollX, fromY: this.cameras.main.scrollY, toX: cameraX, toY: cameraY };
   }
 
   generate(data: any, x: number, y: number) {

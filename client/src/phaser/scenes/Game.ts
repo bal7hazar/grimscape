@@ -4,6 +4,7 @@ import { Tilemap } from "../helpers/tilemap";
 import GameManager from "../managers/game";
 import { Room } from "@/dojo/models/room";
 import Character from "../components/character";
+import Foe from "../components/foe";
 
 // Constants
 
@@ -16,6 +17,7 @@ export class Game extends Scene {
   animatedTiles: any = undefined;
   rooms: string[] = [];
   player: Character | null = null;
+  foes: { [key: string]: Foe } = {};
   private target: { fromX: number; fromY: number; toX: number; toY: number } | null = null;
 
   constructor() {
@@ -71,7 +73,7 @@ export class Game extends Scene {
     });
     this.input.on("wheel", (_pointer: Phaser.Input.Pointer, _gameObjects: any, _deltaX: number, deltaY: number, _deltaZ: number) => {
       const sign = deltaY == 0 ? 0 : deltaY / Math.abs(deltaY);
-      const zoom = this.cameras.main.zoom + 0.1 * sign;
+      const zoom = this.cameras.main.zoom - 0.1 * sign;
       this.cameras.main.zoom = zoom > 1 && zoom < 3 ? zoom : this.cameras.main.zoom;
     });
 
@@ -80,7 +82,7 @@ export class Game extends Scene {
   }
 
   update() {
-    // Update map
+    // Update rooms
     const rooms = GameManager.getInstance().rooms;
     if (!!rooms && this.rooms.length !== rooms.length) {
       rooms.forEach((room: Room) => {
@@ -106,6 +108,20 @@ export class Game extends Scene {
       this.player?.setVisible(true);
       this.player?.update(adventurer);
     }
+
+    // Update foes
+    const mobs = GameManager.getInstance().mobs;
+    if (!!mobs) {
+      mobs.forEach((mob) => {
+        const key = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
+        if (!this.foes[key]) {
+          const foe = new Foe(this, 0, 0, this.map!.tileWidth);
+          this.foes[key] = foe;
+          this.add.existing(foe);
+        }
+        this.foes[key].update(mob);
+      });
+    };
 
     // Update Camera
     if (!!this.target && Math.abs(this.cameras.main.scrollX - this.target.toX) < CAMERAS_EPSILON && Math.abs(this.cameras.main.scrollY - this.target.toY) < CAMERAS_EPSILON) {

@@ -1,4 +1,5 @@
 import { ComponentValue } from "@dojoengine/recs";
+import { ROOM_HEIGHT, ROOM_WIDTH } from "../constants";
 
 export class Mob {
   public realm_id: number;
@@ -21,5 +22,13 @@ export class Mob {
     this.position = mob.position;
     this.beast = mob.beast;
     this.health = mob.health;
+  }
+
+  getX() {
+    return ROOM_WIDTH - 1 - this.position % ROOM_WIDTH + this.x * ROOM_WIDTH;
+  }
+
+  getY() {
+    return ROOM_HEIGHT - 1 - Math.floor(this.position / ROOM_WIDTH) - this.y * ROOM_HEIGHT;
   }
 }

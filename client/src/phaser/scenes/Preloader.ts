@@ -29,6 +29,10 @@ export class Preloader extends Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
+    this.load.spritesheet("skeleton-worker", "assets/units/skeleton-worker.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
   }
 
   create() {

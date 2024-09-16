@@ -289,9 +289,7 @@ mod PlayableComponent {
                     .get_mob(room.realm_id, room.dungeon_id, adventurer.id, room.x, room.y, mob_id);
                 // [Check] Mob is not dead, otherwise skip
                 if mob.is_dead() {
-                    // [Effect] Remove mob if dead
                     mob_id -= 1;
-                    room.remove(mob.position);
                     continue;
                 }
                 let mut path = room.search_path(mob.position, adventurer.position);

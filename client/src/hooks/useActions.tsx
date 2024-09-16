@@ -9,6 +9,8 @@ import { useAdventurer } from "./useAdventurer";
 import { useMobs } from "./useMobs";
 import { useRooms } from "./useRooms";
 import { ROOM_HEIGHT, ROOM_WIDTH } from "@/dojo/constants";
+import { useRoom } from "./useRoom";
+import { Direction } from "@/dojo/types/direction";
 
 export const useActions = () => {
   const {
@@ -23,6 +25,7 @@ export const useActions = () => {
   const { dungeon } = useDungeon({ dungeonId: realm?.dungeon_count || 0 });
   const { adventurer, key: adventurerKey } = useAdventurer({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
   const { rooms } = useRooms({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
+  const { room } = useRoom({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
   const { mobs } = useMobs({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
 
   const handleSignup = useCallback(
@@ -40,10 +43,11 @@ export const useActions = () => {
   );
 
   const handlePerform = useCallback(
-    async (direction: number) => {
-      if (!adventurer || !adventurerKey) return;
-      const { position, x, y } = adventurer.getNext(direction);
-      await perform({ account, key: adventurerKey, position, x, y, direction });
+    async (args : { direction: Direction }) => {
+      if (!adventurer || !adventurerKey || !room) return;
+      const { position, x, y } = adventurer.getNext(args.direction.value);
+      const move = room.isAvailable(position);
+      await perform({ account, key: adventurerKey, move, position, x, y, direction: args.direction.into() });
     },
     [account, adventurer, adventurerKey],
   );
@@ -83,6 +87,10 @@ export const useActions = () => {
   useEffect(() => {
     gameManager.setRooms(rooms);
   }, [gameManager, rooms]);
+
+  useEffect(() => {
+    gameManager.setRoom(room);
+  }, [gameManager, room]);
 
   useEffect(() => {
     gameManager.setMobs(mobs);

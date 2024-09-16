@@ -2,6 +2,7 @@ import { Adventurer } from "@/dojo/models/adventurer";
 import GameManager from "../managers/game";
 import { WALLS } from "../helpers/tilemap";
 import { EventBus } from "../EventBus";
+import { Direction, DirectionType } from "@/dojo/types/direction";
 
 const SPEED: number = 1;
 
@@ -155,41 +156,61 @@ export default class Character extends Phaser.GameObjects.Container {
     }
   }
 
-  collides(x: number, y: number) {
+  collision(x: number, y: number) {
     const tiles = this.layers.map((layer) => layer.getTileAtWorldXY(x, y, true)).filter((tile) => !!tile);
     return tiles.some((tile) => WALLS.includes(tile.index));
   }
 
+  available(position: number, direction: Direction) {
+    const room = GameManager.getInstance().room;
+    const entities = room?.entities || [];
+    const next = direction.next(position, room?.width || 0);
+    return !entities.includes(next);
+  }
+
   move(direction: "UP" | "DOWN" | "LEFT" | "RIGHT") {
-    if (this.targets.length > 0 || !this.visible || !this.layers) return;
+    const adventurer = GameManager.getInstance().adventurer;
+    if (this.targets.length > 0 || !this.visible || !this.layers || !adventurer) return;
     const initial = { x: this.sprite.x, y: this.sprite.y };
     switch (direction) {
       case "UP":
+        const north = new Direction(DirectionType.North);
         const up = { x: initial.x, y: initial.y - this.step };
-        if (this.collides(up.x, up.y)) return;
-        this.targets.push(up);
-        GameManager.getInstance().setDirection(1);
+        if (this.collision(up.x, up.y)) return;
+        if (this.available(adventurer.position, north)) {
+          this.targets.push(up);
+        }
+        GameManager.getInstance().setDirection(north);
         GameManager.getInstance().callPerform();
         break;
       case "DOWN":
+        const south = new Direction(DirectionType.South);
         const down = { x: initial.x, y: initial.y + this.step };
-        if (this.collides(down.x, down.y)) return;
-        this.targets.push(down);
-        GameManager.getInstance().setDirection(3);
+        if (this.collision(down.x, down.y)) return;
+        if (this.available(adventurer.position, south)) {
+          this.targets.push(down);
+        }
+        GameManager.getInstance().setDirection(south);
         GameManager.getInstance().callPerform();
         break;
       case "LEFT":
+        const west = new Direction(DirectionType.West);
         const left = { x: initial.x - this.step, y: initial.y };
-        if (this.collides(left.x, left.y)) return;
-        this.targets.push(left);
-        GameManager.getInstance().setDirection(4);
+        if (this.collision(left.x, left.y)) return;
+        if (this.available(adventurer.position, west)) {
+          this.targets.push(left);
+        }
+        GameManager.getInstance().setDirection(west);
         GameManager.getInstance().callPerform();
         break;
       case "RIGHT":
+        const east = new Direction(DirectionType.East);
         const right = { x: initial.x + this.step, y: initial.y };
-        if (this.collides(right.x, right.y)) return;
-        this.targets.push(right);
-        GameManager.getInstance().setDirection(2);
+        if (this.collision(right.x, right.y)) return;
+        if (this.available(adventurer.position, east)) {
+          this.targets.push(right);
+        }
+        GameManager.getInstance().setDirection(east);
         GameManager.getInstance().callPerform();
         break;
     }
@@ -200,14 +221,15 @@ export default class Character extends Phaser.GameObjects.Container {
   }
 
   getDirection() {
-    switch (GameManager.getInstance().getDirection()) {
-      case 1:
+    const direction = GameManager.getInstance().getDirection().value;
+    switch (direction) {
+      case DirectionType.North:
         return "UP";
-      case 2:
+      case DirectionType.East:
         return "RIGHT";
-      case 3:
+      case DirectionType.South:
         return "DOWN";
-      case 4:
+      case DirectionType.West:
         return "LEFT";
       default:
         return "DOWN";

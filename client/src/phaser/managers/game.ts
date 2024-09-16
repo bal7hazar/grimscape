@@ -3,17 +3,19 @@ import { Dungeon } from "@/dojo/models/dungeon";
 import { Adventurer } from "@/dojo/models/adventurer";
 import { Room } from "@/dojo/models/room";
 import { Mob } from "@/dojo/models/mob";
+import { Direction, DirectionType } from "@/dojo/types/direction";
 
 class GameManager {
   static instance: GameManager;
   public realm: Realm | null = null;
   public dungeon: Dungeon | null = null;
   public adventurer: Adventurer | null = null;
+  public room: Room | null = null;
   public rooms: Room[] = [];
   public mobs: Mob[] = [];
   public create: () => void = () => {};
-  public perform: (direction: number) => void = () => {};
-  public direction: number = 0;
+  public perform: (options : { direction: Direction }) => void = () => {};
+  public direction: Direction = new Direction(DirectionType.None);
 
   constructor() {
     if (GameManager.instance) {
@@ -33,7 +35,7 @@ class GameManager {
     return this.direction;
   }
 
-  setDirection(direction: number) {
+  setDirection(direction: Direction) {
     this.direction = direction;
   }
 
@@ -57,6 +59,11 @@ class GameManager {
     this.rooms = rooms;
   }
 
+  setRoom(room: Room | null) {
+    if (!room) return;
+    this.room = room;
+  }
+
   setMobs(mobs: Mob[]) {
     if (!mobs) return;
     this.mobs = mobs;
@@ -66,7 +73,7 @@ class GameManager {
     this.create = action;
   }
 
-  setPerform(action: (direction: number) => void) {
+  setPerform(action: (options : { direction: Direction }) => void) {
     this.perform = action;
   }
 
@@ -75,9 +82,9 @@ class GameManager {
     this.create();
   }
 
-  callPerform() {
+  callPerform(options?: { move: boolean }) {
     if (!this.perform || !this.adventurer) return;
-    this.perform(this.getDirection());
+    this.perform({ direction: this.getDirection() });
   }
 }
 

@@ -121,16 +121,19 @@ export function systems({
     );
   };
 
-  const perform = async ({ account, key, position, x, y, ...props }: any) => {
+  const perform = async ({ account, key, move, position, x, y, ...props }: any) => {
+    // [Check] Optimistic state if move is required
     const adventurerId = uuid();
-    clientModels.models.Adventurer.addOverride(adventurerId, {
-      entity: key,
-      value: {
-        position,
-        x,
-        y,
-      },
-    });
+    if (move) {
+      clientModels.models.Adventurer.addOverride(adventurerId, {
+        entity: key,
+        value: {
+          position,
+          x,
+          y,
+        },
+      });
+    }
 
     try {
       await handleTransaction(

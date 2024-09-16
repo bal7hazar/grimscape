@@ -1,5 +1,6 @@
 import { ComponentValue } from "@dojoengine/recs";
 import { ROOM_HEIGHT, ROOM_WIDTH } from "../constants";
+import { Direction, DirectionType } from "../types/direction";
 
 export class Adventurer {
   public realm_id: number;
@@ -42,14 +43,14 @@ export class Adventurer {
     return ROOM_HEIGHT - 1 - Math.floor(this.position / ROOM_WIDTH) - this.y * ROOM_HEIGHT;
   }
 
-  getNext(direction: number) {
+  getNext(direction: DirectionType) {
     let position = this.position;
     const localX = position % ROOM_WIDTH;
     const localY = Math.floor(position / ROOM_WIDTH);
     let x = this.x;
     let y = this.y;
     switch (direction) {
-      case 1:
+      case DirectionType.North:
         if (localY < ROOM_HEIGHT - 1) {
           position += ROOM_WIDTH;
         } else {
@@ -57,7 +58,7 @@ export class Adventurer {
           position = localX;
         }
         break;
-      case 2:
+      case DirectionType.East:
         if (localX > 0) {
           position -= 1;
         } else {
@@ -65,7 +66,7 @@ export class Adventurer {
           position = ROOM_WIDTH * localY + ROOM_WIDTH - 1;
         }
         break;
-      case 3:
+      case DirectionType.South:
         if (localY > 0) {
           position -= ROOM_WIDTH;
         } else {
@@ -73,7 +74,7 @@ export class Adventurer {
           position = ROOM_WIDTH * (ROOM_HEIGHT - 1) + localX;
         }
         break;
-      case 4:
+      case DirectionType.West:
         if (localX < ROOM_WIDTH - 1) {
           position += 1;
         } else {

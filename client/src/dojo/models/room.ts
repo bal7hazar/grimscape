@@ -9,21 +9,25 @@ export class Room {
   public width: number;
   public height: number;
   public mob_count: number;
-  public entities: bigint;
+  public entities: number[];
   public grid: bigint;
   public seed: string;
 
-  constructor(realm: ComponentValue) {
-    this.realm_id = realm.realm_id;
-    this.dungeon_id = realm.dungeon_id;
-    this.adventurer_id = realm.adventurer_id;
-    this.x = realm.x;
-    this.y = realm.y;
-    this.width = realm.width;
-    this.height = realm.height;
-    this.mob_count = realm.mob_count;
-    this.entities = BigInt(realm.entities);
-    this.grid = BigInt(realm.grid);
-    this.seed = `0x${realm.seed.toString(16)}`.replace('0x0x', '0x');
+  constructor(room: ComponentValue) {
+    this.realm_id = room.realm_id;
+    this.dungeon_id = room.dungeon_id;
+    this.adventurer_id = room.adventurer_id;
+    this.x = room.x;
+    this.y = room.y;
+    this.width = room.width;
+    this.height = room.height;
+    this.mob_count = room.mob_count;
+    this.entities = BigInt(room.entities).toString(2).split("").reverse().map((x, i) => !!parseInt(x) ? i : null).filter(x => x !== null);
+    this.grid = BigInt(room.grid);
+    this.seed = `0x${room.seed.toString(16)}`.replace('0x0x', '0x');
+  }
+
+  isAvailable(position: number) {
+    return !this.entities.includes(position);
   }
 }

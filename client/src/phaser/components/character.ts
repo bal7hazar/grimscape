@@ -165,6 +165,7 @@ export default class Character extends Phaser.GameObjects.Container {
     const room = GameManager.getInstance().room;
     const entities = room?.entities || [];
     const next = direction.next(position, room?.width || 0);
+    console.log("entities", entities, next, !entities.includes(next));
     return !entities.includes(next);
   }
 

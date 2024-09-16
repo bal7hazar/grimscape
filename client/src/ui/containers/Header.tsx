@@ -50,7 +50,7 @@ export const Header = () => {
   );
 
   return (
-    <div className="w-full flex justify-between items-center px-8 py-2">
+    <div className="h-16 w-full flex justify-between items-center px-8 py-2">
       <div className="absolute top-2 left-1/2 -translate-x-1/2 hidden md:block">
         <img src={logo} alt="Grimscape" className="h-24 w-24" />
       </div>

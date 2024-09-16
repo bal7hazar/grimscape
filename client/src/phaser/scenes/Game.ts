@@ -60,7 +60,7 @@ export class Game extends Scene {
     this.player.setVisible(false);
     this.player.setDepth(1);
 
-    // Cameras]
+    // Cameras
     this.cameras.main.setZoom(2.5);
     EventBus.on("center-camera", this.center, this);
     this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
@@ -69,6 +69,13 @@ export class Game extends Scene {
       this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
       this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
     });
+    this.input.on("wheel", (_pointer: Phaser.Input.Pointer, _gameObjects: any, _deltaX: number, deltaY: number, _deltaZ: number) => {
+      const sign = deltaY == 0 ? 0 : deltaY / Math.abs(deltaY);
+      const zoom = this.cameras.main.zoom + 0.1 * sign;
+      this.cameras.main.zoom = zoom > 1 && zoom < 3 ? zoom : this.cameras.main.zoom;
+    });
+
+
     // Listeners
     this.scale.on("resize", this.resize, this);
 

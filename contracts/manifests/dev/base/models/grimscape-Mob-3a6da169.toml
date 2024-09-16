@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x477aea7d05b012af4e68bc56500775f59268accbc99ddddc764a0bb917d8f3c"
-original_class_hash = "0x477aea7d05b012af4e68bc56500775f59268accbc99ddddc764a0bb917d8f3c"
+class_hash = "0x7eee7b13fc8664816013ed486511e3b4e692c065b879c9eb793fa1bbc7d7165"
+original_class_hash = "0x7eee7b13fc8664816013ed486511e3b4e692c065b879c9eb793fa1bbc7d7165"
 abi = "manifests/dev/base/abis/models/grimscape-Mob-3a6da169.json"
 tag = "grimscape-Mob"
 qualified_path = "grimscape::models::index::mob"
@@ -38,6 +38,16 @@ key = true
 
 [[members]]
 name = "position"
+type = "u8"
+key = false
+
+[[members]]
+name = "distance"
+type = "u8"
+key = false
+
+[[members]]
+name = "next"
 type = "u8"
 key = false
 

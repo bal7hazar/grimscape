@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x7ed26f49b77cb5b7b2144fae087637a741f98b079f93c8c8c86dd8a3e1004f"
-class_hash = "0x52e9a3c2f439b0a422d4b3f8a81eb6ae47004220ff5af0b86f3aede3d6d1545"
-original_class_hash = "0x52e9a3c2f439b0a422d4b3f8a81eb6ae47004220ff5af0b86f3aede3d6d1545"
+class_hash = "0x629927930836d60e559ee0d43f32c2ca06212cdd305bf5cc9664de74573d24d"
+original_class_hash = "0x629927930836d60e559ee0d43f32c2ca06212cdd305bf5cc9664de74573d24d"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/grimscape-campagn-358d0cce.json"
 reads = []
@@ -162,8 +162,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x477aea7d05b012af4e68bc56500775f59268accbc99ddddc764a0bb917d8f3c"
-original_class_hash = "0x477aea7d05b012af4e68bc56500775f59268accbc99ddddc764a0bb917d8f3c"
+class_hash = "0x7eee7b13fc8664816013ed486511e3b4e692c065b879c9eb793fa1bbc7d7165"
+original_class_hash = "0x7eee7b13fc8664816013ed486511e3b4e692c065b879c9eb793fa1bbc7d7165"
 abi = "manifests/dev/deployment/abis/models/grimscape-Mob-3a6da169.json"
 tag = "grimscape-Mob"
 qualified_path = "grimscape::models::index::mob"
@@ -201,6 +201,16 @@ key = true
 
 [[models.members]]
 name = "position"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "distance"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "next"
 type = "u8"
 key = false
 

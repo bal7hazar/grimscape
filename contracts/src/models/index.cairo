@@ -86,6 +86,8 @@ pub struct Mob {
     #[key]
     pub id: u8,
     pub position: u8,
+    pub distance: u8,
+    pub next: u8,
     pub beast: u8,
     pub health: u16,
 }

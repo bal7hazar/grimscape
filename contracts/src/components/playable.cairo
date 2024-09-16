@@ -9,6 +9,10 @@ mod PlayableComponent {
     use dojo::world::IWorldDispatcher;
     use dojo::world::IWorldDispatcherTrait;
 
+    // External imports
+
+    use origami_map::helpers::heap::{Heap, HeapTrait};
+
     // Internal imports
 
     use grimscape::constants::REALM_ID;
@@ -18,7 +22,7 @@ mod PlayableComponent {
     use grimscape::models::dungeon::{Dungeon, DungeonTrait, DungeonAssert};
     use grimscape::models::room::{Room, RoomTrait, RoomAssert};
     use grimscape::models::adventurer::{Adventurer, AdventurerTrait, AdventurerAssert};
-    use grimscape::models::mob::{Mob, MobTrait, MobAssert};
+    use grimscape::models::mob::{Mob, MobTrait, MobAssert, MobItem, MobPartialOrd};
     use grimscape::types::beast::{Beast, BeastTrait};
     use grimscape::types::direction::Direction;
     use grimscape::helpers::seeder::Seeder;
@@ -276,19 +280,37 @@ mod PlayableComponent {
             ref adventurer: Adventurer,
             ref store: Store
         ) {
-            let mut mob_id = room.mob_count + 1;
-            while mob_id > 1 {
-                // [Effect] Perform mob action
-                mob_id -= 1;
+            let mut heap: Heap<Mob> = HeapTrait::<Mob>::new();
+            let mut mob_id = room.mob_count;
+            // [Compute] Find all mobs and sort by distance to target
+            while mob_id > 0 {
+                // [Compute] Path to adventurer
                 let mut mob = store
                     .get_mob(room.realm_id, room.dungeon_id, adventurer.id, room.x, room.y, mob_id);
-                // [Effect] Remove mob if dead
+                // [Check] Mob is not dead, otherwise skip
                 if mob.is_dead() {
+                    // [Effect] Remove mob if dead
+                    mob_id -= 1;
                     room.remove(mob.position);
                     continue;
-                };
-                // [Compute] Find next position
-                let next = room.search_next(mob.position, adventurer.position);
+                }
+                let mut path = room.search_path(mob.position, adventurer.position);
+                // [Check] Path is not empty, otherwise skip
+                if path.len() == 0 {
+                    mob_id -= 1;
+                    continue;
+                }
+                mob.distance = path.len().try_into().unwrap();
+                mob.next = *path.pop_back().unwrap();
+                heap.add(mob);
+                mob_id -= 1;
+            };
+            // [Effect] Perform action for each mob
+            while let Option::Some(mut mob) = heap.pop_front() {
+                // [Effect] Get next position and reset distance
+                let next = mob.next;
+                mob.distance = 0;
+                mob.next = 0;
                 // [Effect] If the mob is blocked, skip
                 if next == mob.position {
                     continue;
@@ -299,8 +321,8 @@ mod PlayableComponent {
                     continue;
                 }
                 // [Effect] Move mob
-                room.move(mob.position, next);
-                mob.move(next);
+                let position = room.move(mob.position, next);
+                mob.move(position);
                 // [Effect] Update mob
                 store.set_mob(mob);
             };

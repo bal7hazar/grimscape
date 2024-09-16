@@ -11,10 +11,6 @@ use grimscape::models::index::Room;
 use grimscape::types::direction::Direction;
 use grimscape::constants;
 
-// Constants
-
-const MULTIPLIER: u256 = 100;
-
 // Errors
 
 mod errors {
@@ -138,9 +134,14 @@ impl RoomImpl of RoomTrait {
     }
 
     #[inline]
-    fn search_next(self: Room, from: u8, to: u8) -> u8 {
+    fn search_path(self: Room, from: u8, to: u8) -> Span<u8> {
         let map: Map = MapTrait::new(self.grid, constants::ROOM_WIDTH, constants::ROOM_HEIGHT, 0);
-        let mut path: Span<u8> = map.search_path(from, to);
+        map.search_path(from, to)
+    }
+
+    #[inline]
+    fn search_next(self: Room, from: u8, to: u8) -> u8 {
+        let mut path: Span<u8> = self.search_path(from, to);
         if path.is_empty() {
             from
         } else {
@@ -221,7 +222,7 @@ impl RoomImpl of RoomTrait {
     #[inline]
     fn add(ref self: Room, position: u8) {
         // [Check] Position if free
-        assert(self.is_free(position), errors::ROOM_POSITION_NOT_FREE);
+        self.assert_is_free(position);
         // [Effect] Update position
         let mut entities: u256 = self.entities.into();
         entities = Bitmap::set(entities, position);
@@ -241,18 +242,17 @@ impl RoomImpl of RoomTrait {
     }
 
     #[inline]
-    fn move(ref self: Room, from: u8, to: u8) {
+    fn move(ref self: Room, from: u8, to: u8) -> u8 {
         // [Check] From and to positions are different, otherwise leave as is
-        if from == to {
-            return;
+        if from == to || !self.is_free(to) {
+            return from;
         }
-        // [Check] Target position if free
-        self.assert_is_free(to);
         // [Effect] Update positions
         let mut entities: u256 = self.entities.into();
         entities = Bitmap::unset(entities, from);
         entities = Bitmap::set(entities, to);
         self.entities = entities.try_into().unwrap();
+        to
     }
 }
 

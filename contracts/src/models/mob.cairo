@@ -2,6 +2,10 @@
 
 use origami_map::map::{Map, MapTrait};
 
+// External imports
+
+use origami_map::helpers::heap::ItemTrait;
+
 // Internal imports
 
 use grimscape::constants;
@@ -35,7 +39,19 @@ impl MobImpl of MobTrait {
         let beast: u8 = beast.into();
         assert(beast != Beast::None.into(), errors::MOB_INVALID_BEAST);
         // [Return] Mob
-        Mob { realm_id, dungeon_id, adventurer_id, x, y, id, position, beast, health: 0, }
+        Mob {
+            realm_id,
+            dungeon_id,
+            adventurer_id,
+            x,
+            y,
+            id,
+            position,
+            distance: 0,
+            next: 0,
+            beast,
+            health: 0,
+        }
     }
 
     #[inline]
@@ -77,6 +93,35 @@ impl MobAssert of AssertTrait {
     #[inline]
     fn assert_is_dead(self: Mob) {
         assert(self.health == 0, errors::MOB_NOT_DEAD);
+    }
+}
+
+impl MobItem of ItemTrait<Mob> {
+    #[inline]
+    fn key(self: Mob) -> u8 {
+        self.id
+    }
+}
+
+impl MobPartialOrd of PartialOrd<Mob> {
+    #[inline]
+    fn le(lhs: Mob, rhs: Mob) -> bool {
+        lhs.distance <= rhs.distance
+    }
+
+    #[inline]
+    fn ge(lhs: Mob, rhs: Mob) -> bool {
+        lhs.distance >= rhs.distance
+    }
+
+    #[inline]
+    fn lt(lhs: Mob, rhs: Mob) -> bool {
+        lhs.distance < rhs.distance
+    }
+
+    #[inline]
+    fn gt(lhs: Mob, rhs: Mob) -> bool {
+        lhs.distance > rhs.distance
     }
 }
 

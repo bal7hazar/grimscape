@@ -109,6 +109,7 @@ impl StoreImpl of StoreTrait {
             if mob.position == position {
                 break Option::Some(mob);
             }
+            mob_id -= 1;
         }
     }
 }

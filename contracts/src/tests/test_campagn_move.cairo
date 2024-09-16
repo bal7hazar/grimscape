@@ -38,7 +38,7 @@ fn test_campagn_move() {
     let adventurer_position = adventurer.position;
 
     // [Move]
-    systems.campagn.move(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
 
     // [Assert] Adventurer
     let adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);

@@ -39,14 +39,14 @@ fn test_campagn_explore() {
     let adventurer_y = adventurer.y;
 
     // [Move]
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.explore(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
 
     // [Assert] Adventurer
     let adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);

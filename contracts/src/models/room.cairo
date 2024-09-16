@@ -231,7 +231,9 @@ impl RoomImpl of RoomTrait {
     #[inline]
     fn remove(ref self: Room, position: u8) {
         // [Check] Position if not free
-        assert(!self.is_free(position), errors::ROOM_POSITION_NOT_FREE);
+        if self.is_free(position) {
+            return;
+        }
         // [Effect] Update position
         let mut entities: u256 = self.entities.into();
         entities = Bitmap::unset(entities, position);

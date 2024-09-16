@@ -276,22 +276,33 @@ mod PlayableComponent {
             ref adventurer: Adventurer,
             ref store: Store
         ) {
-            let mut mob_id = room.mob_count;
-            while mob_id > 0 {
-                // [Effect] Move mob
+            let mut mob_id = room.mob_count + 1;
+            while mob_id > 1 {
+                // [Effect] Perform mob action
+                mob_id -= 1;
                 let mut mob = store
                     .get_mob(room.realm_id, room.dungeon_id, adventurer.id, room.x, room.y, mob_id);
+                // [Effect] Remove mob if dead
+                if mob.is_dead() {
+                    room.remove(mob.position);
+                    continue;
+                };
+                // [Compute] Find next position
                 let next = room.search_next(mob.position, adventurer.position);
-                // [Effect] Attack if possible, otherwise move
+                // [Effect] If the mob is blocked, skip
+                if next == mob.position {
+                    continue;
+                }
+                // [Effect] Attack if the next position is the same as the adventurer
                 if next == adventurer.position {
                     adventurer.take(mob.damage());
-                } else if next != mob.position && !mob.is_dead() {
-                    room.move(mob.position, next);
-                    mob.move(next);
+                    continue;
                 }
+                // [Effect] Move mob
+                room.move(mob.position, next);
+                mob.move(next);
                 // [Effect] Update mob
                 store.set_mob(mob);
-                mob_id -= 1;
             };
         }
     }

@@ -31,16 +31,16 @@ fn test_campagn_interact() {
     let store = StoreTrait::new(world);
 
     // [Move]
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.explore(Direction::West.into());
-    systems.campagn.move(Direction::West.into());
-    systems.campagn.move(Direction::None.into()); // Pass
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::West.into());
+    systems.campagn.perform(Direction::None.into()); // Pass
 
     // [Assert] Adventurer
     let player = store.get_player(context.player_id);
@@ -56,7 +56,7 @@ fn test_campagn_interact() {
     let mob_health = mob.health;
 
     // [Interact] Attack
-    systems.campagn.interact(Direction::North.into()); // 26 -> 16
+    systems.campagn.perform(Direction::North.into()); // 26 -> 16
 
     // [Assert] Adventurer
     let adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
@@ -68,15 +68,15 @@ fn test_campagn_interact() {
     assert_eq!(mob.health < mob_health, true);
 
     // [Interact] Attack
-    systems.campagn.interact(Direction::North.into()); // 16 -> 6
-    systems.campagn.interact(Direction::North.into()); // 6 -> 0
+    systems.campagn.perform(Direction::North.into()); // 16 -> 6
+    systems.campagn.perform(Direction::North.into()); // 6 -> 0
 
     // [Assert] Mob
     let mob = store
         .get_mob(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y, mob.id);
     assert_eq!(mob.health, 0);
 
-    systems.campagn.move(Direction::East.into());
-    systems.campagn.explore(Direction::East.into());
-    systems.campagn.explore(Direction::West.into());
+    systems.campagn.perform(Direction::East.into());
+    systems.campagn.perform(Direction::East.into());
+    systems.campagn.perform(Direction::West.into());
 }

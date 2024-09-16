@@ -75,9 +75,6 @@ export class Game extends Scene {
       this.cameras.main.zoom = zoom > 1 && zoom < 3 ? zoom : this.cameras.main.zoom;
     });
 
-    // Listeners
-    this.scale.on("resize", this.resize, this);
-
     // Events
     EventBus.emit("current-scene-ready", this);
   }
@@ -157,14 +154,6 @@ export class Game extends Scene {
       });
     });
     this.animatedTiles.init(this.map!);
-  }
-
-  resize(
-    gameSize: { width: number; height: number },
-    baseSize: number,
-    displaySize: number,
-    resolution: number,
-  ) {
   }
 
   toGameOver() {

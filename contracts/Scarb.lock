@@ -4,7 +4,7 @@ version = 1
 [[package]]
 name = "dojo"
 version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.11#fbff45b249e2b931f5007edf2d526beef7dc553f"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.12#b391948911356cbf8a91daa93314809c87411098"
 dependencies = [
  "dojo_plugin",
 ]
@@ -25,10 +25,10 @@ dependencies = [
 
 [[package]]
 name = "origami_map"
-version = "1.0.0-alpha.11"
-source = "git+https://github.com/dojoengine/origami?rev=49a122b#49a122baa6dfa19b5c4060b983d6601041a17519"
+version = "1.0.0-alpha.12"
+source = "git+https://github.com/dojoengine/origami?rev=24e7757#24e7757ad99ba5a0b07495264938fc02a4b97e65"
 
 [[package]]
 name = "origami_random"
-version = "1.0.0-alpha.11"
-source = "git+https://github.com/dojoengine/origami?rev=49a122b#49a122baa6dfa19b5c4060b983d6601041a17519"
+version = "1.0.0-alpha.12"
+source = "git+https://github.com/dojoengine/origami?rev=24e7757#24e7757ad99ba5a0b07495264938fc02a4b97e65"

@@ -18,6 +18,8 @@ export class Game extends Scene {
   rooms: string[] = [];
   player: Character | null = null;
   foes: { [key: string]: Foe } = {};
+  private request: number = 0;
+  private path: Phaser.GameObjects.Image[] = [];
   private target: { fromX: number; fromY: number; toX: number; toY: number } | null = null;
 
   constructor() {
@@ -36,6 +38,7 @@ export class Game extends Scene {
       "animatedTiles",
       "animatedTiles",
     );
+    this.load.image("path", "assets/tilemaps/path.png");
     this.load.image("tiles", "assets/tilemaps/tileset.png");
     this.load.tilemapTiledJSON("tilemap", "assets/tilemaps/tilemap.json");
   }
@@ -48,7 +51,7 @@ export class Game extends Scene {
       height: this.renderer.height,
     });
     this.tileset = this.map.addTilesetImage("tileset", "tiles");
-    
+
     // Player
     const step = this.map!.tileWidth;
     const character = new Character(
@@ -60,7 +63,35 @@ export class Game extends Scene {
     );
     this.player = this.add.existing(character);
     this.player.setVisible(false);
-    this.player.setDepth(1);
+    this.player.setDepth(2);
+
+    // Pathfinding
+    this.input.on(Phaser.Input.Events.POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
+      this.request = pointer.x + pointer.y;
+    });
+    this.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
+      // Check if a pathfinding request at this position was made
+      if (this.request != pointer.x + pointer.y) return;
+      this.request = 0;
+      // Reset previous path
+      this.path.forEach((rectangle) => rectangle.destroy());
+      // Get pointer coordinates
+      const { worldX, worldY } = pointer;
+      const from = this.map!.worldToTileXY(this.player!.sprite.x, this.player!.sprite.y);
+      const to = this.map!.worldToTileXY(worldX, worldY);
+      // Convert into local map coordinates
+      const room = GameManager.getInstance().room;
+      if (!room || !from || !to) return;
+      // Search path
+      const path = room.search(from, to);
+      // Apply a tint modifier for each tile position in the path
+      this.path = path.map((position: { x: number, y: number }) => {
+        const world = this.map!.tileToWorldXY(position.x, position.y);
+        const image = new Phaser.GameObjects.Image(this, world!.x + 8, world!.y + 8, "path");
+        this.add.existing(image);
+        return image;
+      });
+    })
 
     // Cameras
     this.cameras.main.setZoom(2.5);
@@ -117,6 +148,7 @@ export class Game extends Scene {
         if (!this.foes[key]) {
           const foe = new Foe(this, 0, 0, this.map!.tileWidth);
           this.foes[key] = foe;
+          foe.setDepth(1);
           this.add.existing(foe);
         }
         this.foes[key].update(mob);

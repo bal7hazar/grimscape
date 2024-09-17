@@ -58,8 +58,8 @@ export interface Neighbors {
 export interface Tilemap {
   evaluate(nbs: Neighbors, value: number): number;
   neighbors(width: number, height: number, index: number, bitmap: number[]): Neighbors;
-  extract(width: number, height: number, tilemap: bigint): { floors: number[], walls: number[] };
-  generate(width: number, height: number, tilemap: bigint): any;
+  extract(width: number, height: number, tilemap: number[]): { floors: number[], walls: number[] };
+  generate(width: number, height: number, tilemap: number[]): any;
 }
 
 export const Tilemap: Tilemap = {
@@ -308,9 +308,7 @@ export const Tilemap: Tilemap = {
     };
   },
 
-  extract(width: number, height: number, tilemap: bigint) {
-    const n = width * height;
-    const bitmap: number[] = tilemap.toString(2).padStart(n, '0').split('').reverse().map((value: string) => parseInt(value));
+  extract(width: number, height: number, bitmap: number[]) {
     const floors: number[] = [];
     const walls: number[] = [];
     bitmap.forEach((value: number, index: number) => {
@@ -330,7 +328,7 @@ export const Tilemap: Tilemap = {
     return { floors: floors.reverse(), walls: walls.reverse()};
   },
 
-  generate(width: number, height: number, tilemap: bigint) {
+  generate(width: number, height: number, tilemap: number[]) {
     const tiles = this.extract(width, height, tilemap);
     return {
       height,

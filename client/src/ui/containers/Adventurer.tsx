@@ -25,7 +25,7 @@ export const Adventurer = () => {
         <Avatar health={adventurer.health} />
       </div>
       <div className="absolute left-24">
-        <Health health={adventurer.health} total={100} />
+        <Health health={adventurer.health} total={adventurer.base_health} />
       </div>
     </div>
   );

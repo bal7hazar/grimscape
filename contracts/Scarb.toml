@@ -7,7 +7,7 @@ version = "0.0.0"
 sierra-replace-ids = true
 
 [scripts]
-dev = "sozo clean && sozo build && sozo migrate plan && sozo migrate apply"
+dev = "sozo clean && sozo build --typescript && sozo migrate plan && sozo migrate apply"
 slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile slot migrate plan && sozo --profile slot migrate apply"
 
 [dependencies]

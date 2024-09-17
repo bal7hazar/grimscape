@@ -1256,8 +1256,8 @@
     {
       "kind": "DojoContract",
       "address": "0x7ed26f49b77cb5b7b2144fae087637a741f98b079f93c8c8c86dd8a3e1004f",
-      "class_hash": "0x7803a2fdaf2e14fdedb60c4296ed161a5b806178e47572196b09eb8bbd5c951",
-      "original_class_hash": "0x7803a2fdaf2e14fdedb60c4296ed161a5b806178e47572196b09eb8bbd5c951",
+      "class_hash": "0x3b8a63057cdc775f0c194ee190379ca8be68c028414afafd7ba503799220e6d",
+      "original_class_hash": "0x3b8a63057cdc775f0c194ee190379ca8be68c028414afafd7ba503799220e6d",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1456,6 +1456,18 @@
               ],
               "outputs": [],
               "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "multi_perform",
+              "inputs": [
+                {
+                  "name": "directions",
+                  "type": "core::array::Array::<core::integer::u8>"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
             }
           ]
         },
@@ -1556,7 +1568,8 @@
         "signup",
         "rename",
         "create",
-        "perform"
+        "perform",
+        "multi_perform"
       ],
       "manifest_name": "grimscape-campagn-358d0cce"
     }
@@ -1601,6 +1614,11 @@
           "key": false
         },
         {
+          "name": "base_health",
+          "type": "u16",
+          "key": false
+        },
+        {
           "name": "xp",
           "type": "u16",
           "key": false
@@ -1636,8 +1654,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x132a69114be9d57e8ca2cef5f87c3ea371bd9454a638e0e8341b38989dfe02d",
-      "original_class_hash": "0x132a69114be9d57e8ca2cef5f87c3ea371bd9454a638e0e8341b38989dfe02d",
+      "class_hash": "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff",
+      "original_class_hash": "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff",
       "abi": [
         {
           "type": "impl",
@@ -2036,6 +2054,10 @@
             },
             {
               "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "base_health",
               "type": "core::integer::u16"
             },
             {
@@ -2608,10 +2630,15 @@
           "name": "health",
           "type": "u16",
           "key": false
+        },
+        {
+          "name": "base_health",
+          "type": "u16",
+          "key": false
         }
       ],
-      "class_hash": "0x7eee7b13fc8664816013ed486511e3b4e692c065b879c9eb793fa1bbc7d7165",
-      "original_class_hash": "0x7eee7b13fc8664816013ed486511e3b4e692c065b879c9eb793fa1bbc7d7165",
+      "class_hash": "0x6f1d9bd032ca3de2e32b0cb0b6988d293bfa11447beebafc6cb784f56a2e688",
+      "original_class_hash": "0x6f1d9bd032ca3de2e32b0cb0b6988d293bfa11447beebafc6cb784f56a2e688",
       "abi": [
         {
           "type": "impl",
@@ -3026,6 +3053,10 @@
             },
             {
               "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "base_health",
               "type": "core::integer::u16"
             }
           ]

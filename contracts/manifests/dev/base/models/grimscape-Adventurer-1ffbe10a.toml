@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x132a69114be9d57e8ca2cef5f87c3ea371bd9454a638e0e8341b38989dfe02d"
-original_class_hash = "0x132a69114be9d57e8ca2cef5f87c3ea371bd9454a638e0e8341b38989dfe02d"
+class_hash = "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff"
+original_class_hash = "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff"
 abi = "manifests/dev/base/abis/models/grimscape-Adventurer-1ffbe10a.json"
 tag = "grimscape-Adventurer"
 qualified_path = "grimscape::models::index::adventurer"
@@ -38,6 +38,11 @@ key = false
 
 [[members]]
 name = "health"
+type = "u16"
+key = false
+
+[[members]]
+name = "base_health"
 type = "u16"
 key = false
 

@@ -14,6 +14,7 @@ trait ICampagn<TContractState> {
     fn rename(self: @TContractState, name: felt252);
     fn create(self: @TContractState);
     fn perform(self: @TContractState, direction: u8);
+    fn multi_perform(self: @TContractState, directions: Array<u8>);
 }
 
 // Contracts
@@ -81,6 +82,10 @@ mod campagn {
 
         fn perform(self: @ContractState, direction: u8) {
             self.playable.perform(self.world(), direction)
+        }
+
+        fn multi_perform(self: @ContractState, mut directions: Array<u8>) {
+            self.playable.multi_perform(self.world(), ref directions)
         }
     }
 }

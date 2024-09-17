@@ -10,6 +10,7 @@ export class Adventurer {
   public y: number;
   public position: number;
   public health: number;
+  public base_health: number;
   public xp: number;
   public gold: number;
   public weapon: number;
@@ -26,6 +27,7 @@ export class Adventurer {
     this.y = adventurer.y;
     this.position = adventurer.position;
     this.health = adventurer.health;
+    this.base_health = adventurer.base_health;
     this.xp = adventurer.xp;
     this.gold = adventurer.gold;
     this.weapon = adventurer.weapon;

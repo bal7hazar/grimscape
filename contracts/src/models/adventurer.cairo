@@ -33,6 +33,7 @@ impl AdventurerImpl of AdventurerTrait {
             y: 0,
             position,
             health: constants::ADVENTURER_DEFAULT_HEALTH,
+            base_health: constants::ADVENTURER_DEFAULT_HEALTH,
             xp: 0,
             gold: constants::ADVENTURER_DEFAULT_GOLD,
             weapon: 0,

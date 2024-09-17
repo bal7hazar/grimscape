@@ -28,4 +28,5 @@ dev-dist
 *.log
 
 target
+contracts/bindings
 .vercel

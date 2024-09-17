@@ -149,6 +149,58 @@ mod PlayableComponent {
 
             self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room)
         }
+
+        fn multi_perform(
+            self: @ComponentState<TContractState>,
+            world: IWorldDispatcher,
+            ref directions: Array<u8>
+        ) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
+            // [Check] Player exists
+            let player_id: felt252 = get_caller_address().into();
+            let mut player = store.get_player(player_id);
+            player.assert_is_created();
+
+            // [Check] Dungeon is not done
+            let mut realm = store.get_realm(REALM_ID);
+            let dungeon_id = realm.dungeon_count;
+            let mut dungeon = store.get_dungeon(realm.id, dungeon_id);
+            dungeon.assert_not_done();
+
+            // [Check] Adventurer is not dead
+            let mut adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
+            adventurer.assert_not_dead();
+
+            // [Effect] Perform actions
+            while let Option::Some(direction) = directions.pop_front() {
+                // [Effect] Perform action
+                let direction: Direction = direction.into();
+                let mut room = store
+                    .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
+
+                // [Effect] Perform an interaction is possible
+                if room.can_interact(adventurer.position, direction) {
+                    self
+                        .interact(
+                            direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
+                        );
+                    break;
+                }
+
+                // [Effect] Perform an exploration if possible
+                if room.can_leave(adventurer.position, direction) {
+                    self
+                        .explore(
+                            direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
+                        );
+                    break;
+                }
+
+                self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room)
+            }
+        }
     }
 
     #[generate_trait]

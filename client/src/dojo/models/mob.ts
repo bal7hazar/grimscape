@@ -11,6 +11,7 @@ export class Mob {
   public position: number;
   public beast: number;
   public health: number;
+  public base_health: number;
 
   constructor(mob: ComponentValue) {
     this.realm_id = mob.realm_id;
@@ -22,6 +23,7 @@ export class Mob {
     this.position = mob.position;
     this.beast = mob.beast;
     this.health = mob.health;
+    this.base_health = mob.base_health;
   }
 
   getX() {

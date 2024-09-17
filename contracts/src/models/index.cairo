@@ -40,6 +40,7 @@ pub struct Adventurer {
     pub y: i32,
     pub position: u8,
     pub health: u16,
+    pub base_health: u16,
     pub xp: u16,
     pub gold: u16,
     pub weapon: u8,
@@ -90,6 +91,7 @@ pub struct Mob {
     pub next: u8,
     pub beast: u8,
     pub health: u16,
+    pub base_health: u16,
 }
 // #[derive(Copy, Drop, Serde)]
 // #[dojo::model]

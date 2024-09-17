@@ -51,6 +51,7 @@ impl MobImpl of MobTrait {
             next: 0,
             beast,
             health: 0,
+            base_health: 0,
         }
     }
 
@@ -59,6 +60,7 @@ impl MobImpl of MobTrait {
         // [Compute] Base health
         let beast: Beast = self.beast.into();
         self.health = beast.health(adventurer_level, seed);
+        self.base_health = self.health;
     }
 
     #[inline]

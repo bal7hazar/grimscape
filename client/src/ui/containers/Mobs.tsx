@@ -24,13 +24,13 @@ export const Mobs = () => {
   return (
     <div className="relative">
       {mobs.map((mob: Mob, index: number) => (
-        <Card key={index} health={mob.health} row={index} />
+        <Card key={index} health={mob.health} total={mob.base_health} row={index} />
       ))}
     </div>
   );
 };
 
-export const Card = ({ health, row }: { health: number, row: number }) => {
+export const Card = ({ health, total, row }: { health: number, total: number, row: number }) => {
   const top = useMemo(() => `${row * 108}px`, [row]);
 
   return (
@@ -39,7 +39,7 @@ export const Card = ({ health, row }: { health: number, row: number }) => {
         <Avatar health={health} />
       </div>
       <div className={`absolute right-24`} style={{ top }}>
-        <Health health={health} total={100} reversed={true}  />
+        <Health health={health} total={total} reversed={true}  />
       </div>
     </div>
   );

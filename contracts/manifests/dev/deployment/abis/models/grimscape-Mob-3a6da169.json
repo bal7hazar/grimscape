@@ -413,6 +413,10 @@
       {
         "name": "health",
         "type": "core::integer::u16"
+      },
+      {
+        "name": "base_health",
+        "type": "core::integer::u16"
       }
     ]
   },

@@ -195,6 +195,18 @@
         ],
         "outputs": [],
         "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "multi_perform",
+        "inputs": [
+          {
+            "name": "directions",
+            "type": "core::array::Array::<core::integer::u8>"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
       }
     ]
   },

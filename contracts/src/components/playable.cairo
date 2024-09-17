@@ -127,27 +127,30 @@ mod PlayableComponent {
             adventurer.assert_not_dead();
 
             // [Effect] Perform action
-            let direction: Direction = direction.into();
             let mut room = store
                 .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
 
-            // [Effect] Perform an interaction is possible
+            let direction: Direction = direction.into();
             if room.can_interact(adventurer.position, direction) {
-                return self
+                // [Effect] Perform an interaction
+                self
                     .interact(
                         direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
                     );
-            }
-
-            // [Effect] Perform an exploration if possible
-            if room.can_leave(adventurer.position, direction) {
-                return self
+            } else if room.can_leave(adventurer.position, direction) {
+                // [Effect] Perform an exploration
+                room = self
                     .explore(
                         direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
                     );
+            } else {
+                // [Effect] Perform a move
+                self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room);
             }
 
-            self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room)
+            // [Effect] Update entities
+            store.set_room(room);
+            store.set_adventurer(adventurer);
         }
 
         fn multi_perform(
@@ -172,15 +175,19 @@ mod PlayableComponent {
             // [Check] Adventurer is not dead
             let mut adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
             adventurer.assert_not_dead();
+            let adventurer_health = adventurer.health;
 
             // [Effect] Perform actions
+            let mut room = store
+                .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
             while let Option::Some(direction) = directions.pop_front() {
-                // [Effect] Perform action
-                let direction: Direction = direction.into();
-                let mut room = store
-                    .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
+                // [Check] Adventurer health is left unchanged, otherwise stop
+                if (adventurer.health != adventurer_health) {
+                    break;
+                }
 
-                // [Effect] Perform an interaction is possible
+                // [Effect] Perform an interaction if possible
+                let direction: Direction = direction.into();
                 if room.can_interact(adventurer.position, direction) {
                     self
                         .interact(
@@ -191,15 +198,19 @@ mod PlayableComponent {
 
                 // [Effect] Perform an exploration if possible
                 if room.can_leave(adventurer.position, direction) {
-                    self
+                    room = self
                         .explore(
                             direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
                         );
                     break;
                 }
 
-                self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room)
-            }
+                self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room);
+            };
+
+            // [Effect] Update entities
+            store.set_room(room);
+            store.set_adventurer(adventurer);
         }
     }
 
@@ -224,10 +235,6 @@ mod PlayableComponent {
 
             // [Effect] Move mobs
             self.move_mobs(ref room, ref adventurer, ref store);
-
-            // [Effect] Update entities
-            store.set_room(room);
-            store.set_adventurer(adventurer);
         }
 
         #[inline]
@@ -252,10 +259,6 @@ mod PlayableComponent {
 
             // [Effect] Move mobs
             self.move_mobs(ref room, ref adventurer, ref store);
-
-            // [Effect] Update entities
-            store.set_room(room);
-            store.set_adventurer(adventurer);
         }
 
         #[inline]
@@ -267,7 +270,7 @@ mod PlayableComponent {
             ref dungeon: Dungeon,
             ref adventurer: Adventurer,
             ref room: Room,
-        ) {
+        ) -> Room {
             // [Effect] Remove adventurer from the current room
             room.remove(adventurer.position);
             store.set_room(room);
@@ -294,9 +297,8 @@ mod PlayableComponent {
                 room.add(adventurer.position);
             }
 
-            // [Effect] Update entities
-            store.set_room(room);
-            store.set_adventurer(adventurer);
+            // [Return] The new room
+            room
         }
 
         #[inline]

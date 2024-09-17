@@ -75,7 +75,6 @@ export const Header = () => {
         </div>
       </motion.div>
       <div className="flex gap-4 items-center">
-        {!player && <Signup />}
         {!!player && (
           <p className="font-['Norse'] text-2xl max-w-44 truncate">
             {player.name}

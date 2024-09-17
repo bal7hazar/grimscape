@@ -38,7 +38,7 @@ export const Signup = () => {
 
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Signup</Button>
+        <Button className="text-xl">Signup</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

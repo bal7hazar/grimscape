@@ -6,6 +6,8 @@ import { useRealm } from "@/hooks/useRealm";
 import { useAdventurer } from "@/hooks/useAdventurer";
 import { Create } from "../actions/Create";
 import { useMemo } from "react";
+import { Player } from "@/dojo/models/player";
+import { Signup } from "../actions/Signup";
 
 export const Overlay = () => {
   const {
@@ -24,18 +26,19 @@ export const Overlay = () => {
 
   return (
     <div className={classNames}>
-      {!adventurer && <WelcomeScene />}
+      {!adventurer && <WelcomeScene player={player} />}
       {!!adventurer && adventurer.isDead() && <OverScene />}
       {!!adventurer && !adventurer.isDead() && <GameScene />}
     </div>
   )
 };
 
-export const WelcomeScene = () => {
+export const WelcomeScene = ({ player }: { player: Player | null }) => {
   return (
     <div className="flex flex-col gap-8 items-center absolute w-36 left-1/2 -translate-x-1/2 top-96">
       <h1 className="text-4xl text-center">Welcome to Grimscape</h1>
-      <Create />
+      {!player && <Signup />}
+      {!!player && <Create />}
     </div>
   );
 }

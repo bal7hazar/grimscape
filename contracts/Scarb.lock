@@ -26,9 +26,9 @@ dependencies = [
 [[package]]
 name = "origami_map"
 version = "1.0.0-alpha.12"
-source = "git+https://github.com/dojoengine/origami?rev=24e7757#24e7757ad99ba5a0b07495264938fc02a4b97e65"
+source = "git+https://github.com/dojoengine/origami?rev=9d100e7#9d100e73b1e693efb656bd2299db2959fd4863bb"
 
 [[package]]
 name = "origami_random"
 version = "1.0.0-alpha.12"
-source = "git+https://github.com/dojoengine/origami?rev=24e7757#24e7757ad99ba5a0b07495264938fc02a4b97e65"
+source = "git+https://github.com/dojoengine/origami?rev=9d100e7#9d100e73b1e693efb656bd2299db2959fd4863bb"

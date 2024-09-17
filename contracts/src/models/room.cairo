@@ -11,6 +11,10 @@ use grimscape::models::index::Room;
 use grimscape::types::direction::Direction;
 use grimscape::constants;
 
+// Constants
+
+const MAZE_ORDER: u8 = 1;
+
 // Errors
 
 mod errors {
@@ -52,10 +56,10 @@ impl RoomImpl of RoomTrait {
         let width = constants::ROOM_WIDTH;
         let height = constants::ROOM_HEIGHT;
         let mut map: Map = MapTrait::new_empty(width, height, seed);
-        map.open_with_corridor(constants::ROOM_NORTH_POSITION);
-        map.open_with_corridor(constants::ROOM_EAST_POSITION);
-        map.open_with_corridor(constants::ROOM_SOUTH_POSITION);
-        map.open_with_corridor(constants::ROOM_WEST_POSITION);
+        map.open_with_corridor(constants::ROOM_NORTH_POSITION, MAZE_ORDER);
+        map.open_with_corridor(constants::ROOM_EAST_POSITION, MAZE_ORDER);
+        map.open_with_corridor(constants::ROOM_SOUTH_POSITION, MAZE_ORDER);
+        map.open_with_corridor(constants::ROOM_WEST_POSITION, MAZE_ORDER);
         // [Return] Room
         Room {
             realm_id,
@@ -172,10 +176,10 @@ impl RoomImpl of RoomTrait {
         let mut map: Map = MapTrait::new_random_walk(
             self.width, self.height, constants::ROOM_STEPS, seed
         );
-        map.open_with_maze(constants::ROOM_NORTH_POSITION);
-        map.open_with_maze(constants::ROOM_EAST_POSITION);
-        map.open_with_maze(constants::ROOM_SOUTH_POSITION);
-        map.open_with_maze(constants::ROOM_WEST_POSITION);
+        map.open_with_maze(constants::ROOM_NORTH_POSITION, MAZE_ORDER);
+        map.open_with_maze(constants::ROOM_EAST_POSITION, MAZE_ORDER);
+        map.open_with_maze(constants::ROOM_SOUTH_POSITION, MAZE_ORDER);
+        map.open_with_maze(constants::ROOM_WEST_POSITION, MAZE_ORDER);
         self.grid = map.grid;
         // [Compute] Mob count
         let mob_seed = Seeder::reseed(seed, 'MOB');

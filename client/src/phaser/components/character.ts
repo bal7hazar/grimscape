@@ -165,7 +165,6 @@ export default class Character extends Phaser.GameObjects.Container {
     const room = GameManager.getInstance().room;
     const entities = room?.entities || [];
     const next = direction.next(position, room?.width || 0);
-    console.log("entities", entities, next, !entities.includes(next));
     return !entities.includes(next);
   }
 
@@ -182,7 +181,7 @@ export default class Character extends Phaser.GameObjects.Container {
           this.targets.push(up);
         }
         GameManager.getInstance().setDirection(north);
-        GameManager.getInstance().callPerform();
+        GameManager.getInstance().callPerform({ move: this.available(adventurer.position, north) });
         break;
       case "DOWN":
         const south = new Direction(DirectionType.South);
@@ -192,7 +191,7 @@ export default class Character extends Phaser.GameObjects.Container {
           this.targets.push(down);
         }
         GameManager.getInstance().setDirection(south);
-        GameManager.getInstance().callPerform();
+        GameManager.getInstance().callPerform({ move: this.available(adventurer.position, south) });
         break;
       case "LEFT":
         const west = new Direction(DirectionType.West);
@@ -202,7 +201,7 @@ export default class Character extends Phaser.GameObjects.Container {
           this.targets.push(left);
         }
         GameManager.getInstance().setDirection(west);
-        GameManager.getInstance().callPerform();
+        GameManager.getInstance().callPerform({ move: this.available(adventurer.position, west) });
         break;
       case "RIGHT":
         const east = new Direction(DirectionType.East);
@@ -212,7 +211,7 @@ export default class Character extends Phaser.GameObjects.Container {
           this.targets.push(right);
         }
         GameManager.getInstance().setDirection(east);
-        GameManager.getInstance().callPerform();
+        GameManager.getInstance().callPerform({ move: this.available(adventurer.position, east) });
         break;
     }
   }

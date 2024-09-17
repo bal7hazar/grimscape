@@ -43,11 +43,18 @@ export const useActions = () => {
   );
 
   const handlePerform = useCallback(
-    async (args : { direction: Direction }) => {
+    async (options: { move: boolean }, args: { direction: Direction }) => {
       if (!adventurer || !adventurerKey || !room) return;
       const { position, x, y } = adventurer.getNext(args.direction.value);
-      const move = room.isAvailable(position);
-      await perform({ account, key: adventurerKey, move, position, x, y, direction: args.direction.into() });
+      // const move = room.isAvailable(position);
+      const opts = {
+        key: adventurerKey,
+        move: options.move,
+        position,
+        x,
+        y
+      }
+      await perform({ account, options: opts, direction: args.direction.into() });
     },
     [account, adventurer, adventurerKey],
   );

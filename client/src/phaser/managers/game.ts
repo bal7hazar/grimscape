@@ -14,7 +14,7 @@ class GameManager {
   public rooms: Room[] = [];
   public mobs: Mob[] = [];
   public create: () => void = () => {};
-  public perform: (options : { direction: Direction }) => void = () => {};
+  public perform: (options: { move: boolean }, args: { direction: Direction }) => void = () => {};
   public direction: Direction = new Direction(DirectionType.None);
 
   constructor() {
@@ -73,7 +73,7 @@ class GameManager {
     this.create = action;
   }
 
-  setPerform(action: (options : { direction: Direction }) => void) {
+  setPerform(action: (options: { move: boolean }, args: { direction: Direction }) => void) {
     this.perform = action;
   }
 
@@ -82,9 +82,10 @@ class GameManager {
     this.create();
   }
 
-  callPerform(options?: { move: boolean }) {
+  callPerform(options: { move: boolean }) {
     if (!this.perform || !this.adventurer) return;
-    this.perform({ direction: this.getDirection() });
+    const args = { direction: this.getDirection() };
+    this.perform(options, args);
   }
 }
 

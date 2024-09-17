@@ -19,7 +19,11 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { Button } from "../elements/button";
 import { User } from "lucide-react";
-import logo from "/assets/logo.png";
+import logo from "/assets/logo.png"
+import { motion } from "framer-motion";
+import { Signup } from "../actions/Signup";
+import { useRealm } from "@/hooks/useRealm";
+import { useAdventurer } from "@/hooks/useAdventurer";
 
 export const Header = () => {
   const {
@@ -27,6 +31,13 @@ export const Header = () => {
   } = useDojo();
 
   const { player } = usePlayer({ playerId: account.address });
+  const { realm } = useRealm();
+  const { adventurer } = useAdventurer({ dungeonId: realm?.dungeon_count || 0, adventurerId: player?.adventurerId || 0 });
+
+  const position = useMemo(() => {
+    if (!adventurer || adventurer.isDead()) return { x: 0, y: 320 };
+    return { x: 0, y: 20};
+  }, [adventurer]);
 
   const links = useMemo(
     () => [
@@ -51,11 +62,20 @@ export const Header = () => {
 
   return (
     <div className="h-16 w-full flex justify-between items-center px-8 py-2">
-      <div className="absolute top-2 left-1/2 -translate-x-1/2 hidden md:block">
-        <img src={logo} alt="Grimscape" className="h-24 w-24" />
-      </div>
       <p className="text-4xl font-bold">Grimscape</p>
+      <motion.div
+        initial={{ x: 0, y: 0 }}
+        animate={position}
+        transition={{ type: "spring", stiffness: 30 }}
+        className="absolute top-0 left-1/2"
+        style={{ zIndex: 1000 }}
+      >
+        <div className="relative overflow-visible">
+          <img src={logo} alt="Grimscape" className="h-24 w-24 -translate-x-1/2" />
+        </div>
+      </motion.div>
       <div className="flex gap-4 items-center">
+        {!player && <Signup />}
         {!!player && (
           <p className="font-['Norse'] text-2xl max-w-44 truncate">
             {player.name}

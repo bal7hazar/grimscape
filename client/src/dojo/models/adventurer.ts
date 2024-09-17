@@ -35,6 +35,10 @@ export class Adventurer {
     this.player_id = `0x${adventurer.player_id.toString(16)}`.replace('0x0x', '0x');
   }
 
+  isDead() {
+    return this.health == 0;
+  }
+
   getX() {
     return ROOM_WIDTH - 1 - this.position % ROOM_WIDTH + this.x * ROOM_WIDTH;
   }

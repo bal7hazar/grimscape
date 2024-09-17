@@ -7,6 +7,7 @@ import dead from "/assets/avatars/skeleton-dead.png";
 import { Health } from "../components/Health";
 import { useMobs } from "@/hooks/useMobs";
 import { Mob } from "@/dojo/models/mob";
+import { useMemo } from "react";
 
 export const Mobs = () => {
   const {
@@ -21,20 +22,24 @@ export const Mobs = () => {
   if (!player || !realm || !adventurer) return null;
 
   return (
-    <div className="absolute right-0 top-0">
+    <div className="relative">
       {mobs.map((mob: Mob, index: number) => (
-        <Card key={index} health={mob.health} />
+        <Card key={index} health={mob.health} row={index} />
       ))}
     </div>
   );
 };
 
-export const Card = ({ health }: { health: number }) => {
+export const Card = ({ health, row }: { health: number, row: number }) => {
+  const top = useMemo(() => `${row * 108}px`, [row]);
+
   return (
-    <div className="w-100 flex justify-between items-center px-8 py-2">
-      <div className={`flex ${!health && "grayscale"}`}>
-        <Health health={health} total={100} reversed={true} />
+    <div className={`relative ${!health && "grayscale"}`}>
+      <div className={`absolute right-0`} style={{ top }}>
         <Avatar health={health} />
+      </div>
+      <div className={`absolute right-24`} style={{ top }}>
+        <Health health={health} total={100} reversed={true}  />
       </div>
     </div>
   );

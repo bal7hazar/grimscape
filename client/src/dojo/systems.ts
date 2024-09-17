@@ -151,10 +151,41 @@ export function systems({
     }
   };
 
+  const multiperform = async ({ account, options, ...props }: any) => {
+    // [Check] Optimistic state if move is required
+    const adventurerId = uuid();
+    if (options.move) {
+      clientModels.models.Adventurer.addOverride(adventurerId, {
+        entity: options.key,
+        value: {
+          position: options.position,
+          x: options.x,
+          y: options.y,
+        },
+      });
+    }
+
+    try {
+      await handleTransaction(
+        account,
+        () => client.campagn.multiperform({ account, ...props }),
+        "Player has performed an action.",
+      );
+      // Sleep 5 seconds for indexer to index
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    } catch (error: any) {
+      clientModels.models.Adventurer.removeOverride(adventurerId);
+      toast.error(extractedMessage(error.message));
+    } finally {
+      clientModels.models.Adventurer.removeOverride(adventurerId);
+    }
+  }
+
   return {
     signup,
     rename,
     create,
     perform,
+    multiperform,
   };
 }

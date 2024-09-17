@@ -153,7 +153,7 @@ mod PlayableComponent {
             store.set_adventurer(adventurer);
         }
 
-        fn multi_perform(
+        fn multiperform(
             self: @ComponentState<TContractState>,
             world: IWorldDispatcher,
             ref directions: Array<u8>

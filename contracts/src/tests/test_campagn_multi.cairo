@@ -41,7 +41,7 @@ fn test_campagn_multi() {
         Direction::West.into(),
         Direction::West.into(), // Explore
     ];
-    systems.campagn.multi_perform(directions);
+    systems.campagn.multiperform(directions);
     let directions: Array<u8> = array![
         Direction::West.into(),
         Direction::None.into(), // Pass
@@ -49,7 +49,7 @@ fn test_campagn_multi() {
         Direction::North.into(), // Not executed
         Direction::North.into(), // Not executed
     ];
-    systems.campagn.multi_perform(directions);
+    systems.campagn.multiperform(directions);
     // [Assert] Mob
     let player = store.get_player(context.player_id);
     let realm = store.get_realm(constants::REALM_ID);

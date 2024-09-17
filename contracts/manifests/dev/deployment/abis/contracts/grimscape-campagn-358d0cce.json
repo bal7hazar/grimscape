@@ -198,7 +198,7 @@
       },
       {
         "type": "function",
-        "name": "multi_perform",
+        "name": "multiperform",
         "inputs": [
           {
             "name": "directions",

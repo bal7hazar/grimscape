@@ -16,7 +16,7 @@ export const useActions = () => {
   const {
     account: { account },
     setup: {
-      systemCalls: { signup, create, perform },
+      systemCalls: { signup, create, perform, multiperform },
     },
   } = useDojo();
 
@@ -46,7 +46,6 @@ export const useActions = () => {
     async (options: { move: boolean }, args: { direction: Direction }) => {
       if (!adventurer || !adventurerKey || !room) return;
       const { position, x, y } = adventurer.getNext(args.direction.value);
-      // const move = room.isAvailable(position);
       const opts = {
         key: adventurerKey,
         move: options.move,
@@ -55,6 +54,15 @@ export const useActions = () => {
         y
       }
       await perform({ account, options: opts, direction: args.direction.into() });
+    },
+    [account, adventurer, adventurerKey],
+  );
+  
+  const handleMultiperform = useCallback(
+    async (args: { directions: Direction[] }) => {
+      if (!adventurer || !adventurerKey || !room) return;
+      const directions = args.directions.map((direction) => direction.into());
+      await multiperform({ account, directions });
     },
     [account, adventurer, adventurerKey],
   );
@@ -77,6 +85,7 @@ export const useActions = () => {
   useEffect(() => {
     gameManager.setCreate(handleCreate);
     gameManager.setPerform(handlePerform);
+    gameManager.setMultiperform(handleMultiperform);
   }, [handleCreate, handlePerform, gameManager]);
 
   useEffect(() => {

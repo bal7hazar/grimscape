@@ -5,6 +5,7 @@ import GameManager from "../managers/game";
 import { Room } from "@/dojo/models/room";
 import Character from "../components/character";
 import Foe from "../components/foe";
+import { Direction } from "@/dojo/types/direction";
 
 // Constants
 
@@ -20,6 +21,7 @@ export class Game extends Scene {
   foes: { [key: string]: Foe } = {};
   private request: number = 0;
   private path: Phaser.GameObjects.Image[] = [];
+  private positions: { x: number, y: number }[] = [];
   private target: { fromX: number; fromY: number; toX: number; toY: number } | null = null;
 
   constructor() {
@@ -66,32 +68,8 @@ export class Game extends Scene {
     this.player.setDepth(2);
 
     // Pathfinding
-    this.input.on(Phaser.Input.Events.POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-      this.request = pointer.x + pointer.y;
-    });
-    this.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
-      // Check if a pathfinding request at this position was made
-      if (this.request != pointer.x + pointer.y) return;
-      this.request = 0;
-      // Reset previous path
-      this.path.forEach((rectangle) => rectangle.destroy());
-      // Get pointer coordinates
-      const { worldX, worldY } = pointer;
-      const from = this.map!.worldToTileXY(this.player!.sprite.x, this.player!.sprite.y);
-      const to = this.map!.worldToTileXY(worldX, worldY);
-      // Convert into local map coordinates
-      const room = GameManager.getInstance().room;
-      if (!room || !from || !to) return;
-      // Search path
-      const path = room.search(from, to);
-      // Apply a tint modifier for each tile position in the path
-      this.path = path.map((position: { x: number, y: number }) => {
-        const world = this.map!.tileToWorldXY(position.x, position.y);
-        const image = new Phaser.GameObjects.Image(this, world!.x + 8, world!.y + 8, "path");
-        this.add.existing(image);
-        return image;
-      });
-    })
+    this.input.on(Phaser.Input.Events.POINTER_DOWN, this.onPress, this);
+    this.input.on(Phaser.Input.Events.POINTER_UP, this.onRelease, this);
 
     // Cameras
     this.cameras.main.setZoom(2.5);
@@ -132,17 +110,24 @@ export class Game extends Scene {
       EventBus.emit("center-camera");
     }
 
-    // Update player
+    // Update player with state
     const adventurer = GameManager.getInstance().adventurer;
     if (!!adventurer) {
-      // Update player
       this.player?.setVisible(true);
       this.player?.update(adventurer);
     }
+    // Update player with events
+    const adventurerUpdates = GameManager.getInstance().adventurerUpdates;
+    if (!!adventurerUpdates) {
+      adventurerUpdates.forEach((update) => {
+        this.player?.addTarget(update.order, update.adventurer);
+        GameManager.getInstance().adventurerUpdates.shift();
+      });
+    }
 
-    // Update foes
     const mobs = GameManager.getInstance().mobs;
     if (!!mobs) {
+      // Update foes with state
       mobs.forEach((mob) => {
         const key = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
         if (!this.foes[key]) {
@@ -153,6 +138,16 @@ export class Game extends Scene {
         }
         this.foes[key].update(mob);
       });
+      // Update foes with events
+      const mobUpdates = GameManager.getInstance().mobUpdates;
+      if (!!mobUpdates) {
+        mobUpdates.forEach((update) => {
+          const key = `${update.mob.realm_id}-${update.mob.dungeon_id}-${update.mob.adventurer_id}-${update.mob.x}-${update.mob.y}-${update.mob.id}`;
+          if (!this.foes[key]) return;
+          this.foes[key].addTarget(update.order, update.mob);
+          GameManager.getInstance().mobUpdates.shift();
+        });
+      }
     };
 
     // Update Camera
@@ -210,5 +205,48 @@ export class Game extends Scene {
 
   toMenu() {
     this.scene.start("Menu");
+  }
+
+  onPress(pointer: Phaser.Input.Pointer) {
+    // Check if there is a path result stored and if the player has cliked on the last position
+    if (this.path.length > 0 && this.positions.length > 0) {
+      // Get pointer coordinates
+      const { worldX, worldY } = pointer;
+      const current = this.map!.worldToTileXY(worldX, worldY);
+      const last = this.positions[this.positions.length - 1];
+      if (!!current && current.x === last.x && current.y === last.y) {
+        const directions: Direction[] = Direction.extract(this.positions);
+        GameManager.getInstance().multiperform({ directions });
+        this.path.forEach((rectangle) => rectangle.destroy());
+        this.path = [];
+        this.positions = [];
+        return;
+      }
+    }
+    // Prepare the pathfinding request and reset the previous path result
+    this.request = pointer.x + pointer.y;
+  }
+
+  onRelease(pointer: Phaser.Input.Pointer) {
+    // Check if a pathfinding request at this position was made
+    if (this.request != pointer.x + pointer.y) return;
+    this.request = 0;
+    this.path.forEach((rectangle) => rectangle.destroy());
+    // Get pointer coordinates
+    const { worldX, worldY } = pointer;
+    const from = this.map!.worldToTileXY(this.player!.sprite.x, this.player!.sprite.y);
+    const to = this.map!.worldToTileXY(worldX, worldY);
+    // Convert into local map coordinates
+    const room = GameManager.getInstance().room;
+    if (!room || !from || !to) return;
+    // Search path
+    this.positions = room.search(from, to);
+    // Apply a tint modifier for each tile position in the path
+    this.path = this.positions.map((position: { x: number, y: number }) => {
+      const world = this.map!.tileToWorldXY(position.x, position.y);
+      const image = new Phaser.GameObjects.Image(this, world!.x + 8, world!.y + 8, "path");
+      this.add.existing(image);
+      return image;
+    });
   }
 }

@@ -67,4 +67,33 @@ export class Direction {
             return position;
         }
   }
+
+  public static extract(positions: { x: number, y: number }[]) {
+    // For each position, extract the direction, the result length is positions.length - 1
+    const directions: Direction[] = [];
+    for (let i = 0; i < positions.length - 1; i++) {
+        const current = positions[i];
+        const next = positions[i + 1];
+        const dx = next.x - current.x;
+        const dy = next.y - current.y;
+        if (dx * dy != 0) {
+          console.error("Invalid direction");
+          continue;
+        }
+        if (dx > 0) {
+          const direction = new Direction(DirectionType.East)
+          directions.push(direction);
+        } else if (dx < 0) {
+          const direction = new Direction(DirectionType.West)
+          directions.push(direction);
+        } else if (dy > 0) {
+          const direction = new Direction(DirectionType.South)
+          directions.push(direction);
+        } else if (dy < 0) {
+          const direction = new Direction(DirectionType.North)
+          directions.push(direction);
+        }
+    }
+    return directions;
+  }
 }

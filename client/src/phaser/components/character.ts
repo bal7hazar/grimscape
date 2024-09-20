@@ -10,7 +10,7 @@ export default class Character extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite;
   private step: number;
   private offset: { x: number, y: number };
-  private targets: { x: number; y: number }[] = [];
+  private targets: { order: number, x: number; y: number }[] = [];
   private animation: string = "human-fighter-idle-down";
   private layers: Phaser.Tilemaps.TilemapLayer[] = [];
 
@@ -72,6 +72,16 @@ export default class Character extends Phaser.GameObjects.Container {
     // d.on("down", () => this.move("RIGHT"));
   }
 
+  addTarget(order: number, adventurer: Adventurer) {
+    if (!this.visible || !adventurer) return;
+    // Add target to the list
+    const x = this.step * adventurer.getX() + this.offset.x;
+    const y = this.step * adventurer.getY() + this.offset.y;
+    this.targets.push({ order, x, y });
+    // Sort targets by ascending order
+    this.targets = this.targets.sort((a, b) => a.order - b.order);
+  }
+
   update(adventurer: Adventurer) {
     if (!this.visible) return;
 
@@ -100,8 +110,7 @@ export default class Character extends Phaser.GameObjects.Container {
       }
       // To sync case
       if (this.sprite.x !== x || this.sprite.y !== y) {
-        const target = { x, y };
-        this.targets.push(target);
+        this.addTarget(999, adventurer);
         return;
       }
       // Nothing case
@@ -178,7 +187,7 @@ export default class Character extends Phaser.GameObjects.Container {
         const up = { x: initial.x, y: initial.y - this.step };
         if (this.collision(up.x, up.y)) return;
         if (this.available(adventurer.position, north)) {
-          this.targets.push(up);
+          this.targets.push({ order: 999, x: up.x, y: up.y});
         }
         GameManager.getInstance().setDirection(north);
         GameManager.getInstance().callPerform({ move: this.available(adventurer.position, north) });
@@ -188,7 +197,7 @@ export default class Character extends Phaser.GameObjects.Container {
         const down = { x: initial.x, y: initial.y + this.step };
         if (this.collision(down.x, down.y)) return;
         if (this.available(adventurer.position, south)) {
-          this.targets.push(down);
+          this.targets.push({ order: 999, x: down.x, y: down.y});
         }
         GameManager.getInstance().setDirection(south);
         GameManager.getInstance().callPerform({ move: this.available(adventurer.position, south) });
@@ -198,7 +207,7 @@ export default class Character extends Phaser.GameObjects.Container {
         const left = { x: initial.x - this.step, y: initial.y };
         if (this.collision(left.x, left.y)) return;
         if (this.available(adventurer.position, west)) {
-          this.targets.push(left);
+          this.targets.push({ order: 999, x: left.x, y: left.y});
         }
         GameManager.getInstance().setDirection(west);
         GameManager.getInstance().callPerform({ move: this.available(adventurer.position, west) });
@@ -208,7 +217,7 @@ export default class Character extends Phaser.GameObjects.Container {
         const right = { x: initial.x + this.step, y: initial.y };
         if (this.collision(right.x, right.y)) return;
         if (this.available(adventurer.position, east)) {
-          this.targets.push(right);
+          this.targets.push({ order: 999, x: right.x, y: right.y});
         }
         GameManager.getInstance().setDirection(east);
         GameManager.getInstance().callPerform({ move: this.available(adventurer.position, east) });

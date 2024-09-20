@@ -17,6 +17,7 @@ mod PlayableComponent {
 
     use grimscape::constants::REALM_ID;
     use grimscape::store::{Store, StoreTrait};
+    use grimscape::emitter::{Emitter, EmitterTrait};
     use grimscape::models::realm::{Realm, RealmTrait, RealmAssert};
     use grimscape::models::player::{Player, PlayerTrait, PlayerAssert};
     use grimscape::models::dungeon::{Dungeon, DungeonTrait, DungeonAssert};
@@ -110,6 +111,7 @@ mod PlayableComponent {
         fn perform(self: @ComponentState<TContractState>, world: IWorldDispatcher, direction: u8) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
+            let mut emitter: Emitter = EmitterTrait::new(world);
 
             // [Check] Player exists
             let player_id: felt252 = get_caller_address().into();
@@ -134,18 +136,33 @@ mod PlayableComponent {
             if room.can_interact(adventurer.position, direction) {
                 // [Effect] Perform an interaction
                 self
-                    .interact(
-                        direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
+                    .attack(
+                        direction,
+                        ref realm,
+                        ref dungeon,
+                        ref adventurer,
+                        ref room,
+                        ref store,
+                        ref emitter,
                     );
             } else if room.can_leave(adventurer.position, direction) {
                 // [Effect] Perform an exploration
                 room = self
                     .explore(
-                        direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
+                        direction, ref realm, ref dungeon, ref adventurer, ref room, ref store
                     );
             } else {
                 // [Effect] Perform a move
-                self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room);
+                self
+                    .move(
+                        direction,
+                        ref realm,
+                        ref dungeon,
+                        ref adventurer,
+                        ref room,
+                        ref store,
+                        ref emitter,
+                    );
             }
 
             // [Effect] Update entities
@@ -160,6 +177,7 @@ mod PlayableComponent {
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
+            let mut emitter: Emitter = EmitterTrait::new(world);
 
             // [Check] Player exists
             let player_id: felt252 = get_caller_address().into();
@@ -190,8 +208,14 @@ mod PlayableComponent {
                 let direction: Direction = direction.into();
                 if room.can_interact(adventurer.position, direction) {
                     self
-                        .interact(
-                            direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
+                        .attack(
+                            direction,
+                            ref realm,
+                            ref dungeon,
+                            ref adventurer,
+                            ref room,
+                            ref store,
+                            ref emitter
                         );
                     break;
                 }
@@ -200,12 +224,21 @@ mod PlayableComponent {
                 if room.can_leave(adventurer.position, direction) {
                     room = self
                         .explore(
-                            direction, ref store, ref realm, ref dungeon, ref adventurer, ref room
+                            direction, ref realm, ref dungeon, ref adventurer, ref room, ref store
                         );
                     break;
                 }
 
-                self.move(direction, ref store, ref realm, ref dungeon, ref adventurer, ref room);
+                self
+                    .move(
+                        direction,
+                        ref realm,
+                        ref dungeon,
+                        ref adventurer,
+                        ref room,
+                        ref store,
+                        ref emitter
+                    );
             };
 
             // [Effect] Update entities
@@ -222,30 +255,35 @@ mod PlayableComponent {
         fn move(
             self: @ComponentState<TContractState>,
             direction: Direction,
-            ref store: Store,
             ref realm: Realm,
             ref dungeon: Dungeon,
             ref adventurer: Adventurer,
             ref room: Room,
+            ref store: Store,
+            ref emitter: Emitter,
         ) {
             // [Effect] Move adventurer
             let from = adventurer.position;
             adventurer.move(direction.into());
             room.move(from, adventurer.position);
 
+            // [Event]
+            emitter.emit_adventurer_update(adventurer);
+
             // [Effect] Move mobs
-            self.move_mobs(ref room, ref adventurer, ref store);
+            self.move_mobs(ref room, ref adventurer, ref store, ref emitter);
         }
 
         #[inline]
-        fn interact(
+        fn attack(
             self: @ComponentState<TContractState>,
             direction: Direction,
-            ref store: Store,
             ref realm: Realm,
             ref dungeon: Dungeon,
             ref adventurer: Adventurer,
             ref room: Room,
+            ref store: Store,
+            ref emitter: Emitter,
         ) {
             // [Effect] Attack the mob
             // TODO: manage different cases
@@ -257,19 +295,22 @@ mod PlayableComponent {
             }
             store.set_mob(mob);
 
+            // [Event]
+            emitter.emit_adventurer_hit(adventurer, mob);
+
             // [Effect] Move mobs
-            self.move_mobs(ref room, ref adventurer, ref store);
+            self.move_mobs(ref room, ref adventurer, ref store, ref emitter);
         }
 
         #[inline]
         fn explore(
             self: @ComponentState<TContractState>,
             direction: Direction,
-            ref store: Store,
             ref realm: Realm,
             ref dungeon: Dungeon,
             ref adventurer: Adventurer,
             ref room: Room,
+            ref store: Store,
         ) -> Room {
             // [Effect] Remove adventurer from the current room
             room.remove(adventurer.position);
@@ -332,7 +373,8 @@ mod PlayableComponent {
             self: @ComponentState<TContractState>,
             ref room: Room,
             ref adventurer: Adventurer,
-            ref store: Store
+            ref store: Store,
+            ref emitter: Emitter,
         ) {
             let mut heap: Heap<Mob> = HeapTrait::<Mob>::new();
             let mut mob_id = room.mob_count;
@@ -369,7 +411,10 @@ mod PlayableComponent {
                 }
                 // [Effect] Attack if the next position is the same as the adventurer
                 if next == adventurer.position {
+                    // [Effect] Attack adventurer
                     adventurer.take(mob.damage());
+                    // [Event]
+                    emitter.emit_mob_hit(mob, adventurer);
                     continue;
                 }
                 // [Effect] Move mob
@@ -377,6 +422,8 @@ mod PlayableComponent {
                 mob.move(position);
                 // [Effect] Update mob
                 store.set_mob(mob);
+                // [Event] Emit mob update
+                emitter.emit_mob_update(mob);
             };
         }
     }

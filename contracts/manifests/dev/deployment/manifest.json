@@ -1256,8 +1256,8 @@
     {
       "kind": "DojoContract",
       "address": "0x7ed26f49b77cb5b7b2144fae087637a741f98b079f93c8c8c86dd8a3e1004f",
-      "class_hash": "0x4083b22ee7bc90ad90691a76b32a24dbda3b4b5a03b2e4d7c41f150447aeaaa",
-      "original_class_hash": "0x4083b22ee7bc90ad90691a76b32a24dbda3b4b5a03b2e4d7c41f150447aeaaa",
+      "class_hash": "0x5127a6f5ad0c48663a74df9f31a96c42c8189718730a7014e812f9620f6cebe",
+      "original_class_hash": "0x5127a6f5ad0c48663a74df9f31a96c42c8189718730a7014e812f9620f6cebe",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2118,6 +2118,1055 @@
       "tag": "grimscape-Adventurer",
       "qualified_path": "grimscape::models::index::adventurer",
       "manifest_name": "grimscape-Adventurer-1ffbe10a"
+    },
+    {
+      "kind": "DojoModel",
+      "members": [
+        {
+          "name": "id",
+          "type": "u32",
+          "key": true
+        },
+        {
+          "name": "adventurer",
+          "type": "Adventurer",
+          "key": false
+        },
+        {
+          "name": "mob",
+          "type": "Mob",
+          "key": false
+        }
+      ],
+      "class_hash": "0x7f4d2a4f744dc169ee1b0fbeea196e87bdca87f598e46d6cc2d343141abaa0c",
+      "original_class_hash": "0x7f4d2a4f744dc169ee1b0fbeea196e87bdca87f598e46d6cc2d343141abaa0c",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DojoModelImpl",
+          "interface_name": "dojo::model::model::IModel"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::option::Option::<core::integer::u32>",
+          "variants": [
+            {
+              "name": "Some",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "None",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::layout::FieldLayout",
+          "members": [
+            {
+              "name": "selector",
+              "type": "core::felt252"
+            },
+            {
+              "name": "layout",
+              "type": "dojo::model::layout::Layout"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::FieldLayout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::Layout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::Layout>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::layout::Layout",
+          "variants": [
+            {
+              "name": "Fixed",
+              "type": "core::array::Span::<core::integer::u8>"
+            },
+            {
+              "name": "Struct",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            },
+            {
+              "name": "Enum",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Member",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "ty",
+              "type": "dojo::model::introspect::Ty"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Member>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Ty>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Ty>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::introspect::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::model::introspect::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::model::introspect::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::model::model::IModel",
+          "items": [
+            {
+              "type": "function",
+              "name": "name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "version",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u8"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "unpacked_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "packed_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "layout",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::layout::Layout"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "schema",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::introspect::Ty"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "adventurer_hitImpl",
+          "interface_name": "grimscape::events::Iadventurer_hit"
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::models::index::Adventurer",
+          "members": [
+            {
+              "name": "realm_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "dungeon_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "x",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "y",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "position",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "base_health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "xp",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "gold",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "weapon",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "gears",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "attributes",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "seed",
+              "type": "core::felt252"
+            },
+            {
+              "name": "player_id",
+              "type": "core::felt252"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::models::index::Mob",
+          "members": [
+            {
+              "name": "realm_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "dungeon_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "adventurer_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "x",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "y",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "id",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "position",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "distance",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "next",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "beast",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "base_health",
+              "type": "core::integer::u16"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::events::AdventurerHit",
+          "members": [
+            {
+              "name": "id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "adventurer",
+              "type": "grimscape::models::index::Adventurer"
+            },
+            {
+              "name": "mob",
+              "type": "grimscape::models::index::Mob"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "grimscape::events::Iadventurer_hit",
+          "items": [
+            {
+              "type": "function",
+              "name": "ensure_abi",
+              "inputs": [
+                {
+                  "name": "model",
+                  "type": "grimscape::events::AdventurerHit"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "grimscape::events::adventurer_hit::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "tag": "grimscape-AdventurerHit",
+      "qualified_path": "grimscape::events::adventurer_hit",
+      "manifest_name": "grimscape-AdventurerHit-5ef66a0e"
+    },
+    {
+      "kind": "DojoModel",
+      "members": [
+        {
+          "name": "id",
+          "type": "u32",
+          "key": true
+        },
+        {
+          "name": "adventurer",
+          "type": "Adventurer",
+          "key": false
+        }
+      ],
+      "class_hash": "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac",
+      "original_class_hash": "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DojoModelImpl",
+          "interface_name": "dojo::model::model::IModel"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::option::Option::<core::integer::u32>",
+          "variants": [
+            {
+              "name": "Some",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "None",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::layout::FieldLayout",
+          "members": [
+            {
+              "name": "selector",
+              "type": "core::felt252"
+            },
+            {
+              "name": "layout",
+              "type": "dojo::model::layout::Layout"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::FieldLayout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::Layout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::Layout>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::layout::Layout",
+          "variants": [
+            {
+              "name": "Fixed",
+              "type": "core::array::Span::<core::integer::u8>"
+            },
+            {
+              "name": "Struct",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            },
+            {
+              "name": "Enum",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Member",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "ty",
+              "type": "dojo::model::introspect::Ty"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Member>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Ty>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Ty>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::introspect::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::model::introspect::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::model::introspect::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::model::model::IModel",
+          "items": [
+            {
+              "type": "function",
+              "name": "name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "version",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u8"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "unpacked_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "packed_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "layout",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::layout::Layout"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "schema",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::introspect::Ty"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "adventurer_updateImpl",
+          "interface_name": "grimscape::events::Iadventurer_update"
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::models::index::Adventurer",
+          "members": [
+            {
+              "name": "realm_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "dungeon_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "x",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "y",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "position",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "base_health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "xp",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "gold",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "weapon",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "gears",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "attributes",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "seed",
+              "type": "core::felt252"
+            },
+            {
+              "name": "player_id",
+              "type": "core::felt252"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::events::AdventurerUpdate",
+          "members": [
+            {
+              "name": "id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "adventurer",
+              "type": "grimscape::models::index::Adventurer"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "grimscape::events::Iadventurer_update",
+          "items": [
+            {
+              "type": "function",
+              "name": "ensure_abi",
+              "inputs": [
+                {
+                  "name": "model",
+                  "type": "grimscape::events::AdventurerUpdate"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "grimscape::events::adventurer_update::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "tag": "grimscape-AdventurerUpdate",
+      "qualified_path": "grimscape::events::adventurer_update",
+      "manifest_name": "grimscape-AdventurerUpdate-3f687141"
     },
     {
       "kind": "DojoModel",
@@ -3089,6 +4138,1043 @@
       "tag": "grimscape-Mob",
       "qualified_path": "grimscape::models::index::mob",
       "manifest_name": "grimscape-Mob-3a6da169"
+    },
+    {
+      "kind": "DojoModel",
+      "members": [
+        {
+          "name": "id",
+          "type": "u32",
+          "key": true
+        },
+        {
+          "name": "mob",
+          "type": "Mob",
+          "key": false
+        },
+        {
+          "name": "adventurer",
+          "type": "Adventurer",
+          "key": false
+        }
+      ],
+      "class_hash": "0x3f31a3cb9aadacff7e946c94cebe555026a07cba4f634d68e09f8df9d8a2455",
+      "original_class_hash": "0x3f31a3cb9aadacff7e946c94cebe555026a07cba4f634d68e09f8df9d8a2455",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DojoModelImpl",
+          "interface_name": "dojo::model::model::IModel"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::option::Option::<core::integer::u32>",
+          "variants": [
+            {
+              "name": "Some",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "None",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::layout::FieldLayout",
+          "members": [
+            {
+              "name": "selector",
+              "type": "core::felt252"
+            },
+            {
+              "name": "layout",
+              "type": "dojo::model::layout::Layout"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::FieldLayout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::Layout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::Layout>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::layout::Layout",
+          "variants": [
+            {
+              "name": "Fixed",
+              "type": "core::array::Span::<core::integer::u8>"
+            },
+            {
+              "name": "Struct",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            },
+            {
+              "name": "Enum",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Member",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "ty",
+              "type": "dojo::model::introspect::Ty"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Member>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Ty>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Ty>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::introspect::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::model::introspect::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::model::introspect::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::model::model::IModel",
+          "items": [
+            {
+              "type": "function",
+              "name": "name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "version",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u8"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "unpacked_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "packed_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "layout",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::layout::Layout"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "schema",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::introspect::Ty"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "mob_hitImpl",
+          "interface_name": "grimscape::events::Imob_hit"
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::models::index::Mob",
+          "members": [
+            {
+              "name": "realm_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "dungeon_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "adventurer_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "x",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "y",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "id",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "position",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "distance",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "next",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "beast",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "base_health",
+              "type": "core::integer::u16"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::models::index::Adventurer",
+          "members": [
+            {
+              "name": "realm_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "dungeon_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "x",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "y",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "position",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "base_health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "xp",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "gold",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "weapon",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "gears",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "attributes",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "seed",
+              "type": "core::felt252"
+            },
+            {
+              "name": "player_id",
+              "type": "core::felt252"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::events::MobHit",
+          "members": [
+            {
+              "name": "id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "mob",
+              "type": "grimscape::models::index::Mob"
+            },
+            {
+              "name": "adventurer",
+              "type": "grimscape::models::index::Adventurer"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "grimscape::events::Imob_hit",
+          "items": [
+            {
+              "type": "function",
+              "name": "ensure_abi",
+              "inputs": [
+                {
+                  "name": "model",
+                  "type": "grimscape::events::MobHit"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "grimscape::events::mob_hit::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "tag": "grimscape-MobHit",
+      "qualified_path": "grimscape::events::mob_hit",
+      "manifest_name": "grimscape-MobHit-1079782b"
+    },
+    {
+      "kind": "DojoModel",
+      "members": [
+        {
+          "name": "id",
+          "type": "u32",
+          "key": true
+        },
+        {
+          "name": "mob",
+          "type": "Mob",
+          "key": false
+        }
+      ],
+      "class_hash": "0x5386adff7d2fcec0f2d28d421ae1037a6d2d86763e50238ecc1e4b8eacd1e60",
+      "original_class_hash": "0x5386adff7d2fcec0f2d28d421ae1037a6d2d86763e50238ecc1e4b8eacd1e60",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DojoModelImpl",
+          "interface_name": "dojo::model::model::IModel"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::option::Option::<core::integer::u32>",
+          "variants": [
+            {
+              "name": "Some",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "None",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u8>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u8>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::layout::FieldLayout",
+          "members": [
+            {
+              "name": "selector",
+              "type": "core::felt252"
+            },
+            {
+              "name": "layout",
+              "type": "dojo::model::layout::Layout"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::FieldLayout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::layout::Layout>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::layout::Layout>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::layout::Layout",
+          "variants": [
+            {
+              "name": "Fixed",
+              "type": "core::array::Span::<core::integer::u8>"
+            },
+            {
+              "name": "Struct",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::layout::Layout>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            },
+            {
+              "name": "Enum",
+              "type": "core::array::Span::<dojo::model::layout::FieldLayout>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Member",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "ty",
+              "type": "dojo::model::introspect::Ty"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Member>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Struct",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<dojo::model::introspect::Member>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::model::introspect::Enum",
+          "members": [
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "attrs",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "children",
+              "type": "core::array::Span::<(core::felt252, dojo::model::introspect::Ty)>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<dojo::model::introspect::Ty>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<dojo::model::introspect::Ty>"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "dojo::model::introspect::Ty",
+          "variants": [
+            {
+              "name": "Primitive",
+              "type": "core::felt252"
+            },
+            {
+              "name": "Struct",
+              "type": "dojo::model::introspect::Struct"
+            },
+            {
+              "name": "Enum",
+              "type": "dojo::model::introspect::Enum"
+            },
+            {
+              "name": "Tuple",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "Array",
+              "type": "core::array::Span::<dojo::model::introspect::Ty>"
+            },
+            {
+              "name": "ByteArray",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::model::model::IModel",
+          "items": [
+            {
+              "type": "function",
+              "name": "name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "tag",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "version",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::integer::u8"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "selector",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "name_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "namespace_hash",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::felt252"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "unpacked_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "packed_size",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::option::Option::<core::integer::u32>"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "layout",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::layout::Layout"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "schema",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::model::introspect::Ty"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "mob_updateImpl",
+          "interface_name": "grimscape::events::Imob_update"
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::models::index::Mob",
+          "members": [
+            {
+              "name": "realm_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "dungeon_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "adventurer_id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "x",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "y",
+              "type": "core::integer::i32"
+            },
+            {
+              "name": "id",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "position",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "distance",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "next",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "beast",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "health",
+              "type": "core::integer::u16"
+            },
+            {
+              "name": "base_health",
+              "type": "core::integer::u16"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "grimscape::events::MobUpdate",
+          "members": [
+            {
+              "name": "id",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "mob",
+              "type": "grimscape::models::index::Mob"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "grimscape::events::Imob_update",
+          "items": [
+            {
+              "type": "function",
+              "name": "ensure_abi",
+              "inputs": [
+                {
+                  "name": "model",
+                  "type": "grimscape::events::MobUpdate"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "grimscape::events::mob_update::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "tag": "grimscape-MobUpdate",
+      "qualified_path": "grimscape::events::mob_update",
+      "manifest_name": "grimscape-MobUpdate-3948e5b2"
     },
     {
       "kind": "DojoModel",

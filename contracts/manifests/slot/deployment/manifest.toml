@@ -1,0 +1,343 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
+original_class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
+abi = "manifests/slot/deployment/abis/dojo-world.json"
+address = "0x4fe80dbb6052e4702cc25e5c4f2b14d70a63e2af28c6363d08fa8e387a92b7a"
+transaction_hash = "0xdf810f784c3ec9e9c6d60db90fc093bed9febefb7c1cffb7ca9d8633fedcbb"
+block_number = 3
+seed = "grimscape"
+manifest_name = "dojo-world"
+
+[world.metadata]
+profile_name = "slot"
+rpc_url = "https://api.cartridge.gg/x/grimscape/katana"
+
+[base]
+kind = "Class"
+class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/dojo-base.json"
+tag = "dojo-base"
+manifest_name = "dojo-base"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x7ed26f49b77cb5b7b2144fae087637a741f98b079f93c8c8c86dd8a3e1004f"
+class_hash = "0x4083b22ee7bc90ad90691a76b32a24dbda3b4b5a03b2e4d7c41f150447aeaaa"
+original_class_hash = "0x4083b22ee7bc90ad90691a76b32a24dbda3b4b5a03b2e4d7c41f150447aeaaa"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/slot/deployment/abis/contracts/grimscape-campagn-358d0cce.json"
+reads = []
+writes = [
+    "grimscape-Player",
+    "grimscape-Realm",
+    "grimscape-Dungeon",
+    "grimscape-Room",
+    "grimscape-Adventurer",
+    "grimscape-Mob",
+]
+init_calldata = []
+tag = "grimscape-campagn"
+systems = [
+    "signup",
+    "rename",
+    "create",
+    "perform",
+    "multiperform",
+]
+manifest_name = "grimscape-campagn-358d0cce"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff"
+original_class_hash = "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff"
+abi = "manifests/slot/deployment/abis/models/grimscape-Adventurer-1ffbe10a.json"
+tag = "grimscape-Adventurer"
+qualified_path = "grimscape::models::index::adventurer"
+manifest_name = "grimscape-Adventurer-1ffbe10a"
+
+[[models.members]]
+name = "realm_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "dungeon_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "x"
+type = "i32"
+key = false
+
+[[models.members]]
+name = "y"
+type = "i32"
+key = false
+
+[[models.members]]
+name = "position"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "health"
+type = "u16"
+key = false
+
+[[models.members]]
+name = "base_health"
+type = "u16"
+key = false
+
+[[models.members]]
+name = "xp"
+type = "u16"
+key = false
+
+[[models.members]]
+name = "gold"
+type = "u16"
+key = false
+
+[[models.members]]
+name = "weapon"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "gears"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "attributes"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "seed"
+type = "felt252"
+key = false
+
+[[models.members]]
+name = "player_id"
+type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x42e27db99d48f01b5e63189bdc1d410432019af1c64a7ad50047ac3a7dc7baa"
+original_class_hash = "0x42e27db99d48f01b5e63189bdc1d410432019af1c64a7ad50047ac3a7dc7baa"
+abi = "manifests/slot/deployment/abis/models/grimscape-Dungeon-8e7b8b82.json"
+tag = "grimscape-Dungeon"
+qualified_path = "grimscape::models::index::dungeon"
+manifest_name = "grimscape-Dungeon-8e7b8b82"
+
+[[models.members]]
+name = "realm_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "nonce"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "claimer"
+type = "felt252"
+key = false
+
+[[models.members]]
+name = "seed"
+type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x6f1d9bd032ca3de2e32b0cb0b6988d293bfa11447beebafc6cb784f56a2e688"
+original_class_hash = "0x6f1d9bd032ca3de2e32b0cb0b6988d293bfa11447beebafc6cb784f56a2e688"
+abi = "manifests/slot/deployment/abis/models/grimscape-Mob-3a6da169.json"
+tag = "grimscape-Mob"
+qualified_path = "grimscape::models::index::mob"
+manifest_name = "grimscape-Mob-3a6da169"
+
+[[models.members]]
+name = "realm_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "dungeon_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "adventurer_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "x"
+type = "i32"
+key = true
+
+[[models.members]]
+name = "y"
+type = "i32"
+key = true
+
+[[models.members]]
+name = "id"
+type = "u8"
+key = true
+
+[[models.members]]
+name = "position"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "distance"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "next"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "beast"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "health"
+type = "u16"
+key = false
+
+[[models.members]]
+name = "base_health"
+type = "u16"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x7a942fd7613f092de3e6dc5d1d898fdc32680efc0cbb81d9304ac4a464d80bd"
+original_class_hash = "0x7a942fd7613f092de3e6dc5d1d898fdc32680efc0cbb81d9304ac4a464d80bd"
+abi = "manifests/slot/deployment/abis/models/grimscape-Player-560a0042.json"
+tag = "grimscape-Player"
+qualified_path = "grimscape::models::index::player"
+manifest_name = "grimscape-Player-560a0042"
+
+[[models.members]]
+name = "id"
+type = "felt252"
+key = true
+
+[[models.members]]
+name = "adventurer_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "name"
+type = "felt252"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x76bf5653e4b6885e3e191a7f0c92020ef438f7056f60e4ebb989169968ad604"
+original_class_hash = "0x76bf5653e4b6885e3e191a7f0c92020ef438f7056f60e4ebb989169968ad604"
+abi = "manifests/slot/deployment/abis/models/grimscape-Realm-58d8aeac.json"
+tag = "grimscape-Realm"
+qualified_path = "grimscape::models::index::realm"
+manifest_name = "grimscape-Realm-58d8aeac"
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "dungeon_count"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x5889d597e3889d11f43ad20a1c718e9d2fcd8ba44292f61ee54faf317a6046"
+original_class_hash = "0x5889d597e3889d11f43ad20a1c718e9d2fcd8ba44292f61ee54faf317a6046"
+abi = "manifests/slot/deployment/abis/models/grimscape-Room-58989322.json"
+tag = "grimscape-Room"
+qualified_path = "grimscape::models::index::room"
+manifest_name = "grimscape-Room-58989322"
+
+[[models.members]]
+name = "realm_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "dungeon_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "adventurer_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "x"
+type = "i32"
+key = true
+
+[[models.members]]
+name = "y"
+type = "i32"
+key = true
+
+[[models.members]]
+name = "width"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "height"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "mob_count"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "entities"
+type = "felt252"
+key = false
+
+[[models.members]]
+name = "grid"
+type = "felt252"
+key = false
+
+[[models.members]]
+name = "seed"
+type = "felt252"
+key = false

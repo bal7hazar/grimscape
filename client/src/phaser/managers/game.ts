@@ -15,7 +15,10 @@ class GameManager {
   public mobs: Mob[] = [];
   public create: () => void = () => {};
   public perform: (options: { move: boolean }, args: { direction: Direction }) => void = () => {};
+  public multiperform: (args: { directions: Direction[] }) => void = () => {};
   public direction: Direction = new Direction(DirectionType.None);
+  public adventurerUpdates: { order: number, adventurer: Adventurer }[] = [];
+  public mobUpdates: { order: number, mob: Mob }[] = [];
 
   constructor() {
     if (GameManager.instance) {
@@ -77,6 +80,10 @@ class GameManager {
     this.perform = action;
   }
 
+  setMultiperform(action: (args: { directions: Direction[] }) => void) {
+    this.multiperform = action
+  }
+
   callCreate() {
     if (!this.create) return;
     this.create();
@@ -86,6 +93,21 @@ class GameManager {
     if (!this.perform || !this.adventurer) return;
     const args = { direction: this.getDirection() };
     this.perform(options, args);
+  }
+
+  callMultiperform(args: { directions: Direction[] }) {
+    if (!this.multiperform || !this.adventurer) return;
+    this.multiperform(args);
+  }
+
+  addAdventurerUpdate(order: number, adventurer: Adventurer | null) {
+    if (!adventurer) return;
+    this.adventurerUpdates.push({ order, adventurer });
+  }
+
+  addMobUpdate(order: number, mob: Mob | null) {
+    if (!mob) return;
+    this.mobUpdates.push({ order, mob });
   }
 }
 

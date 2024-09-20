@@ -1,5 +1,7 @@
 mod constants;
 mod store;
+mod events;
+mod emitter;
 
 mod types {
     mod beast;

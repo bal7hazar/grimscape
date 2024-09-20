@@ -29,6 +29,7 @@ pub struct Dungeon {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
+#[dojo::event]
 pub struct Adventurer {
     #[key]
     pub realm_id: u32,
@@ -73,6 +74,7 @@ pub struct Room {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
+#[dojo::event]
 pub struct Mob {
     #[key]
     pub realm_id: u32,

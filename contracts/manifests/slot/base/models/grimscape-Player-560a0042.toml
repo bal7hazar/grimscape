@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x7a942fd7613f092de3e6dc5d1d898fdc32680efc0cbb81d9304ac4a464d80bd"
+original_class_hash = "0x7a942fd7613f092de3e6dc5d1d898fdc32680efc0cbb81d9304ac4a464d80bd"
+abi = "manifests/slot/base/abis/models/grimscape-Player-560a0042.json"
+tag = "grimscape-Player"
+qualified_path = "grimscape::models::index::player"
+manifest_name = "grimscape-Player-560a0042"
+
+[[members]]
+name = "id"
+type = "felt252"
+key = true
+
+[[members]]
+name = "adventurer_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "name"
+type = "felt252"
+key = false

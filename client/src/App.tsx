@@ -2,6 +2,7 @@ import { useRef } from "react";
 
 import { PhaserGame } from "@/phaser/PhaserGame";
 import { useActions } from "./hooks/useActions";
+import { useEvents } from "./hooks/useEvents";
 import { Header } from "./ui/containers/Header";
 import { ThemeProvider } from "./ui/elements/theme-provider";
 import { Overlay } from "./ui/modules/Overlay";
@@ -9,6 +10,7 @@ import { Overlay } from "./ui/modules/Overlay";
 function App() {
   const phaserRef = useRef(null);
   useActions();
+  useEvents();
 
   return (
     <div id="app" className="flex flex-col items-center">

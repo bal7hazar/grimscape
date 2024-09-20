@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac"
+original_class_hash = "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac"
+abi = "manifests/dev/base/abis/models/grimscape-AdventurerUpdate-3f687141.json"
+tag = "grimscape-AdventurerUpdate"
+qualified_path = "grimscape::events::adventurer_update"
+manifest_name = "grimscape-AdventurerUpdate-3f687141"
+
+[[members]]
+name = "id"
+type = "u32"
+key = true
+
+[[members]]
+name = "adventurer"
+type = "Adventurer"
+key = false

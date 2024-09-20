@@ -1,0 +1,62 @@
+kind = "DojoModel"
+class_hash = "0x5889d597e3889d11f43ad20a1c718e9d2fcd8ba44292f61ee54faf317a6046"
+original_class_hash = "0x5889d597e3889d11f43ad20a1c718e9d2fcd8ba44292f61ee54faf317a6046"
+abi = "manifests/slot/base/abis/models/grimscape-Room-58989322.json"
+tag = "grimscape-Room"
+qualified_path = "grimscape::models::index::room"
+manifest_name = "grimscape-Room-58989322"
+
+[[members]]
+name = "realm_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "dungeon_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "adventurer_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "x"
+type = "i32"
+key = true
+
+[[members]]
+name = "y"
+type = "i32"
+key = true
+
+[[members]]
+name = "width"
+type = "u8"
+key = false
+
+[[members]]
+name = "height"
+type = "u8"
+key = false
+
+[[members]]
+name = "mob_count"
+type = "u8"
+key = false
+
+[[members]]
+name = "entities"
+type = "felt252"
+key = false
+
+[[members]]
+name = "grid"
+type = "felt252"
+key = false
+
+[[members]]
+name = "seed"
+type = "felt252"
+key = false

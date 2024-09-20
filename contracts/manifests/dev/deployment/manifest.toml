@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x7ed26f49b77cb5b7b2144fae087637a741f98b079f93c8c8c86dd8a3e1004f"
-class_hash = "0x4083b22ee7bc90ad90691a76b32a24dbda3b4b5a03b2e4d7c41f150447aeaaa"
-original_class_hash = "0x4083b22ee7bc90ad90691a76b32a24dbda3b4b5a03b2e4d7c41f150447aeaaa"
+class_hash = "0x5127a6f5ad0c48663a74df9f31a96c42c8189718730a7014e812f9620f6cebe"
+original_class_hash = "0x5127a6f5ad0c48663a74df9f31a96c42c8189718730a7014e812f9620f6cebe"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/grimscape-campagn-358d0cce.json"
 reads = []
@@ -134,6 +134,49 @@ key = false
 
 [[models]]
 kind = "DojoModel"
+class_hash = "0x7f4d2a4f744dc169ee1b0fbeea196e87bdca87f598e46d6cc2d343141abaa0c"
+original_class_hash = "0x7f4d2a4f744dc169ee1b0fbeea196e87bdca87f598e46d6cc2d343141abaa0c"
+abi = "manifests/dev/deployment/abis/models/grimscape-AdventurerHit-5ef66a0e.json"
+tag = "grimscape-AdventurerHit"
+qualified_path = "grimscape::events::adventurer_hit"
+manifest_name = "grimscape-AdventurerHit-5ef66a0e"
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "adventurer"
+type = "Adventurer"
+key = false
+
+[[models.members]]
+name = "mob"
+type = "Mob"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac"
+original_class_hash = "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac"
+abi = "manifests/dev/deployment/abis/models/grimscape-AdventurerUpdate-3f687141.json"
+tag = "grimscape-AdventurerUpdate"
+qualified_path = "grimscape::events::adventurer_update"
+manifest_name = "grimscape-AdventurerUpdate-3f687141"
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "adventurer"
+type = "Adventurer"
+key = false
+
+[[models]]
+kind = "DojoModel"
 class_hash = "0x42e27db99d48f01b5e63189bdc1d410432019af1c64a7ad50047ac3a7dc7baa"
 original_class_hash = "0x42e27db99d48f01b5e63189bdc1d410432019af1c64a7ad50047ac3a7dc7baa"
 abi = "manifests/dev/deployment/abis/models/grimscape-Dungeon-8e7b8b82.json"
@@ -233,6 +276,49 @@ key = false
 [[models.members]]
 name = "base_health"
 type = "u16"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x3f31a3cb9aadacff7e946c94cebe555026a07cba4f634d68e09f8df9d8a2455"
+original_class_hash = "0x3f31a3cb9aadacff7e946c94cebe555026a07cba4f634d68e09f8df9d8a2455"
+abi = "manifests/dev/deployment/abis/models/grimscape-MobHit-1079782b.json"
+tag = "grimscape-MobHit"
+qualified_path = "grimscape::events::mob_hit"
+manifest_name = "grimscape-MobHit-1079782b"
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "mob"
+type = "Mob"
+key = false
+
+[[models.members]]
+name = "adventurer"
+type = "Adventurer"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x5386adff7d2fcec0f2d28d421ae1037a6d2d86763e50238ecc1e4b8eacd1e60"
+original_class_hash = "0x5386adff7d2fcec0f2d28d421ae1037a6d2d86763e50238ecc1e4b8eacd1e60"
+abi = "manifests/dev/deployment/abis/models/grimscape-MobUpdate-3948e5b2.json"
+tag = "grimscape-MobUpdate"
+qualified_path = "grimscape::events::mob_update"
+manifest_name = "grimscape-MobUpdate-3948e5b2"
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "mob"
+type = "Mob"
 key = false
 
 [[models]]

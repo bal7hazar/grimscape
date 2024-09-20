@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x76bf5653e4b6885e3e191a7f0c92020ef438f7056f60e4ebb989169968ad604"
+original_class_hash = "0x76bf5653e4b6885e3e191a7f0c92020ef438f7056f60e4ebb989169968ad604"
+abi = "manifests/slot/base/abis/models/grimscape-Realm-58d8aeac.json"
+tag = "grimscape-Realm"
+qualified_path = "grimscape::models::index::realm"
+manifest_name = "grimscape-Realm-58d8aeac"
+
+[[members]]
+name = "id"
+type = "u32"
+key = true
+
+[[members]]
+name = "dungeon_count"
+type = "u32"
+key = false

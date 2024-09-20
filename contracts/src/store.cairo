@@ -11,7 +11,7 @@ use grimscape::models::player::Player;
 use grimscape::models::dungeon::Dungeon;
 use grimscape::models::room::Room;
 use grimscape::models::adventurer::Adventurer;
-use grimscape::models::mob::Mob;
+use grimscape::models::mob::{Mob, MobTrait};
 
 // Structs
 
@@ -106,7 +106,7 @@ impl StoreImpl of StoreTrait {
                 .get_mob(
                     room.realm_id, room.dungeon_id, room.adventurer_id, room.x, room.y, mob_id
                 );
-            if mob.position == position {
+            if !mob.is_dead() && mob.position == position {
                 break Option::Some(mob);
             }
             mob_id -= 1;

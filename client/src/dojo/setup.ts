@@ -1,4 +1,4 @@
-import { getSyncEntities } from "@dojoengine/state";
+import { getSyncEntities, getSyncEvents } from "@dojoengine/state";
 import * as torii from "@dojoengine/torii-client";
 import { models } from "./models.ts";
 import { systems } from "./systems.ts";
@@ -34,6 +34,12 @@ export async function setup({ ...config }: Config) {
     contractModels as any,
     [],
   );
+  const eventSync = getSyncEvents(
+    toriiClient,
+    contractModels as any,
+    undefined,
+    []
+  );
 
   const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
   const client = await setupWorld(dojoProvider);
@@ -66,12 +72,13 @@ export async function setup({ ...config }: Config) {
   return {
     client,
     clientModels,
-    contractComponents: clientModels,
+    contractModels,
     systemCalls: systems({ client, clientModels }),
     config,
     world,
     burnerManager,
     rpcProvider,
     sync,
+    eventSync,
   };
 }

@@ -12,6 +12,7 @@ export class Room {
   public mob_count: number;
   public entities: number[];
   public grid: number[];
+  public walkable: number[];
   public seed: string;
 
   constructor(room: ComponentValue) {
@@ -26,6 +27,7 @@ export class Room {
     this.entities = BigInt(room.entities).toString(2).split("").reverse().map((x, i) => !!parseInt(x) ? i : null).filter(x => x !== null);
     const size = this.width * this.height;
     this.grid = BigInt(room.grid).toString(2).padStart(size, '0').split('').reverse().map((value: string) => parseInt(value));
+    this.walkable = BigInt(room.grid ^ room.entities).toString(2).padStart(size, '0').split('').reverse().map((value: string) => parseInt(value));
     this.seed = `0x${room.seed.toString(16)}`.replace('0x0x', '0x');
   }
 
@@ -54,7 +56,7 @@ export class Room {
     // Reshape the grid from a 1d to a 2d array and invert the values
     const data = [];
     for (let i = 0; i < this.height; i++) {
-      const values = this.grid.slice(i * this.width, i * this.width + this.width);
+      const values = this.walkable.slice(i * this.width, i * this.width + this.width);
       data.push(values.map((value: number) => value === 0 ? 1 : 0));
     }
     // Find the path

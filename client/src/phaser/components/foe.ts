@@ -6,7 +6,7 @@ export default class Foe extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite;
   private step: number;
   private offset: { x: number, y: number };
-  private targets: { x: number; y: number }[] = [];
+  private targets: { order: number, x: number; y: number }[] = [];
   private animation: string = "skeleton-worker-idle-down";
   private direction: number = 3;
 
@@ -39,6 +39,17 @@ export default class Foe extends Phaser.GameObjects.Container {
     this.sort("depth");
   }
 
+  addTarget(order: number, mob: Mob) {
+    if (!this.visible || !mob) return;
+    // Add target to the list
+    const x = this.step * mob.getX() + this.offset.x;
+    const y = this.step * mob.getY() + this.offset.y;
+    this.targets.push({ order, x, y });
+    // Sort targets by ascending order
+    this.targets = this.targets.sort((a, b) => a.order - b.order);
+  }
+
+
   update(mob: Mob) {
     if (!this.visible) return;
 
@@ -68,7 +79,7 @@ export default class Foe extends Phaser.GameObjects.Container {
       // To sync case
       if (this.sprite.x !== x || this.sprite.y !== y) {
         const target = { x, y };
-        this.targets.push(target);
+        this.addTarget(999, mob);
         return;
       }
       // Nothing case

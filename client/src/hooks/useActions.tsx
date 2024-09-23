@@ -8,7 +8,6 @@ import { useDungeon } from "./useDungeon";
 import { useAdventurer } from "./useAdventurer";
 import { useMobs } from "./useMobs";
 import { useRooms } from "./useRooms";
-import { ROOM_HEIGHT, ROOM_WIDTH } from "@/dojo/constants";
 import { useRoom } from "./useRoom";
 import { Direction } from "@/dojo/types/direction";
 
@@ -20,7 +19,7 @@ export const useActions = () => {
     },
   } = useDojo();
 
-  const { player } = usePlayer({ playerId: account.address });
+  const { player } = usePlayer({ playerId: account?.address || "0x0" });
   const { realm } = useRealm();
   const { dungeon } = useDungeon({ dungeonId: realm?.dungeon_count || 0 });
   const { adventurer, key: adventurerKey } = useAdventurer({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });

@@ -83,6 +83,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.0.7
         version: 1.1.2(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@starknet-react/chains':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@starknet-react/core':
         specifier: ^2.8.3
         version: 2.9.0(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))
@@ -2502,6 +2505,9 @@ packages:
 
   '@starknet-react/chains@0.1.7':
     resolution: {integrity: sha512-UNh97I1SvuJKaAhKOmpEk8JcWuZWMlPG/ba2HcvFYL9x/47BKndJ+Da9V+iJFtkHUjreVnajT1snsaz1XMG+UQ==}
+
+  '@starknet-react/chains@3.0.0':
+    resolution: {integrity: sha512-+XulhJZMSDAEX9JXHI5qJetHlf1Xr0nc7K2+efUMotGxXM31ovKWc/0JFlJh9Jwjgik/UO859Dh4yLkb92PAhw==}
 
   '@starknet-react/core@2.3.0':
     resolution: {integrity: sha512-8g9d0Gs811gJnQJHVMxQoXYhv+y5/qug7NQ0lnJ51uytdBhr/Zz5wgeTHW4ZQ5Igljyvf+ks+yhp4P1iSvnSqA==}
@@ -8569,6 +8575,8 @@ snapshots:
   '@starknet-io/types-js@0.7.7': {}
 
   '@starknet-react/chains@0.1.7': {}
+
+  '@starknet-react/chains@3.0.0': {}
 
   '@starknet-react/core@2.3.0(get-starknet-core@3.3.3(starknet@6.11.0(encoding@0.1.13)))(react@18.3.1)(starknet@6.11.0(encoding@0.1.13))':
     dependencies:

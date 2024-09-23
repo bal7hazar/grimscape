@@ -12,7 +12,7 @@ export const Create = () => {
     },
   } = useDojo();
 
-  const { player } = usePlayer({ playerId: account.address });
+  const { player } = usePlayer({ playerId: account?.address || "0x0" });
   const { realm } = useRealm();
   const { adventurer } = useAdventurer({ dungeonId: realm?.dungeon_count || 0, adventurerId: player?.adventurerId || 0 });
 

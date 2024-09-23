@@ -3,6 +3,7 @@ import { useDojo } from "@/dojo/useDojo";
 import { usePlayer } from "@/hooks/usePlayer";
 import { Button } from "../elements/button";
 import { Input } from "../elements/input";
+import { useAccount, useConnect } from "@starknet-react/core";
 import {
   Dialog,
   DialogContent,
@@ -14,17 +15,22 @@ import {
   DialogClose
 } from "@/ui/elements/dialog"
 
-export const Signup = () => {
+export function Signup() {
   const {
     account: { account },
     setup: {
       systemCalls: { signup },
     },
   } = useDojo();
+  const { connect, connectors } = useConnect();
+  const { isConnected } = useAccount();
+  const connectWallet = async () => {
+    connect({ connector: connectors[0] });
+  };
 
   const [name, setName] = useState<string>("");
 
-  const { player } = usePlayer({ playerId: account.address });
+  const { player } = usePlayer({ playerId: account?.address || "0x0" });
 
   const disabled = useMemo(() => !name, [name]);
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,13 +38,14 @@ export const Signup = () => {
     setName(e.target.value)
   }, [setName]);
 
+  if (isConnected || !!account) return null;
   if (!!player) return null;
 
   return (
 
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="text-xl">Signup</Button>
+        <Button className="text-xl" onClick={() => connectWallet}>Signup</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

@@ -1390,11 +1390,11 @@
         {
           "type": "impl",
           "name": "IDojoInitImpl",
-          "interface_name": "grimscape::systems::campagn::campagn::IDojoInit"
+          "interface_name": "grimscape::systems::actions::actions::IDojoInit"
         },
         {
           "type": "interface",
-          "name": "grimscape::systems::campagn::campagn::IDojoInit",
+          "name": "grimscape::systems::actions::actions::IDojoInit",
           "items": [
             {
               "type": "function",
@@ -1407,12 +1407,12 @@
         },
         {
           "type": "impl",
-          "name": "CampagnImpl",
-          "interface_name": "grimscape::systems::campagn::ICampagn"
+          "name": "ActionsImpl",
+          "interface_name": "grimscape::systems::actions::IActions"
         },
         {
           "type": "interface",
-          "name": "grimscape::systems::campagn::ICampagn",
+          "name": "grimscape::systems::actions::IActions",
           "items": [
             {
               "type": "function",
@@ -1532,7 +1532,7 @@
         },
         {
           "type": "event",
-          "name": "grimscape::systems::campagn::campagn::Event",
+          "name": "grimscape::systems::actions::actions::Event",
           "kind": "enum",
           "variants": [
             {
@@ -1563,15 +1563,9 @@
         "grimscape-Mob"
       ],
       "init_calldata": [],
-      "tag": "grimscape-campagn",
-      "systems": [
-        "signup",
-        "rename",
-        "create",
-        "perform",
-        "multiperform"
-      ],
-      "manifest_name": "grimscape-campagn-358d0cce"
+      "tag": "grimscape-actions",
+      "systems": ["signup", "rename", "create", "perform", "multiperform"],
+      "manifest_name": "grimscape-actions-358d0cce"
     }
   ],
   "models": [

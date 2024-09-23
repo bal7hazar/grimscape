@@ -17,7 +17,7 @@ use grimscape::store::{Store, StoreTrait};
 use grimscape::models::player::{Player, PlayerTrait};
 use grimscape::models::realm::{Realm, RealmTrait};
 use grimscape::models::dungeon::{Dungeon, DungeonTrait};
-use grimscape::systems::campagn::ICampagnDispatcherTrait;
+use grimscape::systems::actions::IActionsDispatcherTrait;
 use grimscape::types::direction::Direction;
 
 // Test imports
@@ -25,7 +25,7 @@ use grimscape::types::direction::Direction;
 use grimscape::tests::setup::{setup, setup::{Systems, PLAYER}};
 
 #[test]
-fn test_campagn_multi() {
+fn test_actions_multi() {
     // [Setup]
     let (world, systems, context) = setup::spawn_game();
     let store = StoreTrait::new(world);
@@ -41,7 +41,7 @@ fn test_campagn_multi() {
         Direction::West.into(),
         Direction::West.into(), // Explore
     ];
-    systems.campagn.multiperform(directions);
+    systems.actions.multiperform(directions);
     let directions: Array<u8> = array![
         Direction::West.into(),
         Direction::None.into(), // Pass
@@ -49,7 +49,7 @@ fn test_campagn_multi() {
         Direction::North.into(), // Not executed
         Direction::North.into(), // Not executed
     ];
-    systems.campagn.multiperform(directions);
+    systems.actions.multiperform(directions);
     // [Assert] Mob
     let player = store.get_player(context.player_id);
     let realm = store.get_realm(constants::REALM_ID);

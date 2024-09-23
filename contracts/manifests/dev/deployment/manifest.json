@@ -1255,9 +1255,9 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x7ed26f49b77cb5b7b2144fae087637a741f98b079f93c8c8c86dd8a3e1004f",
-      "class_hash": "0x5127a6f5ad0c48663a74df9f31a96c42c8189718730a7014e812f9620f6cebe",
-      "original_class_hash": "0x5127a6f5ad0c48663a74df9f31a96c42c8189718730a7014e812f9620f6cebe",
+      "address": "0x7ae0e37028a667899c7223dcce01c90524e873973be283a01ffa9de103689c3",
+      "class_hash": "0x39170630c7d87d95b50c8ed00114bd423c34b8a57be90148b099c58b14c71bb",
+      "original_class_hash": "0x39170630c7d87d95b50c8ed00114bd423c34b8a57be90148b099c58b14c71bb",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1390,11 +1390,11 @@
         {
           "type": "impl",
           "name": "IDojoInitImpl",
-          "interface_name": "grimscape::systems::campagn::campagn::IDojoInit"
+          "interface_name": "grimscape::systems::actions::Actions::IDojoInit"
         },
         {
           "type": "interface",
-          "name": "grimscape::systems::campagn::campagn::IDojoInit",
+          "name": "grimscape::systems::actions::Actions::IDojoInit",
           "items": [
             {
               "type": "function",
@@ -1407,12 +1407,12 @@
         },
         {
           "type": "impl",
-          "name": "CampagnImpl",
-          "interface_name": "grimscape::systems::campagn::ICampagn"
+          "name": "ActionsImpl",
+          "interface_name": "grimscape::systems::actions::IActions"
         },
         {
           "type": "interface",
-          "name": "grimscape::systems::campagn::ICampagn",
+          "name": "grimscape::systems::actions::IActions",
           "items": [
             {
               "type": "function",
@@ -1532,7 +1532,7 @@
         },
         {
           "type": "event",
-          "name": "grimscape::systems::campagn::campagn::Event",
+          "name": "grimscape::systems::actions::Actions::Event",
           "kind": "enum",
           "variants": [
             {
@@ -1563,7 +1563,7 @@
         "grimscape-Mob"
       ],
       "init_calldata": [],
-      "tag": "grimscape-campagn",
+      "tag": "grimscape-Actions",
       "systems": [
         "signup",
         "rename",
@@ -1571,7 +1571,7 @@
         "perform",
         "multiperform"
       ],
-      "manifest_name": "grimscape-campagn-358d0cce"
+      "manifest_name": "grimscape-Actions-70c595b8"
     }
   ],
   "models": [

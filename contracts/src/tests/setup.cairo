@@ -18,8 +18,8 @@ mod setup {
     use grimscape::models::index;
     use grimscape::types::direction::Direction;
     use grimscape::helpers::seeder::Seeder;
-    use grimscape::systems::campagn::{
-        campagn, ICampagn, ICampagnDispatcher, ICampagnDispatcherTrait
+    use grimscape::systems::actions::{
+        Actions, IActions, IActionsDispatcher, IActionsDispatcherTrait
     };
 
     // Constants
@@ -32,7 +32,7 @@ mod setup {
 
     #[derive(Drop)]
     struct Systems {
-        campagn: ICampagnDispatcher,
+        actions: IActionsDispatcher,
     }
 
     #[derive(Drop)]
@@ -55,25 +55,25 @@ mod setup {
         let world = spawn_test_world(array!["grimscape"].span(), models.span());
 
         // [Setup] Systems
-        let campagn_address = world
-            .deploy_contract('campagn', campagn::TEST_CLASS_HASH.try_into().unwrap());
+        let actions_address = world
+            .deploy_contract('actions', Actions::TEST_CLASS_HASH.try_into().unwrap());
         let systems = Systems {
-            campagn: ICampagnDispatcher { contract_address: campagn_address },
+            actions: IActionsDispatcher { contract_address: actions_address },
         };
-        world.grant_writer(dojo::utils::bytearray_hash(@"grimscape"), campagn_address);
+        world.grant_writer(dojo::utils::bytearray_hash(@"grimscape"), actions_address);
         world.grant_writer(dojo::utils::bytearray_hash(@"grimscape"), PLAYER());
 
         // [Setup] Initialize
         set_block_timestamp(1);
         world
             .init_contract(
-                dojo::utils::selector_from_names(@"grimscape", @"campagn"), array![].span()
+                dojo::utils::selector_from_names(@"grimscape", @"Actions"), array![].span()
             );
 
         // [Setup] Context
         set_contract_address(PLAYER());
-        systems.campagn.signup(PLAYER_NAME);
-        systems.campagn.create();
+        systems.actions.signup(PLAYER_NAME);
+        systems.actions.create();
         let context = Context { player_id: PLAYER().into(), player_name: PLAYER_NAME, };
 
         // [Return]

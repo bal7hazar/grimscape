@@ -27,7 +27,7 @@ address = "0x7ed26f49b77cb5b7b2144fae087637a741f98b079f93c8c8c86dd8a3e1004f"
 class_hash = "0x4083b22ee7bc90ad90691a76b32a24dbda3b4b5a03b2e4d7c41f150447aeaaa"
 original_class_hash = "0x4083b22ee7bc90ad90691a76b32a24dbda3b4b5a03b2e4d7c41f150447aeaaa"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
-abi = "manifests/slot/deployment/abis/contracts/grimscape-campagn-358d0cce.json"
+abi = "manifests/slot/deployment/abis/contracts/grimscape-actions-358d0cce.json"
 reads = []
 writes = [
     "grimscape-Player",
@@ -38,7 +38,7 @@ writes = [
     "grimscape-Mob",
 ]
 init_calldata = []
-tag = "grimscape-campagn"
+tag = "grimscape-actions"
 systems = [
     "signup",
     "rename",
@@ -46,7 +46,7 @@ systems = [
     "perform",
     "multiperform",
 ]
-manifest_name = "grimscape-campagn-358d0cce"
+manifest_name = "grimscape-actions-358d0cce"
 
 [[models]]
 kind = "DojoModel"

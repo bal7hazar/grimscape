@@ -129,11 +129,11 @@
   {
     "type": "impl",
     "name": "IDojoInitImpl",
-    "interface_name": "grimscape::systems::actions::actions::IDojoInit"
+    "interface_name": "grimscape::systems::actions::Actions::IDojoInit"
   },
   {
     "type": "interface",
-    "name": "grimscape::systems::actions::actions::IDojoInit",
+    "name": "grimscape::systems::actions::Actions::IDojoInit",
     "items": [
       {
         "type": "function",
@@ -271,7 +271,7 @@
   },
   {
     "type": "event",
-    "name": "grimscape::systems::actions::actions::Event",
+    "name": "grimscape::systems::actions::Actions::Event",
     "kind": "enum",
     "variants": [
       {

@@ -27,7 +27,7 @@ mod components {
 }
 
 mod systems {
-    mod campagn;
+    mod actions;
 }
 
 mod helpers {
@@ -39,10 +39,10 @@ mod helpers {
 #[cfg(test)]
 mod tests {
     mod setup;
-    mod test_campagn_setup;
-    mod test_campagn_move;
-    mod test_campagn_explore;
-    mod test_campagn_interact;
-    mod test_campagn_multi;
+    mod test_actions_setup;
+    mod test_actions_move;
+    mod test_actions_explore;
+    mod test_actions_interact;
+    mod test_actions_multi;
 }
 

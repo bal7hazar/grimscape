@@ -17,14 +17,14 @@ use grimscape::store::{Store, StoreTrait};
 use grimscape::models::player::{Player, PlayerTrait};
 use grimscape::models::realm::{Realm, RealmTrait};
 use grimscape::models::dungeon::{Dungeon, DungeonTrait};
-use grimscape::systems::campagn::ICampagnDispatcherTrait;
+use grimscape::systems::actions::IActionsDispatcherTrait;
 
 // Test imports
 
 use grimscape::tests::setup::{setup, setup::{Systems, PLAYER}};
 
 #[test]
-fn test_campagn_setup() {
+fn test_actions_setup() {
     // [Setup]
     let (world, _, context) = setup::spawn_game();
     let store = StoreTrait::new(world);

@@ -17,7 +17,7 @@ use grimscape::store::{Store, StoreTrait};
 use grimscape::models::player::{Player, PlayerTrait};
 use grimscape::models::realm::{Realm, RealmTrait};
 use grimscape::models::dungeon::{Dungeon, DungeonTrait};
-use grimscape::systems::campagn::ICampagnDispatcherTrait;
+use grimscape::systems::actions::IActionsDispatcherTrait;
 use grimscape::types::direction::Direction;
 
 // Test imports
@@ -25,22 +25,22 @@ use grimscape::types::direction::Direction;
 use grimscape::tests::setup::{setup, setup::{Systems, PLAYER}};
 
 #[test]
-fn test_campagn_interact() {
+fn test_actions_interact() {
     // [Setup]
     let (world, systems, context) = setup::spawn_game();
     let store = StoreTrait::new(world);
 
     // [Move]
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::West.into());
-    systems.campagn.perform(Direction::None.into()); // Pass
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
+    systems.actions.perform(Direction::None.into()); // Pass
 
     // [Assert] Adventurer
     let player = store.get_player(context.player_id);
@@ -56,7 +56,7 @@ fn test_campagn_interact() {
     let mob_health = mob.health;
 
     // [Interact] Attack
-    systems.campagn.perform(Direction::North.into()); // 26 -> 16
+    systems.actions.perform(Direction::North.into()); // 26 -> 16
 
     // [Assert] Adventurer
     let adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
@@ -68,15 +68,15 @@ fn test_campagn_interact() {
     assert_eq!(mob.health < mob_health, true);
 
     // [Interact] Attack
-    systems.campagn.perform(Direction::North.into()); // 16 -> 6
-    systems.campagn.perform(Direction::North.into()); // 6 -> 0
+    systems.actions.perform(Direction::North.into()); // 16 -> 6
+    systems.actions.perform(Direction::North.into()); // 6 -> 0
 
     // [Assert] Mob
     let mob = store
         .get_mob(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y, mob.id);
     assert_eq!(mob.health, 0);
 
-    systems.campagn.perform(Direction::East.into());
-    systems.campagn.perform(Direction::East.into());
-    systems.campagn.perform(Direction::West.into());
+    systems.actions.perform(Direction::East.into());
+    systems.actions.perform(Direction::East.into());
+    systems.actions.perform(Direction::West.into());
 }

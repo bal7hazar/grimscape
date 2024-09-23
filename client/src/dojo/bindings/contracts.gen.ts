@@ -9,9 +9,9 @@ import * as models from "./models.gen";
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
 export async function setupWorld(provider: DojoProvider) {
-    // System definitions for `grimscape-campagn` contract
-    function campagn() {
-        const contract_name = "campagn";
+    // System definitions for `grimscape-actions` contract
+    function actions() {
+        const contract_name = "Actions";
 
         
         // Call the `signup` system with the specified Account and calldata
@@ -140,6 +140,6 @@ export async function setupWorld(provider: DojoProvider) {
     }
 
     return {
-        campagn: campagn()
+        actions: actions()
     };
 }

@@ -100,7 +100,7 @@ export function systems({
   const signup = async ({ account, ...props }: any) => {
     await handleTransaction(
       account,
-      () => client.campagn.signup({ account, ...props }),
+      () => client.actions.signup({ account, ...props }),
       "Player has been created.",
     );
   };
@@ -108,7 +108,7 @@ export function systems({
   const rename = async ({ account, ...props }: any) => {
     await handleTransaction(
       account,
-      () => client.campagn.rename({ account, ...props }),
+      () => client.actions.rename({ account, ...props }),
       "Player has been renamed.",
     );
   };
@@ -116,7 +116,7 @@ export function systems({
   const create = async ({ account, ...props }: any) => {
     await handleTransaction(
       account,
-      () => client.campagn.create({ account, ...props }),
+      () => client.actions.create({ account, ...props }),
       "Adventurer has been started.",
     );
   };
@@ -138,7 +138,7 @@ export function systems({
     try {
       await handleTransaction(
         account,
-        () => client.campagn.perform({ account, ...props }),
+        () => client.actions.perform({ account, ...props }),
         "Player has performed an action.",
       );
       // Sleep 5 seconds for indexer to index
@@ -154,7 +154,7 @@ export function systems({
   const multiperform = async ({ account, ...props }: any) => {
     await handleTransaction(
       account,
-      () => client.campagn.multiperform({ account, ...props }),
+      () => client.actions.multiperform({ account, ...props }),
       "Player has performed multi actions.",
     );
   }

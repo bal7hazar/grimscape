@@ -9,7 +9,7 @@ use dojo::world::IWorldDispatcher;
 // Interfaces
 
 #[starknet::interface]
-trait ICampagn<TContractState> {
+trait IActions<TContractState> {
     fn signup(self: @TContractState, name: felt252);
     fn rename(self: @TContractState, name: felt252);
     fn create(self: @TContractState);
@@ -20,7 +20,7 @@ trait ICampagn<TContractState> {
 // Contracts
 
 #[dojo::contract]
-mod campagn {
+mod Actions {
     // Component imports
 
     use grimscape::components::signable::SignableComponent;
@@ -28,7 +28,7 @@ mod campagn {
 
     // Local imports
 
-    use super::ICampagn;
+    use super::IActions;
 
     // Components
 
@@ -67,7 +67,7 @@ mod campagn {
     // Implementations
 
     #[abi(embed_v0)]
-    impl CampagnImpl of ICampagn<ContractState> {
+    impl ActionsImpl of IActions<ContractState> {
         fn signup(self: @ContractState, name: felt252) {
             self.signable.signup(self.world(), name)
         }

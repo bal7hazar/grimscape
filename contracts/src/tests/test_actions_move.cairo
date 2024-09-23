@@ -17,7 +17,7 @@ use grimscape::store::{Store, StoreTrait};
 use grimscape::models::player::{Player, PlayerTrait};
 use grimscape::models::realm::{Realm, RealmTrait};
 use grimscape::models::dungeon::{Dungeon, DungeonTrait};
-use grimscape::systems::campagn::ICampagnDispatcherTrait;
+use grimscape::systems::actions::IActionsDispatcherTrait;
 use grimscape::types::direction::Direction;
 
 // Test imports
@@ -25,7 +25,7 @@ use grimscape::types::direction::Direction;
 use grimscape::tests::setup::{setup, setup::{Systems, PLAYER}};
 
 #[test]
-fn test_campagn_move() {
+fn test_actions_move() {
     // [Setup]
     let (world, systems, context) = setup::spawn_game();
     let store = StoreTrait::new(world);
@@ -38,7 +38,7 @@ fn test_campagn_move() {
     let adventurer_position = adventurer.position;
 
     // [Move]
-    systems.campagn.perform(Direction::West.into());
+    systems.actions.perform(Direction::West.into());
 
     // [Assert] Adventurer
     let adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);

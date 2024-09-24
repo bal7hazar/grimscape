@@ -1,4 +1,3 @@
-import { Adventurer } from "@/dojo/models/adventurer";
 import GameManager from "../managers/game";
 import Character from "./character";
 import { Direction, DirectionType } from "@/dojo/types/direction";

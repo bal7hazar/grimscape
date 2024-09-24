@@ -27,6 +27,7 @@ export class Game extends Scene {
   private path: Phaser.GameObjects.Image[] = [];
   private positions: { x: number, y: number }[] = [];
   private target: { fromX: number; fromY: number; toX: number; toY: number } | null = null;
+  private adventurer: number = 0;
 
   constructor() {
     super("Game");
@@ -69,11 +70,11 @@ export class Game extends Scene {
       0,
       0,
       step,
-      true,
     );
     this.player = this.add.existing(character);
     this.player.setVisible(false);
     this.player.setDepth(2);
+    this.adventurer = GameManager.getInstance().adventurer?.id || 0;
 
     // Pathfinding
     this.input.on(Phaser.Input.Events.POINTER_DOWN, this.onPress, this);
@@ -98,7 +99,31 @@ export class Game extends Scene {
     EventBus.emit("current-scene-ready", this);
   }
 
+  reset() {
+    // Reset the scene
+    this.registry.destroy();
+    this.rooms = [];
+    this.room = "";
+    this.explores = [];
+    this.player?.destroy();
+    this.player = null;
+    this.foes = {};
+    this.request = 0;
+    this.path.forEach((rectangle) => rectangle.destroy());
+    this.path = [];
+    this.positions = [];
+    this.target = null;
+    this.scene.restart();
+  }
+
   update() {
+    // Check if the scene should be reset
+    const adventurer = GameManager.getInstance().adventurer;
+    if (adventurer?.id !== this.adventurer) {
+      this.reset();
+      return;
+    }
+
     // Update rooms
     const rooms = GameManager.getInstance().rooms;
     if (!!rooms && this.rooms.length !== rooms.length) {
@@ -150,7 +175,6 @@ export class Game extends Scene {
     }
 
     // Update player with state
-    const adventurer = GameManager.getInstance().adventurer;
     if (!!adventurer) {
       this.player?.setVisible(true);
       this.player?.update(adventurer);
@@ -170,7 +194,7 @@ export class Game extends Scene {
       mobs.forEach((mob) => {
         const key = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
         if (!this.foes[key]) {
-          const foe = new Foe(this, 0, 0, this.map!.tileWidth, key);
+          const foe = new Foe(this, 0, 0, this.map!.tileWidth, key, mob);
           this.foes[key] = foe;
           foe.setDepth(1);
           this.add.existing(foe);
@@ -258,7 +282,7 @@ export class Game extends Scene {
         this.path.forEach((rectangle) => rectangle.destroy());
         this.path = [];
         this.positions = [];
-        GameManager.getInstance().multiperform({ directions });
+        GameManager.getInstance().callMultiperform({ directions });
         return;
       }
     }

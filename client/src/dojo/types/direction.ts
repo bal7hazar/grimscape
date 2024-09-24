@@ -40,9 +40,37 @@ export class Direction {
         }
   }
 
-  public from(index: number): Direction {
-    const direction = Object.values(DirectionType)[index];
-    return new Direction(direction);
+  public static from(index: number): Direction {
+    switch (index) {
+      case 0:
+        return new Direction(DirectionType.None);
+      case 1:
+        return new Direction(DirectionType.North);
+      case 2:
+        return new Direction(DirectionType.East);
+      case 3:
+        return new Direction(DirectionType.South);
+      case 4:
+        return new Direction(DirectionType.West);
+      default:
+        return new Direction(DirectionType.None);
+    }
+  }
+
+  public static between(from: number, to: number) {
+    const delta = to - from;
+    if (delta === 1) {
+      return new Direction(DirectionType.West);
+    } else if (delta === -1) {
+      return new Direction(DirectionType.East);
+    } else if (delta > 0) {
+      return new Direction(DirectionType.North);
+    } else if (delta < 0) {
+      return new Direction(DirectionType.South);
+    } else {
+      console.error("Invalid direction");
+      return new Direction(DirectionType.None);
+    }
   }
 
   public next(position: number, width: number): number {

@@ -22,7 +22,6 @@ export default class Character extends Phaser.GameObjects.Container {
     x: number,
     y: number,
     step: number,
-    binded: boolean,
   ) {
     super(scene, x, y);
 
@@ -39,11 +38,6 @@ export default class Character extends Phaser.GameObjects.Container {
     );
     this.sprite.play(this.animation);
 
-    // Bindings
-    if (binded) {
-      this.bind();
-    }
-
     // Depths
     this.sprite.setDepth(2);
 
@@ -52,39 +46,16 @@ export default class Character extends Phaser.GameObjects.Container {
     this.sort("depth");
 
     // Events
-    EventBus.on("character-hit", (id: number) => {
+    EventBus.on("character-hit", (id: number, direction: number) => {
       if (this.events.includes(id)) return;
       this.events.push(id);
-      this.hit();
+      this.onHit(direction);
     }, this);
     EventBus.on("character-damage", (id: number) => {
       if (this.events.includes(id)) return;
       this.events.push(id);
-      this.damage();
+      this.onDamage();
     }, this);
-  }
-
-  bind() {
-    // Keyboard arrows
-    const up = this.scene.input.keyboard!.addKey("UP");
-    const down = this.scene.input.keyboard!.addKey("DOWN");
-    const left = this.scene.input.keyboard!.addKey("LEFT");
-    const right = this.scene.input.keyboard!.addKey("RIGHT");
-
-    // const w = this.scene.input.keyboard!.addKey("W");
-    // const s = this.scene.input.keyboard!.addKey("S");
-    // const a = this.scene.input.keyboard!.addKey("A");
-    // const d = this.scene.input.keyboard!.addKey("D");
-
-    // Listeners
-    up.on("down", () => this.move("UP"));
-    down.on("down", () => this.move("DOWN"));
-    left.on("down", () => this.move("LEFT"));
-    right.on("down", () => this.move("RIGHT"));
-    // w.on("down", () => this.move("UP"));
-    // s.on("down", () => this.move("DOWN"));
-    // a.on("down", () => this.move("LEFT"));
-    // d.on("down", () => this.move("RIGHT"));
   }
 
   addTarget(order: number, adventurer: Adventurer) {
@@ -160,18 +131,22 @@ export default class Character extends Phaser.GameObjects.Container {
     const speed = SPEED;
     if (this.sprite.x < target.x) {
       this.play("RIGHT");
+      GameManager.getInstance().setDirection(new Direction(DirectionType.East));
       const dx = Math.min(target.x - this.sprite.x, speed);
       this.sprite.x += dx;
     } else if (this.sprite.x > target.x) {
       this.play("LEFT");
+      GameManager.getInstance().setDirection(new Direction(DirectionType.West));
       const dx = Math.min(this.sprite.x - target.x, speed);
       this.sprite.x -= dx;
     } else if (this.sprite.y < target.y) {
       this.play("DOWN");
+      GameManager.getInstance().setDirection(new Direction(DirectionType.South));
       const dy = Math.min(target.y - this.sprite.y, speed);
       this.sprite.y += dy;
     } else if (this.sprite.y > target.y) {
       this.play("UP");
+      GameManager.getInstance().setDirection(new Direction(DirectionType.North));
       const dy = Math.min(this.sprite.y - target.y, speed);
       this.sprite.y -= dy;
     }
@@ -201,54 +176,6 @@ export default class Character extends Phaser.GameObjects.Container {
     return !entities.includes(next);
   }
 
-  move(direction: "UP" | "DOWN" | "LEFT" | "RIGHT") {
-    const adventurer = GameManager.getInstance().adventurer;
-    if (this.targets.length > 0 || !this.visible || !this.layers || !adventurer) return;
-    const initial = { x: this.sprite.x, y: this.sprite.y };
-    switch (direction) {
-      case "UP":
-        const north = new Direction(DirectionType.North);
-        const up = { x: initial.x, y: initial.y - this.step };
-        if (this.collision(up.x, up.y)) return;
-        if (this.available(adventurer.position, north)) {
-          this.targets.push({ order: 999, x: up.x, y: up.y});
-        }
-        GameManager.getInstance().setDirection(north);
-        GameManager.getInstance().callPerform({ move: this.available(adventurer.position, north) });
-        break;
-      case "DOWN":
-        const south = new Direction(DirectionType.South);
-        const down = { x: initial.x, y: initial.y + this.step };
-        if (this.collision(down.x, down.y)) return;
-        if (this.available(adventurer.position, south)) {
-          this.targets.push({ order: 999, x: down.x, y: down.y});
-        }
-        GameManager.getInstance().setDirection(south);
-        GameManager.getInstance().callPerform({ move: this.available(adventurer.position, south) });
-        break;
-      case "LEFT":
-        const west = new Direction(DirectionType.West);
-        const left = { x: initial.x - this.step, y: initial.y };
-        if (this.collision(left.x, left.y)) return;
-        if (this.available(adventurer.position, west)) {
-          this.targets.push({ order: 999, x: left.x, y: left.y});
-        }
-        GameManager.getInstance().setDirection(west);
-        GameManager.getInstance().callPerform({ move: this.available(adventurer.position, west) });
-        break;
-      case "RIGHT":
-        const east = new Direction(DirectionType.East);
-        const right = { x: initial.x + this.step, y: initial.y };
-        if (this.collision(right.x, right.y)) return;
-        if (this.available(adventurer.position, east)) {
-          this.targets.push({ order: 999, x: right.x, y: right.y});
-        }
-        GameManager.getInstance().setDirection(east);
-        GameManager.getInstance().callPerform({ move: this.available(adventurer.position, east) });
-        break;
-    }
-  }
-
   setCollision(layers: Phaser.Tilemaps.TilemapLayer[]) {
     this.layers = layers;
   }
@@ -269,12 +196,13 @@ export default class Character extends Phaser.GameObjects.Container {
     }
   }
 
-  damage() {
+  onDamage() {
     const animation = `human-fighter-damage-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);
   }
 
-  hit() {
+  onHit(direction: number) {
+    GameManager.getInstance().setDirection(Direction.from(direction));
     const animation = `human-fighter-hit-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);
   }

@@ -1,6 +1,6 @@
 import { useDojo } from "@/dojo/useDojo";
 import { Component, ComponentUpdate, ComponentValue, World } from "@dojoengine/recs";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { defineComponentSystem } from "@dojoengine/recs";
 import { Adventurer } from "@/dojo/models/adventurer";
 import { Mob } from "@/dojo/models/mob";
@@ -15,8 +15,6 @@ export const useEvents = () => {
     },
   } = useDojo();
 
-  const [identifiers, setIdentifiers] = useState<number[]>([]);
-
   const handleAdventurerUpdate = (update: ComponentUpdate) => {
     const identifier = update.value[0]?.id;
     const adventurer = new Adventurer(update.value[0]?.adventurer as ComponentValue);
@@ -29,7 +27,8 @@ export const useEvents = () => {
     const identifier = update.value[0]?.id;
     // const adventurer = new Adventurer(update.value[0]?.adventurer as ComponentValue);
     const mob = new Mob(update.value[0]?.mob as ComponentValue);
-    setTimeout(() => EventBus.emit("character-hit", identifier), 50);
+    const direction = update.value[0]?.direction;
+    setTimeout(() => EventBus.emit("character-hit", identifier, direction), 50);
     setTimeout(() => EventBus.emit("mob-damage", identifier, mob), 100);
   }
   
@@ -45,6 +44,7 @@ export const useEvents = () => {
     const identifier = update.value[0]?.id;
     const mob = new Mob(update.value[0]?.mob as ComponentValue);
     const direction = update.value[0]?.direction;
+    console.log(update.value[0]);
     setTimeout(() => EventBus.emit("mob-hit", identifier, mob, direction), 150);
     setTimeout(() => EventBus.emit("character-damage", identifier), 200);
   }
@@ -58,7 +58,7 @@ export const useEvents = () => {
       world,
       component,
       (update: ComponentUpdate) => {
-        if (update.value[0]?.time * 1000 <= Date.now() - 100000) return;
+        if (update.value[0]?.time * 1000 <= Date.now() - 20000) return;
         handler(update);
       },
       { runOnInit: false }

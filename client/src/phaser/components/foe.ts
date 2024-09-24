@@ -1,5 +1,7 @@
 import { Mob } from "@/dojo/models/mob";
 import { EventBus } from "../EventBus";
+import { Direction } from "@/dojo/types/direction";
+import GameManager from "../managers/game";
 
 const SPEED: number = 1;
 
@@ -14,6 +16,9 @@ export default class Foe extends Phaser.GameObjects.Container {
   private animations: string[] = [];
   private identifier: string;
   private events: number[] = [];
+  private hitbox: Phaser.GameObjects.Rectangle;
+  private pointer: { x: number, y: number } = { x: 0, y: 0 };
+  private mob: Mob;
 
   constructor(
     scene: Phaser.Scene,
@@ -21,12 +26,14 @@ export default class Foe extends Phaser.GameObjects.Container {
     y: number,
     step: number,
     identifier: string,
+    mob: Mob,
   ) {
     super(scene, x, y);
 
     // Parameters
     this.identifier = identifier;
     this.step = step;
+    this.mob = mob;
     this.offset = { x: step / 2, y:  2 * step / 5 };
 
     // Images
@@ -38,23 +45,41 @@ export default class Foe extends Phaser.GameObjects.Container {
     );
     this.sprite.play(this.animation);
 
+    // Hitbox
+    this.hitbox = new Phaser.GameObjects.Rectangle(
+      scene,
+      x,
+      y,
+      12,
+      12,
+    );
+    this.hitbox.setInteractive();
+
+    // Listeners
+    this.hitbox.on("pointerdown", this.onPress, this);
+    this.hitbox.on("pointerup", this.onRelease, this);
+    this.hitbox.on("pointerover", this.onEnter, this);
+    this.hitbox.on("pointerout", this.onlLeave, this);
+
     // Depths
     this.sprite.setDepth(2);
+    this.hitbox.setDepth(3);
 
     // Add to container
     this.add(this.sprite);
+    this.add(this.hitbox);
     this.sort("depth");
 
     // Events
     EventBus.on("mob-hit", (id: number, mob: Mob, direction: number) => {
       if (this.events.includes(id)) return;
       this.events.push(id);
-      this.hit(mob, direction);
+      this.onHit(mob, direction);
     }, this);
     EventBus.on("mob-damage", (id: number, mob: Mob) => {
       if (this.events.includes(id)) return;
       this.events.push(id);
-      this.damage(mob);
+      this.onDamage(mob);
     }, this);
   }
 
@@ -70,6 +95,7 @@ export default class Foe extends Phaser.GameObjects.Container {
 
 
   update(mob: Mob) {
+    this.mob = mob;
     if (!this.visible || this.fighting) return;
 
     // Fighting animation cases
@@ -102,6 +128,8 @@ export default class Foe extends Phaser.GameObjects.Container {
       if (this.sprite.x === 0 && this.sprite.y === 0) {
         this.sprite.x = x;
         this.sprite.y = y;
+        this.hitbox.x = x;
+        this.hitbox.y = y;
         return;
       }
       // To sync case
@@ -135,18 +163,22 @@ export default class Foe extends Phaser.GameObjects.Container {
       this.play("RIGHT");
       const dx = Math.min(target.x - this.sprite.x, speed);
       this.sprite.x += dx;
+      this.hitbox.x += dx;
     } else if (this.sprite.x > target.x) {
       this.play("LEFT");
       const dx = Math.min(this.sprite.x - target.x, speed);
       this.sprite.x -= dx;
+      this.hitbox.x -= dx;
     } else if (this.sprite.y < target.y) {
       this.play("DOWN");
       const dy = Math.min(target.y - this.sprite.y, speed);
       this.sprite.y += dy;
+      this.hitbox.y += dy;
     } else if (this.sprite.y > target.y) {
       this.play("UP");
       const dy = Math.min(this.sprite.y - target.y, speed);
       this.sprite.y -= dy;
+      this.hitbox.y -= dy;
     }
   }
 
@@ -174,18 +206,38 @@ export default class Foe extends Phaser.GameObjects.Container {
     }
   }
 
-  damage(mob: Mob) {
+  onDamage(mob: Mob) {
     const identifier = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
     if (identifier != this.identifier) return;
     const animation = `skeleton-worker-damage-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);
   }
 
-  hit(mob: Mob, direction: number) {
+  onHit(mob: Mob, direction: number) {
     const identifier = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
     if (identifier != this.identifier) return;
     this.direction = direction;
     const animation = `skeleton-worker-hit-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);
+  }
+
+  onPress(pointer: Phaser.Input.Pointer) {
+    this.pointer = { x: pointer.x, y: pointer.y };
+  }
+
+  onRelease(pointer: Phaser.Input.Pointer) {
+    if (Phaser.Math.Distance.Between(this.pointer.x, this.pointer.y, pointer.x, pointer.y) > 2) return;
+    const adventurer = GameManager.getInstance().adventurer;
+    if (!adventurer) return;
+    const direction = Direction.between(adventurer.position, this.mob.position);
+    GameManager.getInstance().callMultiperform({ directions: [direction] });
+  }
+
+  onEnter(pointer: Phaser.Input.Pointer) {
+    this.sprite.setAlpha(0.5);
+  }
+
+  onlLeave(pointer: Phaser.Input.Pointer) {
+    this.sprite.clearAlpha();
   }
 }

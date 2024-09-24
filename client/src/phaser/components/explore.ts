@@ -27,6 +27,8 @@ export default class Explore extends Phaser.GameObjects.Container {
     // Listeners
     this.image.on('pointerdown', this.onPress, this);
     this.image.on('pointerup', this.onRelease, this);
+    this.image.on("pointerover", this.onEnter, this);
+    this.image.on("pointerout", this.onLeave, this);
  
     // Add to container
     this.add(this.image);
@@ -76,5 +78,17 @@ export default class Explore extends Phaser.GameObjects.Container {
     // Asset effect
     this.image.setScale(0.6);
     setTimeout(() => this.image.setScale(0.5), 100);
+  }
+
+  onEnter(pointer: Phaser.Input.Pointer) {
+    if (this.disabled) return;
+    this.image.setTint(0x00ff00);
+    this.image.setAlpha(0.8);
+  }
+
+  onLeave(pointer: Phaser.Input.Pointer) {
+    if (this.disabled) return;
+    this.image.clearTint();
+    this.image.setAlpha(1);
   }
 }

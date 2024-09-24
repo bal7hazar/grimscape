@@ -101,7 +101,7 @@ mod tests {
         assert_eq!(DirectionTrait::from(1, 2) == Direction::West, true);
         assert_eq!(DirectionTrait::from(2, 1) == Direction::East, true);
         assert_eq!(DirectionTrait::from(1, 1) == Direction::None, true);
-        assert_eq!(DirectionTrait::from(1, 3) == Direction::South, true);
-        assert_eq!(DirectionTrait::from(3, 1) == Direction::North, true);
+        assert_eq!(DirectionTrait::from(1, 3) == Direction::North, true);
+        assert_eq!(DirectionTrait::from(3, 1) == Direction::South, true);
     }
 }

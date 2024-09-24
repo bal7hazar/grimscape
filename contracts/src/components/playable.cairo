@@ -25,7 +25,7 @@ mod PlayableComponent {
     use grimscape::models::adventurer::{Adventurer, AdventurerTrait, AdventurerAssert};
     use grimscape::models::mob::{Mob, MobTrait, MobAssert, MobItem, MobPartialOrd};
     use grimscape::types::beast::{Beast, BeastTrait};
-    use grimscape::types::direction::Direction;
+    use grimscape::types::direction::{Direction, DirectionTrait};
     use grimscape::helpers::seeder::Seeder;
 
     // Errors
@@ -226,19 +226,18 @@ mod PlayableComponent {
                         .explore(
                             direction, ref realm, ref dungeon, ref adventurer, ref room, ref store
                         );
-                    break;
+                } else {
+                    self
+                        .move(
+                            direction,
+                            ref realm,
+                            ref dungeon,
+                            ref adventurer,
+                            ref room,
+                            ref store,
+                            ref emitter
+                        );
                 }
-
-                self
-                    .move(
-                        direction,
-                        ref realm,
-                        ref dungeon,
-                        ref adventurer,
-                        ref room,
-                        ref store,
-                        ref emitter
-                    );
             };
 
             // [Effect] Update entities
@@ -264,11 +263,12 @@ mod PlayableComponent {
         ) {
             // [Effect] Move adventurer
             let from = adventurer.position;
-            adventurer.move(direction.into());
+            adventurer.move(direction);
             room.move(from, adventurer.position);
 
             // [Event]
-            emitter.emit_adventurer_update(adventurer);
+            let time = get_block_timestamp();
+            emitter.emit_adventurer_update(adventurer, direction.into(), time);
 
             // [Effect] Move mobs
             self.move_mobs(ref room, ref adventurer, ref store, ref emitter);
@@ -296,7 +296,8 @@ mod PlayableComponent {
             store.set_mob(mob);
 
             // [Event]
-            emitter.emit_adventurer_hit(adventurer, mob);
+            let time = get_block_timestamp();
+            emitter.emit_adventurer_hit(adventurer, mob, direction.into(), time);
 
             // [Effect] Move mobs
             self.move_mobs(ref room, ref adventurer, ref store, ref emitter);
@@ -410,11 +411,13 @@ mod PlayableComponent {
                     continue;
                 }
                 // [Effect] Attack if the next position is the same as the adventurer
+                let time = get_block_timestamp();
+                let direction: Direction = DirectionTrait::from(mob.position, next);
                 if next == adventurer.position {
                     // [Effect] Attack adventurer
                     adventurer.take(mob.damage());
                     // [Event]
-                    emitter.emit_mob_hit(mob, adventurer);
+                    emitter.emit_mob_hit(mob, direction.into(), time);
                     continue;
                 }
                 // [Effect] Move mob
@@ -423,7 +426,7 @@ mod PlayableComponent {
                 // [Effect] Update mob
                 store.set_mob(mob);
                 // [Event] Emit mob update
-                emitter.emit_mob_update(mob);
+                emitter.emit_mob_update(mob, direction.into(), time);
             };
         }
     }

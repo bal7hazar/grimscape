@@ -501,6 +501,14 @@
       {
         "name": "mob",
         "type": "grimscape::models::index::Mob"
+      },
+      {
+        "name": "direction",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "time",
+        "type": "core::integer::u64"
       }
     ]
   },

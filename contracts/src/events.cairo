@@ -10,6 +10,8 @@ struct AdventurerUpdate {
     #[key]
     id: u32,
     adventurer: Adventurer,
+    direction: u8,
+    time: u64,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -20,6 +22,8 @@ struct AdventurerHit {
     id: u32,
     adventurer: Adventurer,
     mob: Mob,
+    direction: u8,
+    time: u64,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -29,6 +33,8 @@ struct MobUpdate {
     #[key]
     id: u32,
     mob: Mob,
+    direction: u8,
+    time: u64,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -38,5 +44,6 @@ struct MobHit {
     #[key]
     id: u32,
     mob: Mob,
-    adventurer: Adventurer,
+    direction: u8,
+    time: u64,
 }

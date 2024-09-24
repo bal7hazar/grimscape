@@ -29,26 +29,28 @@ impl EmitterImpl of EmitterTrait {
     }
 
     #[inline]
-    fn emit_adventurer_update(self: Emitter, adventurer: Adventurer) {
-        let _event = AdventurerUpdate { id: self.world.uuid(), adventurer, };
+    fn emit_adventurer_update(self: Emitter, adventurer: Adventurer, direction: u8, time: u64) {
+        let _event = AdventurerUpdate { id: self.world.uuid(), adventurer, direction, time };
         emit!(self.world, (_event,));
     }
 
     #[inline]
-    fn emit_adventurer_hit(self: Emitter, adventurer: Adventurer, mob: Mob) {
-        let _event = AdventurerHit { id: self.world.uuid(), adventurer, mob, };
+    fn emit_adventurer_hit(
+        self: Emitter, adventurer: Adventurer, mob: Mob, direction: u8, time: u64
+    ) {
+        let _event = AdventurerHit { id: self.world.uuid(), adventurer, mob, direction, time };
         emit!(self.world, (_event,));
     }
 
     #[inline]
-    fn emit_mob_update(self: Emitter, mob: Mob) {
-        let _event = MobUpdate { id: self.world.uuid(), mob, };
+    fn emit_mob_update(self: Emitter, mob: Mob, direction: u8, time: u64) {
+        let _event = MobUpdate { id: self.world.uuid(), mob, direction, time };
         emit!(self.world, (_event,));
     }
 
     #[inline]
-    fn emit_mob_hit(self: Emitter, mob: Mob, adventurer: Adventurer) {
-        let _event = MobHit { id: self.world.uuid(), mob, adventurer, };
+    fn emit_mob_hit(self: Emitter, mob: Mob, direction: u8, time: u64) {
+        let _event = MobHit { id: self.world.uuid(), mob, direction, time };
         emit!(self.world, (_event,));
     }
 }

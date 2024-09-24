@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac"
-original_class_hash = "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac"
+class_hash = "0x55b1b22ce16fe7e597d41434583468a5d1dbaa09f1da3ee1b037bbf640f1315"
+original_class_hash = "0x55b1b22ce16fe7e597d41434583468a5d1dbaa09f1da3ee1b037bbf640f1315"
 abi = "manifests/dev/base/abis/models/grimscape-AdventurerUpdate-3f687141.json"
 tag = "grimscape-AdventurerUpdate"
 qualified_path = "grimscape::events::adventurer_update"
@@ -14,4 +14,14 @@ key = true
 [[members]]
 name = "adventurer"
 type = "Adventurer"
+key = false
+
+[[members]]
+name = "direction"
+type = "u8"
+key = false
+
+[[members]]
+name = "time"
+type = "u64"
 key = false

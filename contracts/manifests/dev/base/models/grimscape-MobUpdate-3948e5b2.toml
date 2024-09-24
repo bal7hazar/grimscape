@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x5386adff7d2fcec0f2d28d421ae1037a6d2d86763e50238ecc1e4b8eacd1e60"
-original_class_hash = "0x5386adff7d2fcec0f2d28d421ae1037a6d2d86763e50238ecc1e4b8eacd1e60"
+class_hash = "0x610e461ac3d27243a5b61a297c1004cee5cb2189e06f7f897a70cf3727b1139"
+original_class_hash = "0x610e461ac3d27243a5b61a297c1004cee5cb2189e06f7f897a70cf3727b1139"
 abi = "manifests/dev/base/abis/models/grimscape-MobUpdate-3948e5b2.json"
 tag = "grimscape-MobUpdate"
 qualified_path = "grimscape::events::mob_update"
@@ -14,4 +14,14 @@ key = true
 [[members]]
 name = "mob"
 type = "Mob"
+key = false
+
+[[members]]
+name = "direction"
+type = "u8"
+key = false
+
+[[members]]
+name = "time"
+type = "u64"
 key = false

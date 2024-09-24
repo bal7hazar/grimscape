@@ -422,72 +422,6 @@
   },
   {
     "type": "struct",
-    "name": "grimscape::models::index::Adventurer",
-    "members": [
-      {
-        "name": "realm_id",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "dungeon_id",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "id",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "x",
-        "type": "core::integer::i32"
-      },
-      {
-        "name": "y",
-        "type": "core::integer::i32"
-      },
-      {
-        "name": "position",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "health",
-        "type": "core::integer::u16"
-      },
-      {
-        "name": "base_health",
-        "type": "core::integer::u16"
-      },
-      {
-        "name": "xp",
-        "type": "core::integer::u16"
-      },
-      {
-        "name": "gold",
-        "type": "core::integer::u16"
-      },
-      {
-        "name": "weapon",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "gears",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "attributes",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "seed",
-        "type": "core::felt252"
-      },
-      {
-        "name": "player_id",
-        "type": "core::felt252"
-      }
-    ]
-  },
-  {
-    "type": "struct",
     "name": "grimscape::events::MobHit",
     "members": [
       {
@@ -499,8 +433,12 @@
         "type": "grimscape::models::index::Mob"
       },
       {
-        "name": "adventurer",
-        "type": "grimscape::models::index::Adventurer"
+        "name": "direction",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "time",
+        "type": "core::integer::u64"
       }
     ]
   },

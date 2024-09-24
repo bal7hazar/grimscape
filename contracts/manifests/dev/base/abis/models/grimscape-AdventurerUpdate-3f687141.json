@@ -443,6 +443,14 @@
       {
         "name": "adventurer",
         "type": "grimscape::models::index::Adventurer"
+      },
+      {
+        "name": "direction",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "time",
+        "type": "core::integer::u64"
       }
     ]
   },

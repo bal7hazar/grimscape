@@ -1256,8 +1256,8 @@
     {
       "kind": "DojoContract",
       "address": "0x7ae0e37028a667899c7223dcce01c90524e873973be283a01ffa9de103689c3",
-      "class_hash": "0x39170630c7d87d95b50c8ed00114bd423c34b8a57be90148b099c58b14c71bb",
-      "original_class_hash": "0x39170630c7d87d95b50c8ed00114bd423c34b8a57be90148b099c58b14c71bb",
+      "class_hash": "0xc0a8022c206a4f2061a9fca1a559913d2e03be37a0fa4cc0935d702070456b",
+      "original_class_hash": "0xc0a8022c206a4f2061a9fca1a559913d2e03be37a0fa4cc0935d702070456b",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2136,10 +2136,20 @@
           "name": "mob",
           "type": "Mob",
           "key": false
+        },
+        {
+          "name": "direction",
+          "type": "u8",
+          "key": false
+        },
+        {
+          "name": "time",
+          "type": "u64",
+          "key": false
         }
       ],
-      "class_hash": "0x7f4d2a4f744dc169ee1b0fbeea196e87bdca87f598e46d6cc2d343141abaa0c",
-      "original_class_hash": "0x7f4d2a4f744dc169ee1b0fbeea196e87bdca87f598e46d6cc2d343141abaa0c",
+      "class_hash": "0x70a4b60fcc00267e29a84e98a5faeec44a00addebab58e271eba86fe9b6414a",
+      "original_class_hash": "0x70a4b60fcc00267e29a84e98a5faeec44a00addebab58e271eba86fe9b6414a",
       "abi": [
         {
           "type": "impl",
@@ -2643,6 +2653,14 @@
             {
               "name": "mob",
               "type": "grimscape::models::index::Mob"
+            },
+            {
+              "name": "direction",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "time",
+              "type": "core::integer::u64"
             }
           ]
         },
@@ -2687,10 +2705,20 @@
           "name": "adventurer",
           "type": "Adventurer",
           "key": false
+        },
+        {
+          "name": "direction",
+          "type": "u8",
+          "key": false
+        },
+        {
+          "name": "time",
+          "type": "u64",
+          "key": false
         }
       ],
-      "class_hash": "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac",
-      "original_class_hash": "0x7d403aaf929595fa8d6539e0e177132b5579053a5d3e157799f116c0a6709ac",
+      "class_hash": "0x55b1b22ce16fe7e597d41434583468a5d1dbaa09f1da3ee1b037bbf640f1315",
+      "original_class_hash": "0x55b1b22ce16fe7e597d41434583468a5d1dbaa09f1da3ee1b037bbf640f1315",
       "abi": [
         {
           "type": "impl",
@@ -3136,6 +3164,14 @@
             {
               "name": "adventurer",
               "type": "grimscape::models::index::Adventurer"
+            },
+            {
+              "name": "direction",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "time",
+              "type": "core::integer::u64"
             }
           ]
         },
@@ -4153,13 +4189,18 @@
           "key": false
         },
         {
-          "name": "adventurer",
-          "type": "Adventurer",
+          "name": "direction",
+          "type": "u8",
+          "key": false
+        },
+        {
+          "name": "time",
+          "type": "u64",
           "key": false
         }
       ],
-      "class_hash": "0x3f31a3cb9aadacff7e946c94cebe555026a07cba4f634d68e09f8df9d8a2455",
-      "original_class_hash": "0x3f31a3cb9aadacff7e946c94cebe555026a07cba4f634d68e09f8df9d8a2455",
+      "class_hash": "0x7ce5ff9a420feb749c1367c091a6c7ec0dd231a85c871ad912c4929e7a7096c",
+      "original_class_hash": "0x7ce5ff9a420feb749c1367c091a6c7ec0dd231a85c871ad912c4929e7a7096c",
       "abi": [
         {
           "type": "impl",
@@ -4584,72 +4625,6 @@
         },
         {
           "type": "struct",
-          "name": "grimscape::models::index::Adventurer",
-          "members": [
-            {
-              "name": "realm_id",
-              "type": "core::integer::u32"
-            },
-            {
-              "name": "dungeon_id",
-              "type": "core::integer::u32"
-            },
-            {
-              "name": "id",
-              "type": "core::integer::u32"
-            },
-            {
-              "name": "x",
-              "type": "core::integer::i32"
-            },
-            {
-              "name": "y",
-              "type": "core::integer::i32"
-            },
-            {
-              "name": "position",
-              "type": "core::integer::u8"
-            },
-            {
-              "name": "health",
-              "type": "core::integer::u16"
-            },
-            {
-              "name": "base_health",
-              "type": "core::integer::u16"
-            },
-            {
-              "name": "xp",
-              "type": "core::integer::u16"
-            },
-            {
-              "name": "gold",
-              "type": "core::integer::u16"
-            },
-            {
-              "name": "weapon",
-              "type": "core::integer::u8"
-            },
-            {
-              "name": "gears",
-              "type": "core::integer::u32"
-            },
-            {
-              "name": "attributes",
-              "type": "core::integer::u32"
-            },
-            {
-              "name": "seed",
-              "type": "core::felt252"
-            },
-            {
-              "name": "player_id",
-              "type": "core::felt252"
-            }
-          ]
-        },
-        {
-          "type": "struct",
           "name": "grimscape::events::MobHit",
           "members": [
             {
@@ -4661,8 +4636,12 @@
               "type": "grimscape::models::index::Mob"
             },
             {
-              "name": "adventurer",
-              "type": "grimscape::models::index::Adventurer"
+              "name": "direction",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "time",
+              "type": "core::integer::u64"
             }
           ]
         },
@@ -4707,10 +4686,20 @@
           "name": "mob",
           "type": "Mob",
           "key": false
+        },
+        {
+          "name": "direction",
+          "type": "u8",
+          "key": false
+        },
+        {
+          "name": "time",
+          "type": "u64",
+          "key": false
         }
       ],
-      "class_hash": "0x5386adff7d2fcec0f2d28d421ae1037a6d2d86763e50238ecc1e4b8eacd1e60",
-      "original_class_hash": "0x5386adff7d2fcec0f2d28d421ae1037a6d2d86763e50238ecc1e4b8eacd1e60",
+      "class_hash": "0x610e461ac3d27243a5b61a297c1004cee5cb2189e06f7f897a70cf3727b1139",
+      "original_class_hash": "0x610e461ac3d27243a5b61a297c1004cee5cb2189e06f7f897a70cf3727b1139",
       "abi": [
         {
           "type": "impl",
@@ -5144,6 +5133,14 @@
             {
               "name": "mob",
               "type": "grimscape::models::index::Mob"
+            },
+            {
+              "name": "direction",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "time",
+              "type": "core::integer::u64"
             }
           ]
         },

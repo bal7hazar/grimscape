@@ -1,6 +1,6 @@
 kind = "DojoContract"
-class_hash = "0xc0a8022c206a4f2061a9fca1a559913d2e03be37a0fa4cc0935d702070456b"
-original_class_hash = "0xc0a8022c206a4f2061a9fca1a559913d2e03be37a0fa4cc0935d702070456b"
+class_hash = "0x978317066f9d729fe43491fc4c19e375d81af9e931aa69550c64694191f436"
+original_class_hash = "0x978317066f9d729fe43491fc4c19e375d81af9e931aa69550c64694191f436"
 base_class_hash = "0x0"
 abi = "manifests/dev/base/abis/contracts/grimscape-Actions-70c595b8.json"
 reads = []

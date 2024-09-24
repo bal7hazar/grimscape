@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "spawn.tmx",
+    "activeFile": "tileset.tsx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
@@ -17,8 +17,8 @@
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 221,
-                "y": 128.16666666666663
+                "x": 218.5,
+                "y": 125.83333333333333
             }
         },
         "spawn.tmx#tileset": {
@@ -45,8 +45,8 @@
     ],
     "project": "grimscape.tiled-project",
     "recentFiles": [
-        "tileset.tsx",
-        "spawn.tmx"
+        "spawn.tmx",
+        "tileset.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

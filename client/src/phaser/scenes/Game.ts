@@ -5,7 +5,9 @@ import GameManager from "../managers/game";
 import { Room } from "@/dojo/models/room";
 import Character from "../components/character";
 import Foe from "../components/foe";
-import { Direction } from "@/dojo/types/direction";
+import Explore from "../components/explore";
+import { Direction, DirectionType } from "@/dojo/types/direction";
+import { ROOM_HEIGHT, ROOM_WIDTH } from "@/dojo/constants";
 
 // Constants
 
@@ -17,6 +19,8 @@ export class Game extends Scene {
   tileset: Phaser.Tilemaps.Tileset | null = null;
   animatedTiles: any = undefined;
   rooms: string[] = [];
+  room: string = "";
+  explores: Explore[]= [];
   player: Character | null = null;
   foes: { [key: string]: Foe } = {};
   private request: number = 0;
@@ -41,6 +45,10 @@ export class Game extends Scene {
       "animatedTiles",
     );
     this.load.image("path", "assets/tilemaps/path.png");
+    this.load.image("arrow-up", "assets/tilemaps/arrow-up.png");
+    this.load.image("arrow-down", "assets/tilemaps/arrow-down.png");
+    this.load.image("arrow-left", "assets/tilemaps/arrow-left.png");
+    this.load.image("arrow-right", "assets/tilemaps/arrow-right.png");
     this.load.image("tiles", "assets/tilemaps/tileset.png");
     this.load.tilemapTiledJSON("tilemap", "assets/tilemaps/tilemap.json");
   }
@@ -104,10 +112,41 @@ export class Game extends Scene {
         // Store room
         this.rooms.push(key);
       });
+      
       // Update player layers
       this.player!.setCollision(this.map!.layers.map((layer) => layer.tilemapLayer));
       // Reset camera
       EventBus.emit("center-camera");
+    }
+
+    // Update explore arrows
+    const room = GameManager.getInstance().room;
+    const key = `${room?.x}-${room?.y}`;
+    if (!!room && key != this.room) {
+      this.explores.forEach((explore) => {
+        explore.image.destroy();
+        explore.destroy();
+    });
+      this.explores = [];
+      this.room = key;
+      const neighbors = [{ x: room.x - 1, y: room.y }, { x: room.x + 1, y: room.y }, { x: room.x, y: room.y - 1 }, { x: room.x, y: room.y + 1 }];
+      neighbors.forEach(({ x, y }: { x: number, y: number }) => {
+        const dx = x - room.x;
+        const dy = room.y - y;
+        const signX = dx == 0 ? 0 : dx / Math.abs(dx);
+        const signY = dy == 0 ? 0 : dy / Math.abs(dy);
+        const worldX = room.x * this.map!.width * this.map!.tileWidth + this.map!.widthInPixels / 2 + signX * ROOM_WIDTH / 2 * this.map!.tileWidth + signX * this.map!.tileWidth / 2;
+        const worldY = -room.y * this.map!.height * this.map!.tileWidth + this.map!.heightInPixels / 2 + signY * ROOM_HEIGHT / 2 * this.map!.tileWidth + signY * this.map!.tileWidth / 2;
+        const direction = dx === 0 ? (dy === 1 ? DirectionType.South : DirectionType.North) : (dx === 1 ? DirectionType.East : DirectionType.West);
+        const explore = new Explore(this, worldX, worldY, direction);
+        this.explores.push(explore);
+        this.add.existing(explore);
+      });
+    }
+    
+    // Update explores
+    if (!!this.explores && !!this.player) {
+      this.explores.forEach((explore) => explore.update(this.player!));
     }
 
     // Update player with state
@@ -131,7 +170,7 @@ export class Game extends Scene {
       mobs.forEach((mob) => {
         const key = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
         if (!this.foes[key]) {
-          const foe = new Foe(this, 0, 0, this.map!.tileWidth);
+          const foe = new Foe(this, 0, 0, this.map!.tileWidth, key);
           this.foes[key] = foe;
           foe.setDepth(1);
           this.add.existing(foe);
@@ -216,10 +255,10 @@ export class Game extends Scene {
       const last = this.positions[this.positions.length - 1];
       if (!!current && current.x === last.x && current.y === last.y) {
         const directions: Direction[] = Direction.extract(this.positions);
-        GameManager.getInstance().multiperform({ directions });
         this.path.forEach((rectangle) => rectangle.destroy());
         this.path = [];
         this.positions = [];
+        GameManager.getInstance().multiperform({ directions });
         return;
       }
     }
@@ -236,10 +275,9 @@ export class Game extends Scene {
     const { worldX, worldY } = pointer;
     const from = this.map!.worldToTileXY(this.player!.sprite.x, this.player!.sprite.y);
     const to = this.map!.worldToTileXY(worldX, worldY);
-    // Convert into local map coordinates
+    // Search path
     const room = GameManager.getInstance().room;
     if (!room || !from || !to) return;
-    // Search path
     this.positions = room.search(from, to);
     // Apply a tint modifier for each tile position in the path
     this.path = this.positions.map((position: { x: number, y: number }) => {

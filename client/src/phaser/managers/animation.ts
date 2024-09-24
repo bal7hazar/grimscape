@@ -189,6 +189,70 @@ class AnimationManager {
         frameRate: 5,
         repeat: 0,
       });
+      scene.anims.create({
+        key: `${resource}-hit-down`,
+        frames: scene.anims.generateFrameNumbers(`${resource}`, {
+          frames: [6, 7, 8],
+        }),
+        frameRate: 5,
+        repeat: 0,
+      });
+      scene.anims.create({
+        key: `${resource}-hit-right`,
+        frames: scene.anims.generateFrameNumbers(`${resource}`, {
+          frames: [6 + 29 * 2, 7 + 29 * 2, 8 + 29 * 2],
+        }),
+        frameRate: 5,
+        repeat: 0,
+      });
+      scene.anims.create({
+        key: `${resource}-hit-up`,
+        frames: scene.anims.generateFrameNumbers(`${resource}`, {
+          frames: [6 + 29 * 4, 7 + 29 * 4, 8 + 29 * 4],
+        }),
+        frameRate: 5,
+        repeat: 0,
+      });
+      scene.anims.create({
+        key: `${resource}-hit-left`,
+        frames: scene.anims.generateFrameNumbers(`${resource}`, {
+          frames: [6 + 29 * 6, 7 + 29 * 6, 8 + 29 * 6],
+        }),
+        frameRate: 5,
+        repeat: 0,
+      });
+      scene.anims.create({
+        key: `${resource}-damage-down`,
+        frames: scene.anims.generateFrameNumbers(`${resource}`, {
+          frames: [20, 21, 22],
+        }),
+        frameRate: 5,
+        repeat: 0,
+      });
+      scene.anims.create({
+        key: `${resource}-damage-right`,
+        frames: scene.anims.generateFrameNumbers(`${resource}`, {
+          frames: [20 + 29 * 2, 21 + 29 * 2, 22 + 29 * 2],
+        }),
+        frameRate: 5,
+        repeat: 0,
+      });
+      scene.anims.create({
+        key: `${resource}-damage-up`,
+        frames: scene.anims.generateFrameNumbers(`${resource}`, {
+          frames: [20 + 29 * 4, 21 + 29 * 4, 22 + 29 * 4],
+        }),
+        frameRate: 5,
+        repeat: 0,
+      });
+      scene.anims.create({
+        key: `${resource}-damage-left`,
+        frames: scene.anims.generateFrameNumbers(`${resource}`, {
+          frames: [20 + 29 * 6, 21 + 29 * 6, 22 + 29 * 6],
+        }),
+        frameRate: 5,
+        repeat: 0,
+      });
     });
   }
 }

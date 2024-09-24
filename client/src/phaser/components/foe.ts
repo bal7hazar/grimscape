@@ -1,4 +1,5 @@
 import { Mob } from "@/dojo/models/mob";
+import { EventBus } from "../EventBus";
 
 const SPEED: number = 1;
 
@@ -9,16 +10,22 @@ export default class Foe extends Phaser.GameObjects.Container {
   private targets: { order: number, x: number; y: number }[] = [];
   private animation: string = "skeleton-worker-idle-down";
   private direction: number = 3;
+  private fighting: boolean = false;
+  private animations: string[] = [];
+  private identifier: string;
+  private events: number[] = [];
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
     step: number,
+    identifier: string,
   ) {
     super(scene, x, y);
 
     // Parameters
+    this.identifier = identifier;
     this.step = step;
     this.offset = { x: step / 2, y:  2 * step / 5 };
 
@@ -37,6 +44,18 @@ export default class Foe extends Phaser.GameObjects.Container {
     // Add to container
     this.add(this.sprite);
     this.sort("depth");
+
+    // Events
+    EventBus.on("mob-hit", (id: number, mob: Mob, direction: number) => {
+      if (this.events.includes(id)) return;
+      this.events.push(id);
+      this.hit(mob, direction);
+    }, this);
+    EventBus.on("mob-damage", (id: number, mob: Mob) => {
+      if (this.events.includes(id)) return;
+      this.events.push(id);
+      this.damage(mob);
+    }, this);
   }
 
   addTarget(order: number, mob: Mob) {
@@ -51,7 +70,16 @@ export default class Foe extends Phaser.GameObjects.Container {
 
 
   update(mob: Mob) {
-    if (!this.visible) return;
+    if (!this.visible || this.fighting) return;
+
+    // Fighting animation cases
+    if (!!this.animations.length) {
+      this.fighting = true;
+      this.animation = this.animations.shift() || "skeleton-worker-idle-down";
+      this.sprite.play(this.animation, true);
+      setTimeout(() => this.fighting = false, 1000);
+      return;
+    }
 
     // Death case
     if (!mob.health) {
@@ -144,5 +172,20 @@ export default class Foe extends Phaser.GameObjects.Container {
       default:
         return "DOWN";
     }
+  }
+
+  damage(mob: Mob) {
+    const identifier = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
+    if (identifier != this.identifier) return;
+    const animation = `skeleton-worker-damage-${this.getDirection().toLowerCase()}`;
+    this.animations.push(animation);
+  }
+
+  hit(mob: Mob, direction: number) {
+    const identifier = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
+    if (identifier != this.identifier) return;
+    this.direction = direction;
+    const animation = `skeleton-worker-hit-${this.getDirection().toLowerCase()}`;
+    this.animations.push(animation);
   }
 }

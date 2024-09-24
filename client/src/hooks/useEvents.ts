@@ -1,10 +1,11 @@
 import { useDojo } from "@/dojo/useDojo";
 import { Component, ComponentUpdate, ComponentValue, World } from "@dojoengine/recs";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { defineComponentSystem } from "@dojoengine/recs";
 import { Adventurer } from "@/dojo/models/adventurer";
 import { Mob } from "@/dojo/models/mob";
 import GameManager from "@/phaser/managers/game";
+import { EventBus } from "@/phaser/EventBus";
 
 export const useEvents = () => {
   const {
@@ -13,6 +14,8 @@ export const useEvents = () => {
       world,
     },
   } = useDojo();
+
+  const [identifiers, setIdentifiers] = useState<number[]>([]);
 
   const handleAdventurerUpdate = (update: ComponentUpdate) => {
     const identifier = update.value[0]?.id;
@@ -23,7 +26,11 @@ export const useEvents = () => {
   };
 
   const handleAdventurerHit = (update: ComponentUpdate) => {
-    const adventurer = new Adventurer(update.value[0]?.adventurer as ComponentValue);
+    const identifier = update.value[0]?.id;
+    // const adventurer = new Adventurer(update.value[0]?.adventurer as ComponentValue);
+    const mob = new Mob(update.value[0]?.mob as ComponentValue);
+    setTimeout(() => EventBus.emit("character-hit", identifier), 50);
+    setTimeout(() => EventBus.emit("mob-damage", identifier, mob), 100);
   }
   
   const handleMobUpdate = (update: ComponentUpdate) => {
@@ -35,7 +42,11 @@ export const useEvents = () => {
   }
 
   const handleMobHit = (update: ComponentUpdate) => {
+    const identifier = update.value[0]?.id;
     const mob = new Mob(update.value[0]?.mob as ComponentValue);
+    const direction = update.value[0]?.direction;
+    setTimeout(() => EventBus.emit("mob-hit", identifier, mob, direction), 150);
+    setTimeout(() => EventBus.emit("character-damage", identifier), 200);
   }
 
   const createEventStream = useCallback((
@@ -47,10 +58,7 @@ export const useEvents = () => {
       world,
       component,
       (update: ComponentUpdate) => {
-        // console.log(update.value[0]?.time * 1000 <= Date.now() - 100000);
-        // if (update.value[0]?.time * 1000 <= Date.now() - 100000) {
-        //   return;
-        // }
+        if (update.value[0]?.time * 1000 <= Date.now() - 100000) return;
         handler(update);
       },
       { runOnInit: false }

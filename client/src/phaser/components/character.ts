@@ -13,6 +13,9 @@ export default class Character extends Phaser.GameObjects.Container {
   private targets: { order: number, x: number; y: number }[] = [];
   private animation: string = "human-fighter-idle-down";
   private layers: Phaser.Tilemaps.TilemapLayer[] = [];
+  private fighting: boolean = false;
+  private animations: string[] = [];
+  private events: number[] = [];
 
   constructor(
     scene: Phaser.Scene,
@@ -47,6 +50,18 @@ export default class Character extends Phaser.GameObjects.Container {
     // Add to container
     this.add(this.sprite);
     this.sort("depth");
+
+    // Events
+    EventBus.on("character-hit", (id: number) => {
+      if (this.events.includes(id)) return;
+      this.events.push(id);
+      this.hit();
+    }, this);
+    EventBus.on("character-damage", (id: number) => {
+      if (this.events.includes(id)) return;
+      this.events.push(id);
+      this.damage();
+    }, this);
   }
 
   bind() {
@@ -83,7 +98,16 @@ export default class Character extends Phaser.GameObjects.Container {
   }
 
   update(adventurer: Adventurer) {
-    if (!this.visible) return;
+    if (!this.visible || this.fighting) return;
+
+    // Fighting animation cases
+    if (!!this.animations.length) {
+      this.fighting = true;
+      this.animation = this.animations.shift() || "human-fighter-idle-down";
+      this.sprite.play(this.animation, true);
+      setTimeout(() => this.fighting = false, 1000);
+      return;
+    }
 
     // Death case
     if (!adventurer.health) {
@@ -243,5 +267,15 @@ export default class Character extends Phaser.GameObjects.Container {
       default:
         return "DOWN";
     }
+  }
+
+  damage() {
+    const animation = `human-fighter-damage-${this.getDirection().toLowerCase()}`;
+    this.animations.push(animation);
+  }
+
+  hit() {
+    const animation = `human-fighter-hit-${this.getDirection().toLowerCase()}`;
+    this.animations.push(animation);
   }
 }

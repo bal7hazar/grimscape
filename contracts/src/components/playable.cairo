@@ -289,7 +289,7 @@ mod PlayableComponent {
             // TODO: manage different cases
             let target = room.next(adventurer.position, direction);
             let mut mob = store.search_mob(room, target).expect(errors::PLAYABLE_MOB_NOT_FOUND);
-            mob.take(adventurer.damage());
+            let damage = mob.take(adventurer.damage());
             if mob.is_dead() {
                 room.remove(target);
             }
@@ -297,7 +297,7 @@ mod PlayableComponent {
 
             // [Event]
             let time = get_block_timestamp();
-            emitter.emit_adventurer_hit(adventurer, mob, direction.into(), time);
+            emitter.emit_adventurer_hit(adventurer, mob, damage, direction.into(), time);
 
             // [Effect] Move mobs
             self.move_mobs(ref room, ref adventurer, ref store, ref emitter);
@@ -415,9 +415,9 @@ mod PlayableComponent {
                 let direction: Direction = DirectionTrait::from(mob.position, next);
                 if next == adventurer.position {
                     // [Effect] Attack adventurer
-                    adventurer.take(mob.damage());
+                    let damage = adventurer.take(mob.damage());
                     // [Event]
-                    emitter.emit_mob_hit(mob, direction.into(), time);
+                    emitter.emit_mob_hit(mob, damage, direction.into(), time);
                     continue;
                 }
                 // [Effect] Move mob

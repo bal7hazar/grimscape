@@ -27,9 +27,10 @@ export const useEvents = () => {
     const identifier = update.value[0]?.id;
     // const adventurer = new Adventurer(update.value[0]?.adventurer as ComponentValue);
     const mob = new Mob(update.value[0]?.mob as ComponentValue);
+    const damage = update.value[0]?.damage;
     const direction = update.value[0]?.direction;
     setTimeout(() => EventBus.emit("character-hit", identifier, direction), 50);
-    setTimeout(() => EventBus.emit("mob-damage", identifier, mob), 100);
+    setTimeout(() => EventBus.emit("mob-damage", identifier, mob, damage), 100);
   }
   
   const handleMobUpdate = (update: ComponentUpdate) => {
@@ -43,10 +44,11 @@ export const useEvents = () => {
   const handleMobHit = (update: ComponentUpdate) => {
     const identifier = update.value[0]?.id;
     const mob = new Mob(update.value[0]?.mob as ComponentValue);
+    const damage = update.value[0]?.damage;
     const direction = update.value[0]?.direction;
     console.log(update.value[0]);
     setTimeout(() => EventBus.emit("mob-hit", identifier, mob, direction), 150);
-    setTimeout(() => EventBus.emit("character-damage", identifier), 200);
+    setTimeout(() => EventBus.emit("character-damage", identifier, damage), 200);
   }
 
   const createEventStream = useCallback((

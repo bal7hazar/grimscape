@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x70a4b60fcc00267e29a84e98a5faeec44a00addebab58e271eba86fe9b6414a"
-original_class_hash = "0x70a4b60fcc00267e29a84e98a5faeec44a00addebab58e271eba86fe9b6414a"
+class_hash = "0x2a7ff8813d6f63b648d2f850d2e1744866deaa0a5cd05d60131b34e7f246906"
+original_class_hash = "0x2a7ff8813d6f63b648d2f850d2e1744866deaa0a5cd05d60131b34e7f246906"
 abi = "manifests/dev/base/abis/models/grimscape-AdventurerHit-5ef66a0e.json"
 tag = "grimscape-AdventurerHit"
 qualified_path = "grimscape::events::adventurer_hit"
@@ -19,6 +19,11 @@ key = false
 [[members]]
 name = "mob"
 type = "Mob"
+key = false
+
+[[members]]
+name = "damage"
+type = "u16"
 key = false
 
 [[members]]

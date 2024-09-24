@@ -19,6 +19,8 @@ export default class Foe extends Phaser.GameObjects.Container {
   private hitbox: Phaser.GameObjects.Rectangle;
   private pointer: { x: number, y: number } = { x: 0, y: 0 };
   private mob: Mob;
+  private text: Phaser.GameObjects.Text;
+
 
   constructor(
     scene: Phaser.Scene,
@@ -54,6 +56,11 @@ export default class Foe extends Phaser.GameObjects.Container {
       12,
     );
     this.hitbox.setInteractive();
+  
+    // Text damage
+    this.text = scene.add.text(x, y, "", { color: "#ff0000", fontSize: "8px" });
+    this.text.setOrigin(0.5);
+    this.text.setDepth(3);
 
     // Listeners
     this.hitbox.on("pointerdown", this.onPress, this);
@@ -68,6 +75,7 @@ export default class Foe extends Phaser.GameObjects.Container {
     // Add to container
     this.add(this.sprite);
     this.add(this.hitbox);
+    this.add(this.text);
     this.sort("depth");
 
     // Events
@@ -76,10 +84,10 @@ export default class Foe extends Phaser.GameObjects.Container {
       this.events.push(id);
       this.onHit(mob, direction);
     }, this);
-    EventBus.on("mob-damage", (id: number, mob: Mob) => {
+    EventBus.on("mob-damage", (id: number, mob: Mob, damage: number) => {
       if (this.events.includes(id)) return;
       this.events.push(id);
-      this.onDamage(mob);
+      this.onDamage(mob, damage);
     }, this);
   }
 
@@ -206,16 +214,30 @@ export default class Foe extends Phaser.GameObjects.Container {
     }
   }
 
-  onDamage(mob: Mob) {
+  onDamage(mob: Mob, damage: number) {
     const identifier = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
     if (identifier != this.identifier) return;
     // If the entity is performing a move, wait and try later
     if (this.targets.length) {
-      setTimeout(() => this.onDamage(mob), 200);
+      setTimeout(() => this.onDamage(mob, damage), 200);
       return;
     }
     const animation = `skeleton-worker-damage-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);
+    // Create a damage text above the character for a short time and moving up and fading out
+    this.text.setText(`-${damage}`);
+    this.text.x = this.sprite.x;
+    this.text.y = this.sprite.y - 10;
+    this.text.setAlpha(1);
+    setTimeout(() => {
+      this.scene.tweens.add({
+        targets: this.text,
+        y: this.text.y - 10,
+        alpha: 0,
+        duration: 1000,
+        ease: "Linear",
+      });
+    }, 100);
   }
 
   onHit(mob: Mob, direction: number) {

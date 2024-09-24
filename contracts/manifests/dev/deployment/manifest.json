@@ -1256,8 +1256,8 @@
     {
       "kind": "DojoContract",
       "address": "0x7ae0e37028a667899c7223dcce01c90524e873973be283a01ffa9de103689c3",
-      "class_hash": "0x978317066f9d729fe43491fc4c19e375d81af9e931aa69550c64694191f436",
-      "original_class_hash": "0x978317066f9d729fe43491fc4c19e375d81af9e931aa69550c64694191f436",
+      "class_hash": "0x5bfd1882d6b805bbbf9d047fecfd68145c4154a6574630e551404a6b8ebeb76",
+      "original_class_hash": "0x5bfd1882d6b805bbbf9d047fecfd68145c4154a6574630e551404a6b8ebeb76",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -2138,6 +2138,11 @@
           "key": false
         },
         {
+          "name": "damage",
+          "type": "u16",
+          "key": false
+        },
+        {
           "name": "direction",
           "type": "u8",
           "key": false
@@ -2148,8 +2153,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x70a4b60fcc00267e29a84e98a5faeec44a00addebab58e271eba86fe9b6414a",
-      "original_class_hash": "0x70a4b60fcc00267e29a84e98a5faeec44a00addebab58e271eba86fe9b6414a",
+      "class_hash": "0x2a7ff8813d6f63b648d2f850d2e1744866deaa0a5cd05d60131b34e7f246906",
+      "original_class_hash": "0x2a7ff8813d6f63b648d2f850d2e1744866deaa0a5cd05d60131b34e7f246906",
       "abi": [
         {
           "type": "impl",
@@ -2653,6 +2658,10 @@
             {
               "name": "mob",
               "type": "grimscape::models::index::Mob"
+            },
+            {
+              "name": "damage",
+              "type": "core::integer::u16"
             },
             {
               "name": "direction",
@@ -4189,6 +4198,11 @@
           "key": false
         },
         {
+          "name": "damage",
+          "type": "u16",
+          "key": false
+        },
+        {
           "name": "direction",
           "type": "u8",
           "key": false
@@ -4199,8 +4213,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x7ce5ff9a420feb749c1367c091a6c7ec0dd231a85c871ad912c4929e7a7096c",
-      "original_class_hash": "0x7ce5ff9a420feb749c1367c091a6c7ec0dd231a85c871ad912c4929e7a7096c",
+      "class_hash": "0x78f13f797abfb8b071724b8788ecc54beb8ef9419879e5cf625ce68d89b6bbc",
+      "original_class_hash": "0x78f13f797abfb8b071724b8788ecc54beb8ef9419879e5cf625ce68d89b6bbc",
       "abi": [
         {
           "type": "impl",
@@ -4634,6 +4648,10 @@
             {
               "name": "mob",
               "type": "grimscape::models::index::Mob"
+            },
+            {
+              "name": "damage",
+              "type": "core::integer::u16"
             },
             {
               "name": "direction",

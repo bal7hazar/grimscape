@@ -36,9 +36,11 @@ impl EmitterImpl of EmitterTrait {
 
     #[inline]
     fn emit_adventurer_hit(
-        self: Emitter, adventurer: Adventurer, mob: Mob, direction: u8, time: u64
+        self: Emitter, adventurer: Adventurer, mob: Mob, damage: u16, direction: u8, time: u64
     ) {
-        let _event = AdventurerHit { id: self.world.uuid(), adventurer, mob, direction, time };
+        let _event = AdventurerHit {
+            id: self.world.uuid(), adventurer, mob, damage, direction, time
+        };
         emit!(self.world, (_event,));
     }
 
@@ -49,8 +51,8 @@ impl EmitterImpl of EmitterTrait {
     }
 
     #[inline]
-    fn emit_mob_hit(self: Emitter, mob: Mob, direction: u8, time: u64) {
-        let _event = MobHit { id: self.world.uuid(), mob, direction, time };
+    fn emit_mob_hit(self: Emitter, mob: Mob, damage: u16, direction: u8, time: u64) {
+        let _event = MobHit { id: self.world.uuid(), mob, damage, direction, time };
         emit!(self.world, (_event,));
     }
 }

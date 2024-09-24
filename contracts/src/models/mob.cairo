@@ -75,8 +75,9 @@ impl MobImpl of MobTrait {
     }
 
     #[inline]
-    fn take(ref self: Mob, damage: u16) {
-        self.health -= core::cmp::min(self.health, damage.into());
+    fn take(ref self: Mob, damage: u16) -> u16 {
+        self.health -= core::cmp::min(self.health, damage);
+        damage
     }
 
     #[inline]

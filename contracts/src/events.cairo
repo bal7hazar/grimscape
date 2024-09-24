@@ -22,6 +22,7 @@ struct AdventurerHit {
     id: u32,
     adventurer: Adventurer,
     mob: Mob,
+    damage: u16,
     direction: u8,
     time: u64,
 }
@@ -44,6 +45,7 @@ struct MobHit {
     #[key]
     id: u32,
     mob: Mob,
+    damage: u16,
     direction: u8,
     time: u64,
 }

@@ -433,6 +433,10 @@
         "type": "grimscape::models::index::Mob"
       },
       {
+        "name": "damage",
+        "type": "core::integer::u16"
+      },
+      {
         "name": "direction",
         "type": "core::integer::u8"
       },

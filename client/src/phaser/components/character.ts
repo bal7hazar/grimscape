@@ -16,6 +16,7 @@ export default class Character extends Phaser.GameObjects.Container {
   private fighting: boolean = false;
   private animations: string[] = [];
   private events: number[] = [];
+  private text: Phaser.GameObjects.Text;
 
   constructor(
     scene: Phaser.Scene,
@@ -40,9 +41,15 @@ export default class Character extends Phaser.GameObjects.Container {
 
     // Depths
     this.sprite.setDepth(2);
+  
+    // Text damage
+    this.text = scene.add.text(x, y, "", { color: "#ff0000", fontSize: "8px" });
+    this.text.setOrigin(0.5);
+    this.text.setDepth(3);
 
     // Add to container
     this.add(this.sprite);
+    this.add(this.text);
     this.sort("depth");
 
     // Events
@@ -51,10 +58,10 @@ export default class Character extends Phaser.GameObjects.Container {
       this.events.push(id);
       this.onHit(direction);
     }, this);
-    EventBus.on("character-damage", (id: number) => {
+    EventBus.on("character-damage", (id: number, damage: number) => {
       if (this.events.includes(id)) return;
       this.events.push(id);
-      this.onDamage();
+      this.onDamage(damage);
     }, this);
   }
 
@@ -193,14 +200,28 @@ export default class Character extends Phaser.GameObjects.Container {
     }
   }
 
-  onDamage() {
+  onDamage(damage: number) {
     // If the entity is performing a move, wait and try later
     if (this.targets.length) {
-      setTimeout(() => this.onDamage(), 200);
+      setTimeout(() => this.onDamage(damage), 200);
       return;
     }
     const animation = `human-fighter-damage-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);
+    // Create a damage text above the character for a short time and moving up and fading out
+    this.text.setText(`-${damage}`);
+    this.text.x = this.sprite.x;
+    this.text.y = this.sprite.y - 10;
+    this.text.setAlpha(1);
+    setTimeout(() => {
+      this.scene.tweens.add({
+        targets: this.text,
+        y: this.text.y - 10,
+        alpha: 0,
+        duration: 1000,
+        ease: "Linear",
+      });
+    }, 100);
   }
 
   onHit(direction: number) {

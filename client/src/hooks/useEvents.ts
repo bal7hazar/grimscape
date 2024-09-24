@@ -46,7 +46,6 @@ export const useEvents = () => {
     const mob = new Mob(update.value[0]?.mob as ComponentValue);
     const damage = update.value[0]?.damage;
     const direction = update.value[0]?.direction;
-    console.log(update.value[0]);
     setTimeout(() => EventBus.emit("mob-hit", identifier, mob, direction), 150);
     setTimeout(() => EventBus.emit("character-damage", identifier, damage), 200);
   }

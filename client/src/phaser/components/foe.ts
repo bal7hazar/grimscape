@@ -209,6 +209,11 @@ export default class Foe extends Phaser.GameObjects.Container {
   onDamage(mob: Mob) {
     const identifier = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
     if (identifier != this.identifier) return;
+    // If the entity is performing a move, wait and try later
+    if (this.targets.length) {
+      setTimeout(() => this.onDamage(mob), 200);
+      return;
+    }
     const animation = `skeleton-worker-damage-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);
   }
@@ -216,6 +221,11 @@ export default class Foe extends Phaser.GameObjects.Container {
   onHit(mob: Mob, direction: number) {
     const identifier = `${mob.realm_id}-${mob.dungeon_id}-${mob.adventurer_id}-${mob.x}-${mob.y}-${mob.id}`;
     if (identifier != this.identifier) return;
+    // If the entity is performing a move, wait and try later
+    if (this.targets.length) {
+      setTimeout(() => this.onHit(mob, direction), 200);
+      return;
+    }
     this.direction = direction;
     const animation = `skeleton-worker-hit-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);

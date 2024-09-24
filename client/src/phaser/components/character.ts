@@ -197,11 +197,21 @@ export default class Character extends Phaser.GameObjects.Container {
   }
 
   onDamage() {
+    // If the entity is performing a move, wait and try later
+    if (this.targets.length) {
+      setTimeout(() => this.onDamage(), 200);
+      return;
+    }
     const animation = `human-fighter-damage-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);
   }
 
   onHit(direction: number) {
+    // If the entity is performing a move, wait and try later
+    if (this.targets.length) {
+      setTimeout(() => this.onHit(direction), 200);
+      return;
+    }
     GameManager.getInstance().setDirection(Direction.from(direction));
     const animation = `human-fighter-hit-${this.getDirection().toLowerCase()}`;
     this.animations.push(animation);

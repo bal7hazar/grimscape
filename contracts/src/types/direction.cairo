@@ -16,9 +16,9 @@ impl DirectionImpl of DirectionTrait {
         } else if from == to + 1 {
             Direction::East
         } else if from < to {
-            Direction::South
-        } else if from > to {
             Direction::North
+        } else if from > to {
+            Direction::South
         } else {
             Direction::None
         }

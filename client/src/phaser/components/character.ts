@@ -150,9 +150,6 @@ export default class Character extends Phaser.GameObjects.Container {
       const dy = Math.min(this.sprite.y - target.y, speed);
       this.sprite.y -= dy;
     }
-
-    // Update camera
-    EventBus.emit("center-camera");
   }
 
   play(direction: "UP" | "DOWN" | "LEFT" | "RIGHT") {

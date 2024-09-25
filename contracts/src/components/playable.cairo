@@ -291,6 +291,11 @@ mod PlayableComponent {
             let mut mob = store.search_mob(room, target).expect(errors::PLAYABLE_MOB_NOT_FOUND);
             let damage = mob.take(adventurer.damage());
             if mob.is_dead() {
+                // [Effect] Reward adventurer
+                let xp = mob.xp(adventurer.level());
+                let gold = mob.gold();
+                adventurer.reward(xp, gold);
+                // [Effect] Remove mob from the room
                 room.remove(target);
             }
             store.set_mob(mob);
@@ -332,7 +337,7 @@ mod PlayableComponent {
                 // [Effect] Add entities
                 room.add(adventurer.position);
                 let mut mobs = room.spawn_mobs();
-                self.spawn_mobs(room, ref mobs, ref store);
+                self.spawn_mobs(room, adventurer, ref mobs, ref store);
             } else {
                 // [Effect] Add new adventurer position
                 // [Info] It panics if the position is already in use
@@ -345,7 +350,11 @@ mod PlayableComponent {
 
         #[inline]
         fn spawn_mobs(
-            self: @ComponentState<TContractState>, room: Room, ref mobs: Array<u8>, ref store: Store
+            self: @ComponentState<TContractState>,
+            room: Room,
+            adventurer: Adventurer,
+            ref mobs: Array<u8>,
+            ref store: Store
         ) {
             let mut mob_id = 1;
             while let Option::Some(position) = mobs.pop_front() {
@@ -363,7 +372,7 @@ mod PlayableComponent {
                     beast
                 );
                 // [Effect] Store mob
-                mob.setup(1, seed);
+                mob.setup(adventurer.level(), seed);
                 store.set_mob(mob);
                 mob_id += 1;
             };

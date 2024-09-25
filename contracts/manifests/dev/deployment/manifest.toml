@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x7ae0e37028a667899c7223dcce01c90524e873973be283a01ffa9de103689c3"
-class_hash = "0x5bfd1882d6b805bbbf9d047fecfd68145c4154a6574630e551404a6b8ebeb76"
-original_class_hash = "0x5bfd1882d6b805bbbf9d047fecfd68145c4154a6574630e551404a6b8ebeb76"
+class_hash = "0x5450c06e3590f21bccb522730050a21acc621d0c1f27cd3bde8ba1bf10a265c"
+original_class_hash = "0x5450c06e3590f21bccb522730050a21acc621d0c1f27cd3bde8ba1bf10a265c"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/grimscape-Actions-70c595b8.json"
 reads = []
@@ -50,8 +50,8 @@ manifest_name = "grimscape-Actions-70c595b8"
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff"
-original_class_hash = "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff"
+class_hash = "0x2a2125e982dcf37996d2c7a2f440df7304ff7d18d8980aeb023909985728cfb"
+original_class_hash = "0x2a2125e982dcf37996d2c7a2f440df7304ff7d18d8980aeb023909985728cfb"
 abi = "manifests/dev/deployment/abis/models/grimscape-Adventurer-1ffbe10a.json"
 tag = "grimscape-Adventurer"
 qualified_path = "grimscape::models::index::adventurer"
@@ -113,6 +113,11 @@ type = "u8"
 key = false
 
 [[models.members]]
+name = "skill_points"
+type = "u8"
+key = false
+
+[[models.members]]
 name = "gears"
 type = "u32"
 key = false
@@ -134,8 +139,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x2a7ff8813d6f63b648d2f850d2e1744866deaa0a5cd05d60131b34e7f246906"
-original_class_hash = "0x2a7ff8813d6f63b648d2f850d2e1744866deaa0a5cd05d60131b34e7f246906"
+class_hash = "0x37fbc8f3f42d566de9aabdd15468cb4d0c12c0301cbe0a78d43c99fcfc317a0"
+original_class_hash = "0x37fbc8f3f42d566de9aabdd15468cb4d0c12c0301cbe0a78d43c99fcfc317a0"
 abi = "manifests/dev/deployment/abis/models/grimscape-AdventurerHit-5ef66a0e.json"
 tag = "grimscape-AdventurerHit"
 qualified_path = "grimscape::events::adventurer_hit"
@@ -173,8 +178,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x55b1b22ce16fe7e597d41434583468a5d1dbaa09f1da3ee1b037bbf640f1315"
-original_class_hash = "0x55b1b22ce16fe7e597d41434583468a5d1dbaa09f1da3ee1b037bbf640f1315"
+class_hash = "0x107fd8d458b8a055f017021cff501f7f9f4f9c03f7a8539aebea8b3c6569829"
+original_class_hash = "0x107fd8d458b8a055f017021cff501f7f9f4f9c03f7a8539aebea8b3c6569829"
 abi = "manifests/dev/deployment/abis/models/grimscape-AdventurerUpdate-3f687141.json"
 tag = "grimscape-AdventurerUpdate"
 qualified_path = "grimscape::events::adventurer_update"
@@ -236,8 +241,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x6f1d9bd032ca3de2e32b0cb0b6988d293bfa11447beebafc6cb784f56a2e688"
-original_class_hash = "0x6f1d9bd032ca3de2e32b0cb0b6988d293bfa11447beebafc6cb784f56a2e688"
+class_hash = "0x410ca895f3377222552c3a1ad4097e28876667d834d802e942056161f26dc57"
+original_class_hash = "0x410ca895f3377222552c3a1ad4097e28876667d834d802e942056161f26dc57"
 abi = "manifests/dev/deployment/abis/models/grimscape-Mob-3a6da169.json"
 tag = "grimscape-Mob"
 qualified_path = "grimscape::models::index::mob"
@@ -299,14 +304,19 @@ type = "u16"
 key = false
 
 [[models.members]]
+name = "level"
+type = "u8"
+key = false
+
+[[models.members]]
 name = "base_health"
 type = "u16"
 key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x78f13f797abfb8b071724b8788ecc54beb8ef9419879e5cf625ce68d89b6bbc"
-original_class_hash = "0x78f13f797abfb8b071724b8788ecc54beb8ef9419879e5cf625ce68d89b6bbc"
+class_hash = "0x709ad0c320918c2908275d47605ff4dd12e20f8a553c7a3f1bdb0e6c30f2562"
+original_class_hash = "0x709ad0c320918c2908275d47605ff4dd12e20f8a553c7a3f1bdb0e6c30f2562"
 abi = "manifests/dev/deployment/abis/models/grimscape-MobHit-1079782b.json"
 tag = "grimscape-MobHit"
 qualified_path = "grimscape::events::mob_hit"
@@ -339,8 +349,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x610e461ac3d27243a5b61a297c1004cee5cb2189e06f7f897a70cf3727b1139"
-original_class_hash = "0x610e461ac3d27243a5b61a297c1004cee5cb2189e06f7f897a70cf3727b1139"
+class_hash = "0x4e52fceda9a41deda224052dec1e1775657a0b844fdeb6015e3197cd4d73ba1"
+original_class_hash = "0x4e52fceda9a41deda224052dec1e1775657a0b844fdeb6015e3197cd4d73ba1"
 abi = "manifests/dev/deployment/abis/models/grimscape-MobUpdate-3948e5b2.json"
 tag = "grimscape-MobUpdate"
 qualified_path = "grimscape::events::mob_update"

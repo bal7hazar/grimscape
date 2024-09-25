@@ -14,6 +14,7 @@ export class Adventurer {
   public xp: number;
   public gold: number;
   public weapon: number;
+  public skill_points: number;
   public gears: number; // Head, Chest, Waist, Feet
   public attributes: number; // Str, Dex, Vit, Cha
   public seed: string;
@@ -31,6 +32,7 @@ export class Adventurer {
     this.xp = adventurer.xp;
     this.gold = adventurer.gold;
     this.weapon = adventurer.weapon;
+    this.skill_points = adventurer.skill_points;
     this.gears = adventurer.gears;
     this.attributes = adventurer.attributes;
     this.seed = `0x${adventurer.seed.toString(16)}`.replace('0x0x', '0x');
@@ -47,6 +49,23 @@ export class Adventurer {
 
   getY() {
     return ROOM_HEIGHT - 1 - Math.floor(this.position / ROOM_WIDTH) - this.y * ROOM_HEIGHT;
+  }
+
+  getLevel() {
+    // Sqrt of XP and min 1
+    return Math.max(1, Math.floor(Math.sqrt(this.xp)));
+  }
+
+  getExperience() {
+    return this.xp - Math.pow(this.getLevel(), 2);
+  }
+
+  getTotalExperience() {
+    return this.getNextExperience(this.getLevel());
+  }
+
+  getNextExperience(level: number) {
+    return Math.pow(level + 1, 2) - Math.pow(level, 2);
   }
 
   getNext(direction: DirectionType) {

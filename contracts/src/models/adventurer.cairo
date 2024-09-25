@@ -34,9 +34,10 @@ impl AdventurerImpl of AdventurerTrait {
             position,
             health: constants::ADVENTURER_DEFAULT_HEALTH,
             base_health: constants::ADVENTURER_DEFAULT_HEALTH,
-            xp: 0,
+            xp: 1,
             gold: constants::ADVENTURER_DEFAULT_GOLD,
             weapon: 0,
+            skill_points: 0,
             gears: 0,
             attributes: 0,
             seed,
@@ -53,6 +54,19 @@ impl AdventurerImpl of AdventurerTrait {
     fn damage(self: Adventurer) -> u16 {
         // TODO: Implement damage calculation
         10
+    }
+
+    #[inline]
+    fn level(self: Adventurer) -> u8 {
+        core::num::traits::Sqrt::sqrt(self.xp)
+    }
+
+    #[inline]
+    fn reward(ref self: Adventurer, xp: u16, gold: u16) {
+        let level: u8 = self.level();
+        self.xp += xp;
+        self.gold += gold;
+        self.skill_points += self.level() - level;
     }
 
     #[inline]

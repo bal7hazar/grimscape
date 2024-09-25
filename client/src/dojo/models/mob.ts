@@ -11,6 +11,7 @@ export class Mob {
   public position: number;
   public beast: number;
   public health: number;
+  public level: number;
   public base_health: number;
 
   constructor(mob: ComponentValue) {
@@ -23,6 +24,7 @@ export class Mob {
     this.position = mob.position;
     this.beast = mob.beast;
     this.health = mob.health;
+    this.level = mob.level;
     this.base_health = mob.base_health;
   }
 

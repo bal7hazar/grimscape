@@ -1,6 +1,12 @@
+// Internal imports
+
+use grimscape::elements::beasts;
+use grimscape::types::tier::{Tier, TierTrait};
+
 // Constants
 
-pub const BEAST_COUNT: u8 = 75;
+// pub const BEAST_COUNT: u8 = 75;
+pub const BEAST_COUNT: u8 = 3;
 
 // Types
 
@@ -90,8 +96,8 @@ pub enum Beast {
     Berserker,
     Yeti,
     Golem,
-    // Brute T5s
     Ent,
+    // Brute T5s
     Troll,
     Bigfoot,
     Ogre,
@@ -105,13 +111,29 @@ pub enum Beast {
 impl BeastImpl of BeastTrait {
     #[inline]
     fn from(seed: felt252) -> Beast {
-        let seed: u256 = seed.into();
-        let beast: u8 = 1 + (seed % BEAST_COUNT.into()).try_into().unwrap();
-        beast.into()
+        let beast: u8 = (1_u256 + seed.into() % BEAST_COUNT.into()).try_into().unwrap();
+        // FIXME: Hack until all beasts are implemented
+        match beast {
+            0 => Beast::None,
+            1 => Beast::Fairy,
+            2 => Beast::Bear,
+            3 => Beast::Skeleton,
+            _ => Beast::None,
+        }
     }
 
     #[inline]
-    fn level(self: Beast, adventurer_level: u8, seed: felt252) -> u16 {
+    fn tier(self: Beast) -> Tier {
+        match self {
+            Beast::Fairy => beasts::fairy::Fairy::tier(),
+            Beast::Bear => beasts::bear::Bear::tier(),
+            Beast::Skeleton => beasts::skeleton::Skeleton::tier(),
+            _ => Tier::None,
+        }
+    }
+
+    #[inline]
+    fn level(self: Beast, adventurer_level: u8, seed: felt252) -> u8 {
         let seed: u256 = seed.into();
         let base_level = 1 + (seed % (adventurer_level.into() * 3)).try_into().unwrap();
         if (adventurer_level >= 50) {
@@ -142,6 +164,24 @@ impl BeastImpl of BeastTrait {
         } else {
             health + 10
         }
+    }
+
+    #[inline]
+    fn damage(self: Beast, weapon_level: u8) -> u16 {
+        let tier: Tier = self.tier();
+        tier.attack(weapon_level)
+    }
+
+    #[inline]
+    fn xp(self: Beast, adventurer_level: u8, beast_level: u8) -> u16 {
+        let tier: Tier = self.tier();
+        tier.xp(adventurer_level, beast_level)
+    }
+
+    #[inline]
+    fn gold(self: Beast, beast_level: u8) -> u16 {
+        let tier: Tier = self.tier();
+        tier.gold(beast_level)
     }
 }
 

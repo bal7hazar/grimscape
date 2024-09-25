@@ -51,6 +51,7 @@ impl MobImpl of MobTrait {
             next: 0,
             beast,
             health: 0,
+            level: 0,
             base_health: 0,
         }
     }
@@ -59,14 +60,28 @@ impl MobImpl of MobTrait {
     fn setup(ref self: Mob, adventurer_level: u8, seed: felt252) {
         // [Compute] Base health
         let beast: Beast = self.beast.into();
-        self.health = beast.health(adventurer_level, seed);
+        let seed: u256 = seed.into();
+        self.health = beast.health(adventurer_level, seed.low.into());
         self.base_health = self.health;
+        self.level = beast.level(adventurer_level, seed.high.into());
     }
 
     #[inline]
     fn damage(self: Mob) -> u16 {
-        // TODO: Implement damage calculation
-        10
+        let beast: Beast = self.beast.into();
+        beast.damage(self.level)
+    }
+
+    #[inline]
+    fn xp(self: Mob, adventurer_level: u8) -> u16 {
+        let beast: Beast = self.beast.into();
+        beast.xp(self.level, adventurer_level)
+    }
+
+    #[inline]
+    fn gold(self: Mob) -> u16 {
+        let beast: Beast = self.beast.into();
+        beast.gold(self.level)
     }
 
     #[inline]

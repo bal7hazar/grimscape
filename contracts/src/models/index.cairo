@@ -45,6 +45,7 @@ pub struct Adventurer {
     pub xp: u16,
     pub gold: u16,
     pub weapon: u8,
+    pub skill_points: u8,
     pub gears: u32, // Head, Chest, Waist, Feet
     pub attributes: u32, // Str, Dex, Vit, Cha
     pub seed: felt252,
@@ -93,6 +94,7 @@ pub struct Mob {
     pub next: u8,
     pub beast: u8,
     pub health: u16,
+    pub level: u8,
     pub base_health: u16,
 }
 // #[derive(Copy, Drop, Serde)]

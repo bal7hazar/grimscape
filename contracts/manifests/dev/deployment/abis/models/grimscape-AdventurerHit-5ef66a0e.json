@@ -415,6 +415,10 @@
         "type": "core::integer::u8"
       },
       {
+        "name": "skill_points",
+        "type": "core::integer::u8"
+      },
+      {
         "name": "gears",
         "type": "core::integer::u32"
       },
@@ -479,6 +483,10 @@
       {
         "name": "health",
         "type": "core::integer::u16"
+      },
+      {
+        "name": "level",
+        "type": "core::integer::u8"
       },
       {
         "name": "base_health",

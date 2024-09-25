@@ -415,6 +415,10 @@
         "type": "core::integer::u8"
       },
       {
+        "name": "skill_points",
+        "type": "core::integer::u8"
+      },
+      {
         "name": "gears",
         "type": "core::integer::u32"
       },

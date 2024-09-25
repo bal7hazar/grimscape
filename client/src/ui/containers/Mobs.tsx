@@ -24,19 +24,19 @@ export const Mobs = () => {
   return (
     <div className="relative">
       {mobs.map((mob: Mob, index: number) => (
-        <Card key={index} health={mob.health} total={mob.base_health} row={index} />
+        <Card key={index} health={mob.health} level={mob.level} total={mob.base_health} row={index} />
       ))}
     </div>
   );
 };
 
-export const Card = ({ health, total, row }: { health: number, total: number, row: number }) => {
+export const Card = ({ health, level, total, row }: { health: number, level: number, total: number, row: number }) => {
   const top = useMemo(() => `${row * 108}px`, [row]);
 
   return (
     <div className={`relative ${!health && "grayscale"}`}>
       <div className={`absolute right-0`} style={{ top }}>
-        <Avatar health={health} />
+        <Avatar health={health} level={level} />
       </div>
       <div className={`absolute right-24`} style={{ top }}>
         <Health health={health} total={total} reversed={true}  />
@@ -45,8 +45,11 @@ export const Card = ({ health, total, row }: { health: number, total: number, ro
   );
 }
 
-export const Avatar = ({ health }: { health: number }) => {
-  return <div className="h-24 w-24 rounded border-4 border-slate-500 p-2 bg-slate-700">
+export const Avatar = ({ health, level }: { health: number, level: number }) => {
+  return <div className="h-24 w-24 relative rounded border-4 border-slate-500 p-2 bg-slate-700">
     <img src={!health ? dead : alive} alt="adventurer" />
+    <div className="absolute top-1 left-1 rounded-full flex justify-center items-center h-5 w-5 bg-slate-900">
+      <p className="text-xs">{level}</p>
+    </div>
   </div>
 }

@@ -17,8 +17,8 @@
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 218.5,
-                "y": 125.83333333333333
+                "x": 120,
+                "y": 120
             }
         },
         "spawn.tmx#tileset": {

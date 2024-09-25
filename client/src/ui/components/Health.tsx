@@ -1,4 +1,10 @@
 import { useMemo } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/ui/elements/tooltip"
 
 const WIDTH = 200;
 
@@ -15,9 +21,18 @@ export const Health = ({ health, total, reversed }: { health: number, total: num
   }, [health, total]);
 
   return (
-    <div className={`mt-1 h-6 relative ${reversed ? "rounded-l-lg" : "rounded-r-lg"} bg-slate-700 border-slate-500 border`} style={{ width: WIDTH }}>
-      <div className={`absolute h-full flex ${color} ${reversed ? "rounded-l-lg right-0" : "rounded-r-lg left-0"}`} style={{ width }} />
-      <p className="absolute left-1/2 -translate-x-1/2">{`${health} / ${total}`}</p>
-    </div>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <div className={`mt-1 h-6 relative ${reversed ? "rounded-l-lg" : "rounded-tr-lg"} bg-slate-700 border-slate-500 border`} style={{ width: WIDTH }}>
+            <div className={`absolute h-full flex ${color} ${reversed ? "rounded-l-lg right-0" : "rounded-tr-lg left-0"}`} style={{ width }} />
+            <p className="absolute left-1/2 -translate-x-1/2">{`${health} / ${total}`}</p>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p className="text-md">HP</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };

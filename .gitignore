@@ -29,4 +29,5 @@ dev-dist
 
 target
 contracts/bindings
+contracts/torii.db*
 .vercel

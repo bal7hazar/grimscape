@@ -45,6 +45,8 @@ pub struct Adventurer {
     pub gold: u16,
     pub attribute_points: u8,
     pub attributes: u64, // Str, Dex, Vit, Int, Wsd, Cha
+    pub gears: u64, // Weapon Chest Head Waist Foot Hand Neck Ring
+    pub slots: u128, // 16 slots of 8 bits
     pub seed: felt252,
     pub player_id: felt252,
 }

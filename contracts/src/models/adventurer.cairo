@@ -8,6 +8,7 @@ use grimscape::constants;
 use grimscape::models::index::Adventurer;
 use grimscape::types::direction::Direction;
 use grimscape::types::attribute::{Attribute, AttributeTrait, AttributeAssert};
+use grimscape::types::weapon::{Weapon, WeaponTrait, WeaponAssert};
 use grimscape::helpers::seeder::Seeder;
 use grimscape::helpers::packer::Packer;
 
@@ -41,6 +42,8 @@ impl AdventurerImpl of AdventurerTrait {
             gold: constants::ADVENTURER_DEFAULT_GOLD,
             attribute_points: 0,
             attributes: constants::ADVENTURER_DEFAULT_ATTRIBUTES,
+            gears: constants::ADVENTURER_DEFAULT_GEARS,
+            slots: 0,
             seed,
             player_id,
         }
@@ -53,8 +56,17 @@ impl AdventurerImpl of AdventurerTrait {
 
     #[inline]
     fn damage(self: Adventurer) -> u16 {
-        // TODO: Implement damage calculation
-        10
+        // [Check] Weapon is valid
+        let value: u8 = Packer::get(self.gears, constants::WEAPON_INDEX, constants::GEAR_SIZE);
+        let weapon: Weapon = value.into();
+        weapon.assert_is_valid();
+        // [Compute] Base damage
+        // FIXME: Store a weapon level
+        let base = weapon.damage(1);
+        // [Compute] Bonus damage (10% per strength points)
+        let strength_index = Attribute::Strength.index();
+        let strength = Packer::get(self.attributes, strength_index, constants::ATTRIBUTE_SIZE);
+        base + base * strength / 10
     }
 
     #[inline]
@@ -74,6 +86,11 @@ impl AdventurerImpl of AdventurerTrait {
     fn take(ref self: Adventurer, damage: u16) -> u16 {
         self.health -= core::cmp::min(self.health, damage);
         damage
+    }
+
+    #[inline]
+    fn heal(ref self: Adventurer, health: u16) {
+        self.health = core::cmp::min(self.base_health, self.health + health);
     }
 
     #[inline]

@@ -11,6 +11,7 @@ mod types {
     mod defense;
     mod direction;
     mod attribute;
+    mod weapon;
 }
 
 mod elements {
@@ -27,6 +28,22 @@ mod elements {
         mod blade;
         mod bludgeon;
         mod magic;
+    }
+    mod armors {
+        mod interface;
+        mod heavy_gloves;
+    }
+    mod weapons {
+        mod interface;
+        mod katana;
+    }
+    mod necklaces {
+        mod interface;
+        mod pendant;
+    }
+    mod rings {
+        mod interface;
+        mod gold;
     }
     mod beasts {
         mod interface;

@@ -72,11 +72,10 @@ fn test_actions_interact() {
     assert_eq!(mob.health < mob_health, true);
 
     // [Interact] Attack
-    let directions: Array<u8> = array![
-        Direction::North.into(), // 16 -> 6
-         Direction::North.into(), // 6 -> 0
-    ]; // 26 -> 16
-    systems.actions.multiperform(directions);
+    let directions: Array<u8> = array![Direction::North.into(),];
+    systems.actions.multiperform(directions.clone()); // 16 -> 8
+    systems.actions.multiperform(directions.clone()); // 8 -> 3
+    systems.actions.multiperform(directions.clone()); // 3 -> 0
 
     // [Assert] Mob
     let mob = store

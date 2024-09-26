@@ -44,12 +44,13 @@ fn test_actions_update() {
         Direction::West.into(), // Explore
         Direction::West.into(),
         Direction::None.into(), // Pass
-        Direction::North.into(), // Attack: 18 -> 8
+        Direction::North.into(),
     ];
     systems.actions.multiperform(directions);
-    let directions: Array<u8> = array![Direction::North.into(), // Attack: 8 -> 0
-    ];
-    systems.actions.multiperform(directions);
+    let directions: Array<u8> = array![Direction::North.into(),];
+    systems.actions.multiperform(directions.clone()); // 16 -> 8
+    systems.actions.multiperform(directions.clone()); // 8 -> 3
+    systems.actions.multiperform(directions.clone()); // 3 -> 0
     // [Assert] Adventurer
     let player = store.get_player(context.player_id);
     let realm = store.get_realm(constants::REALM_ID);

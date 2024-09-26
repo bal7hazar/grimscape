@@ -1,7 +1,5 @@
 import { Boot } from "./scenes/Boot";
-import { Menu } from "./scenes/Menu";
 import { Game } from "./scenes/Game";
-import { GameOver } from "./scenes/GameOver";
 import Phaser from "phaser";
 import { Preloader } from "./scenes/Preloader";
 import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin";
@@ -23,7 +21,7 @@ const config = {
   disableContextMenu: true,
   autoMobilePipeline: true,
   autoRound: true,
-  scene: [Boot, Preloader, Menu, Game, GameOver],
+  scene: [Boot, Preloader, Game],
   physics: {
     default: "arcade",
     arcade: {

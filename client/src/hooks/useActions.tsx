@@ -16,7 +16,7 @@ export const useActions = () => {
   const {
     account: { account },
     setup: {
-      systemCalls: { signup, create, perform, multiperform },
+      systemCalls: { signup, create, multiperform },
     },
   } = useDojo();
 
@@ -26,7 +26,7 @@ export const useActions = () => {
   const { adventurer, key: adventurerKey } = useAdventurer({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
   const { rooms } = useRooms({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
   const { room } = useRoom({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
-  const { mobs } = useMobs({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
+  const { mobs } = useMobs({ dungeonId: dungeon?.id || 0, adventurerId: player?.adventurerId || 0 });
 
   const handleSignup = useCallback(
     async (name: string) => {
@@ -40,22 +40,6 @@ export const useActions = () => {
       await create({ account });
     },
     [account],
-  );
-
-  const handlePerform = useCallback(
-    async (options: { move: boolean }, args: { direction: Direction }) => {
-      if (!adventurer || !adventurerKey || !room) return;
-      const { position, x, y } = adventurer.getNext(args.direction.value);
-      const opts = {
-        key: adventurerKey,
-        move: options.move,
-        position,
-        x,
-        y
-      }
-      await perform({ account, options: opts, direction: args.direction.into() });
-    },
-    [account, adventurer, adventurerKey],
   );
   
   const handleMultiperform = useCallback(
@@ -84,9 +68,8 @@ export const useActions = () => {
 
   useEffect(() => {
     gameManager.setCreate(handleCreate);
-    gameManager.setPerform(handlePerform);
     gameManager.setMultiperform(handleMultiperform);
-  }, [handleCreate, handlePerform, gameManager]);
+  }, [handleCreate, handleMultiperform, gameManager]);
 
   useEffect(() => {
     gameManager.setRealm(realm);

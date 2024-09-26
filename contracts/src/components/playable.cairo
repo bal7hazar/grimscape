@@ -149,7 +149,13 @@ mod PlayableComponent {
                 // [Effect] Perform an exploration
                 room = self
                     .explore(
-                        direction, ref realm, ref dungeon, ref adventurer, ref room, ref store
+                        direction,
+                        ref realm,
+                        ref dungeon,
+                        ref adventurer,
+                        ref room,
+                        ref store,
+                        ref emitter
                     );
             } else {
                 // [Effect] Perform a move
@@ -224,7 +230,13 @@ mod PlayableComponent {
                 if room.can_leave(adventurer.position, direction) {
                     room = self
                         .explore(
-                            direction, ref realm, ref dungeon, ref adventurer, ref room, ref store
+                            direction,
+                            ref realm,
+                            ref dungeon,
+                            ref adventurer,
+                            ref room,
+                            ref store,
+                            ref emitter
                         );
                 } else {
                     self
@@ -317,6 +329,7 @@ mod PlayableComponent {
             ref adventurer: Adventurer,
             ref room: Room,
             ref store: Store,
+            ref emitter: Emitter,
         ) -> Room {
             // [Effect] Remove adventurer from the current room
             room.remove(adventurer.position);
@@ -344,6 +357,9 @@ mod PlayableComponent {
                 room.add(adventurer.position);
             }
 
+            // [Event] Emit adventurer update
+            let time = get_block_timestamp();
+            emitter.emit_adventurer_update(adventurer, direction.into(), time);
             // [Return] The new room
             room
         }

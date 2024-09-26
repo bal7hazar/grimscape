@@ -42,6 +42,6 @@ export class Preloader extends Scene {
     // Start soundtracks
 
     // Start scene
-    this.scene.start("Menu");
+    this.scene.start("Game");
   }
 }

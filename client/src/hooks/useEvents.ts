@@ -59,7 +59,7 @@ export const useEvents = () => {
       world,
       component,
       (update: ComponentUpdate) => {
-        if (update.value[0]?.time * 1000 <= Date.now() - 20000) return;
+        if (update.value[0]?.time * 1000 <= Date.now() - 15000) return;
         handler(update);
       },
       { runOnInit: false }

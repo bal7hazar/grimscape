@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff"
-original_class_hash = "0x697ecca54b6f01ae5e831391020984e144ed114194f464e5c2e530800aaffff"
+class_hash = "0x2a2125e982dcf37996d2c7a2f440df7304ff7d18d8980aeb023909985728cfb"
+original_class_hash = "0x2a2125e982dcf37996d2c7a2f440df7304ff7d18d8980aeb023909985728cfb"
 abi = "manifests/slot/base/abis/models/grimscape-Adventurer-1ffbe10a.json"
 tag = "grimscape-Adventurer"
 qualified_path = "grimscape::models::index::adventurer"
@@ -58,6 +58,11 @@ key = false
 
 [[members]]
 name = "weapon"
+type = "u8"
+key = false
+
+[[members]]
+name = "skill_points"
 type = "u8"
 key = false
 

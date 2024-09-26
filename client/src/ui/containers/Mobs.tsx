@@ -17,13 +17,18 @@ export const Mobs = () => {
   const { player } = usePlayer({ playerId: account.address });
   const { realm } = useRealm();
   const { adventurer } = useAdventurer({ dungeonId: realm?.dungeon_count || 0, adventurerId: player?.adventurerId || 0 });
-  const { mobs } = useMobs({ dungeonId: realm?.dungeon_count || 0, adventurerId: player?.adventurerId || 0, x: adventurer?.x || 0, y: adventurer?.y || 0 });
+  const { mobs } = useMobs({ dungeonId: realm?.dungeon_count || 0, adventurerId: player?.adventurerId || 0 });
+
+  const locals = useMemo(() => {
+    if (!adventurer || !mobs) return [];
+    return mobs.filter((mob: Mob) => mob.x === adventurer.x && mob.y === adventurer.y);
+  }, [mobs, adventurer]);
 
   if (!player || !realm || !adventurer) return null;
 
   return (
     <div className="relative">
-      {mobs.map((mob: Mob, index: number) => (
+      {locals.map((mob: Mob, index: number) => (
         <Card key={index} health={mob.health} level={mob.level} total={mob.base_health} row={index} />
       ))}
     </div>

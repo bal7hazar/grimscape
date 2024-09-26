@@ -4,7 +4,7 @@ import { useEntityQuery } from "@dojoengine/react";
 import { Has, HasValue, getComponentValue } from "@dojoengine/recs";
 import { Mob } from "@/dojo/models/mob";
 
-export const useMobs = ({ dungeonId, adventurerId, x, y }: { dungeonId: number, adventurerId: number, x: number, y: number }): { mobs: Mob[] } => {
+export const useMobs = ({ dungeonId, adventurerId }: { dungeonId: number, adventurerId: number }): { mobs: Mob[] } => {
   const [mobs, setMobs] = useState<any>({});
 
   const {
@@ -18,7 +18,7 @@ export const useMobs = ({ dungeonId, adventurerId, x, y }: { dungeonId: number, 
 
   const keys = useEntityQuery([
     Has(Mob),
-    HasValue(Mob, { dungeon_id: dungeonId, adventurer_id: adventurerId, x, y }),
+    HasValue(Mob, { dungeon_id: dungeonId, adventurer_id: adventurerId }),
   ]);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export const useMobs = ({ dungeonId, adventurerId, x, y }: { dungeonId: number, 
     const objectified = components.reduce(
       (obj: any, mob: Mob | undefined) => {
         if (mob) {
-          obj[`${mob.id}`] = mob;
+          obj[`${mob.id}-${mob.x}-${mob.y}`] = mob;
         }
         return obj;
       },

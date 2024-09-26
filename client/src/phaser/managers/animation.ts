@@ -122,79 +122,11 @@ class AnimationManager {
         repeat: -1,
       });
       scene.anims.create({
-        key: `${resource}-dash-down`,
-        frames: scene.anims.generateFrameNumbers(`${resource}`, {
-          start: 7,
-          end: 8,
-        }),
-        frameRate: 5,
-        repeat: 0,
-      });
-      scene.anims.create({
-        key: `${resource}-dash-right`,
-        frames: scene.anims.generateFrameNumbers(`${resource}`, {
-          start: 7 + 29 * 2,
-          end: 8 + 29 * 2,
-        }),
-        frameRate: 5,
-        repeat: 0,
-      });
-      scene.anims.create({
-        key: `${resource}-dash-up`,
-        frames: scene.anims.generateFrameNumbers(`${resource}`, {
-          start: 7 + 29 * 4,
-          end: 8 + 29 * 4,
-        }),
-        frameRate: 5,
-        repeat: 0,
-      });
-      scene.anims.create({
-        key: `${resource}-dash-left`,
-        frames: scene.anims.generateFrameNumbers(`${resource}`, {
-          start: 7 + 29 * 6,
-          end: 8 + 29 * 6,
-        }),
-        frameRate: 5,
-        repeat: 0,
-      });
-      scene.anims.create({
-        key: `${resource}-jump-down`,
-        frames: scene.anims.generateFrameNumbers(`${resource}`, {
-          frames: [25, 28],
-        }),
-        frameRate: 5,
-        repeat: 0,
-      });
-      scene.anims.create({
-        key: `${resource}-jump-right`,
-        frames: scene.anims.generateFrameNumbers(`${resource}`, {
-          frames: [25 + 29 * 2, 28 + 29 * 2],
-        }),
-        frameRate: 5,
-        repeat: 0,
-      });
-      scene.anims.create({
-        key: `${resource}-jump-up`,
-        frames: scene.anims.generateFrameNumbers(`${resource}`, {
-          frames: [25 + 29 * 4, 28 + 29 * 4],
-        }),
-        frameRate: 5,
-        repeat: 0,
-      });
-      scene.anims.create({
-        key: `${resource}-jump-left`,
-        frames: scene.anims.generateFrameNumbers(`${resource}`, {
-          frames: [25 + 29 * 6, 28 + 29 * 6],
-        }),
-        frameRate: 5,
-        repeat: 0,
-      });
-      scene.anims.create({
         key: `${resource}-hit-down`,
         frames: scene.anims.generateFrameNumbers(`${resource}`, {
           frames: [6, 7, 8],
         }),
-        frameRate: 5,
+        frameRate: 10,
         repeat: 0,
       });
       scene.anims.create({
@@ -202,7 +134,7 @@ class AnimationManager {
         frames: scene.anims.generateFrameNumbers(`${resource}`, {
           frames: [6 + 29 * 2, 7 + 29 * 2, 8 + 29 * 2],
         }),
-        frameRate: 5,
+        frameRate: 10,
         repeat: 0,
       });
       scene.anims.create({
@@ -210,7 +142,7 @@ class AnimationManager {
         frames: scene.anims.generateFrameNumbers(`${resource}`, {
           frames: [6 + 29 * 4, 7 + 29 * 4, 8 + 29 * 4],
         }),
-        frameRate: 5,
+        frameRate: 10,
         repeat: 0,
       });
       scene.anims.create({
@@ -218,7 +150,7 @@ class AnimationManager {
         frames: scene.anims.generateFrameNumbers(`${resource}`, {
           frames: [6 + 29 * 6, 7 + 29 * 6, 8 + 29 * 6],
         }),
-        frameRate: 5,
+        frameRate: 10,
         repeat: 0,
       });
       scene.anims.create({
@@ -226,7 +158,7 @@ class AnimationManager {
         frames: scene.anims.generateFrameNumbers(`${resource}`, {
           frames: [20, 21, 22],
         }),
-        frameRate: 5,
+        frameRate: 10,
         repeat: 0,
       });
       scene.anims.create({
@@ -234,7 +166,7 @@ class AnimationManager {
         frames: scene.anims.generateFrameNumbers(`${resource}`, {
           frames: [20 + 29 * 2, 21 + 29 * 2, 22 + 29 * 2],
         }),
-        frameRate: 5,
+        frameRate: 10,
         repeat: 0,
       });
       scene.anims.create({
@@ -242,7 +174,7 @@ class AnimationManager {
         frames: scene.anims.generateFrameNumbers(`${resource}`, {
           frames: [20 + 29 * 4, 21 + 29 * 4, 22 + 29 * 4],
         }),
-        frameRate: 5,
+        frameRate: 10,
         repeat: 0,
       });
       scene.anims.create({
@@ -250,7 +182,7 @@ class AnimationManager {
         frames: scene.anims.generateFrameNumbers(`${resource}`, {
           frames: [20 + 29 * 6, 21 + 29 * 6, 22 + 29 * 6],
         }),
-        frameRate: 5,
+        frameRate: 10,
         repeat: 0,
       });
     });

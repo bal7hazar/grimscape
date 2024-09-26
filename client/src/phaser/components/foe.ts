@@ -3,7 +3,7 @@ import { EventBus } from "../EventBus";
 import { Direction } from "@/dojo/types/direction";
 import GameManager from "../managers/game";
 
-const SPEED: number = 1;
+const SPEED: number = 2;
 
 export default class Foe extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite;
@@ -92,13 +92,15 @@ export default class Foe extends Phaser.GameObjects.Container {
   }
 
   addTarget(order: number, mob: Mob) {
-    if (!this.visible || !mob) return;
+    if (!this.visible || !mob || !mob.health) return;
     // Add target to the list
     const x = this.step * mob.getX() + this.offset.x;
     const y = this.step * mob.getY() + this.offset.y;
     this.targets.push({ order, x, y });
-    // Sort targets by ascending order
-    this.targets = this.targets.sort((a, b) => a.order - b.order);
+    // Sort targets by ascending order and dedup
+    this.targets = this.targets
+      .sort((a, b) => a.order - b.order)
+      .filter((target, index, self) => self.findIndex((t) => t.x === target.x && t.y === target.y && t.order === target.order) === index);
   }
 
 
@@ -138,12 +140,6 @@ export default class Foe extends Phaser.GameObjects.Container {
         this.sprite.y = y;
         this.hitbox.x = x;
         this.hitbox.y = y;
-        return;
-      }
-      // To sync case
-      if (this.sprite.x !== x || this.sprite.y !== y) {
-        const target = { x, y };
-        this.addTarget(999, mob);
         return;
       }
       // Nothing case

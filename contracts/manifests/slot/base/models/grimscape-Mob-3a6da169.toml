@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x6f1d9bd032ca3de2e32b0cb0b6988d293bfa11447beebafc6cb784f56a2e688"
-original_class_hash = "0x6f1d9bd032ca3de2e32b0cb0b6988d293bfa11447beebafc6cb784f56a2e688"
+class_hash = "0x410ca895f3377222552c3a1ad4097e28876667d834d802e942056161f26dc57"
+original_class_hash = "0x410ca895f3377222552c3a1ad4097e28876667d834d802e942056161f26dc57"
 abi = "manifests/slot/base/abis/models/grimscape-Mob-3a6da169.json"
 tag = "grimscape-Mob"
 qualified_path = "grimscape::models::index::mob"
@@ -59,6 +59,11 @@ key = false
 [[members]]
 name = "health"
 type = "u16"
+key = false
+
+[[members]]
+name = "level"
+type = "u8"
 key = false
 
 [[members]]

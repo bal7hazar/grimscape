@@ -4,7 +4,7 @@ import { WALLS } from "../helpers/tilemap";
 import { EventBus } from "../EventBus";
 import { Direction, DirectionType } from "@/dojo/types/direction";
 
-const SPEED: number = 1;
+const SPEED: number = 2;
 
 export default class Character extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite;
@@ -71,8 +71,10 @@ export default class Character extends Phaser.GameObjects.Container {
     const x = this.step * adventurer.getX() + this.offset.x;
     const y = this.step * adventurer.getY() + this.offset.y;
     this.targets.push({ order, x, y });
-    // Sort targets by ascending order
-    this.targets = this.targets.sort((a, b) => a.order - b.order);
+    // Sort targets by ascending order and dedup
+    this.targets = this.targets
+      .sort((a, b) => a.order - b.order)
+      .filter((target, index, self) => self.findIndex((t) => t.x === target.x && t.y === target.y) === index);
   }
 
   update(adventurer: Adventurer) {
@@ -108,11 +110,6 @@ export default class Character extends Phaser.GameObjects.Container {
       if (this.sprite.x === 0 && this.sprite.y === 0) {
         this.sprite.x = x;
         this.sprite.y = y;
-        return;
-      }
-      // To sync case
-      if (this.sprite.x !== x || this.sprite.y !== y) {
-        this.addTarget(999, adventurer);
         return;
       }
       // Nothing case

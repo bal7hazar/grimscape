@@ -10,6 +10,7 @@ import { Direction, DirectionType } from "@/dojo/types/direction";
 import { ROOM_HEIGHT, ROOM_WIDTH } from "@/dojo/constants";
 
 // Constants
+let clock = 0;
 
 const CAMERA_SPEED: number = 0.01;
 const CAMERAS_EPSILON: number = 0.1;
@@ -202,12 +203,13 @@ export class Game extends Scene {
         this.foes[key].update(mob);
       });
       // Update foes with events
-      const mobUpdates = GameManager.getInstance().mobUpdates;
+      const mobUpdates = [...GameManager.getInstance().mobUpdates];
       if (!!mobUpdates) {
         mobUpdates.forEach((update) => {
           const key = `${update.mob.realm_id}-${update.mob.dungeon_id}-${update.mob.adventurer_id}-${update.mob.x}-${update.mob.y}-${update.mob.id}`;
-          if (!this.foes[key]) return;
-          this.foes[key].addTarget(update.order, update.mob);
+          if (!!this.foes[key]) {
+            this.foes[key].addTarget(update.order, update.mob);
+          }
           GameManager.getInstance().mobUpdates.shift();
         });
       }

@@ -4,15 +4,7 @@ version = 1
 [[package]]
 name = "dojo"
 version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.12#b391948911356cbf8a91daa93314809c87411098"
-dependencies = [
- "dojo_plugin",
-]
-
-[[package]]
-name = "dojo_plugin"
-version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?rev=f15def33#f15def330c0d099e79351d11c197f63e8cc1ff36"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.13#9f95a68a957d45190a1e1c42877a4b828ab7a96d"
 
 [[package]]
 name = "grimscape"
@@ -25,10 +17,10 @@ dependencies = [
 
 [[package]]
 name = "origami_map"
-version = "1.0.0-alpha.12"
-source = "git+https://github.com/dojoengine/origami?rev=60ba6b4#60ba6b4d766939f627b1e7ff9edd5ba8db1a13b1"
+version = "1.0.0-alpha.13"
+source = "git+https://github.com/dojoengine/origami?tag=v1.0.0-alpha.13#cb18bd91da4449c68c4cf455fc48838bf4f4cabc"
 
 [[package]]
 name = "origami_random"
-version = "1.0.0-alpha.12"
-source = "git+https://github.com/dojoengine/origami?rev=60ba6b4#60ba6b4d766939f627b1e7ff9edd5ba8db1a13b1"
+version = "1.0.0-alpha.13"
+source = "git+https://github.com/dojoengine/origami?tag=v1.0.0-alpha.13#cb18bd91da4449c68c4cf455fc48838bf4f4cabc"

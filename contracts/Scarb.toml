@@ -11,9 +11,9 @@ dev = "sozo clean && sozo build --typescript && sozo migrate plan && sozo migrat
 slot = "sozo --profile slot clean && sozo --profile slot build && sozo --profile slot migrate plan && sozo --profile slot migrate apply"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.12" }
-origami_map = { git = "https://github.com/dojoengine/origami", rev = "60ba6b4" }
-origami_random = { git = "https://github.com/dojoengine/origami", rev = "60ba6b4" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.13" }
+origami_map = { git = "https://github.com/dojoengine/origami", tag = "v1.0.0-alpha.13" }
+origami_random = { git = "https://github.com/dojoengine/origami", tag = "v1.0.0-alpha.13" }
 
 [[target.dojo]]
 

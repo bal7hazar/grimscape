@@ -1,8 +1,8 @@
 {
   "world": {
     "kind": "WorldContract",
-    "class_hash": "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e",
-    "original_class_hash": "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e",
+    "class_hash": "0x5c4271c8cd454ceb8049d2b0724c99d12c2ef8077fc6ad325b18978f614aab0",
+    "original_class_hash": "0x5c4271c8cd454ceb8049d2b0724c99d12c2ef8077fc6ad325b18978f614aab0",
     "abi": [
       {
         "type": "impl",
@@ -1234,8 +1234,8 @@
         ]
       }
     ],
-    "address": "0x4fe80dbb6052e4702cc25e5c4f2b14d70a63e2af28c6363d08fa8e387a92b7a",
-    "transaction_hash": "0x7d80b62e043cb84aeec3cde2e5ee4f314666fe33b92c47a54d4dab93edb2895",
+    "address": "0x10b9d2ca458d2f895ecf89cf0213e532d9154fc3600c9e6bebe946ab96e74e2",
+    "transaction_hash": "0x17a4fcff82c9d91914c774e50430e18adcd4fdbbf3166e5da714548638cdc0e",
     "block_number": 3,
     "seed": "grimscape",
     "metadata": {
@@ -1255,7 +1255,7 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x7ae0e37028a667899c7223dcce01c90524e873973be283a01ffa9de103689c3",
+      "address": "0x3f698291e7825fd6c9deb02e66109ee78c66a6b43266b66aeb58d9a2ddf3a9a",
       "class_hash": "0x5450c06e3590f21bccb522730050a21acc621d0c1f27cd3bde8ba1bf10a265c",
       "original_class_hash": "0x5450c06e3590f21bccb522730050a21acc621d0c1f27cd3bde8ba1bf10a265c",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",

@@ -411,20 +411,20 @@
         "type": "core::integer::u16"
       },
       {
-        "name": "weapon",
-        "type": "core::integer::u8"
-      },
-      {
         "name": "attribute_points",
         "type": "core::integer::u8"
       },
       {
-        "name": "gears",
-        "type": "core::integer::u32"
+        "name": "attributes",
+        "type": "core::integer::u64"
       },
       {
-        "name": "attributes",
-        "type": "core::integer::u32"
+        "name": "gears",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "slots",
+        "type": "core::integer::u128"
       },
       {
         "name": "seed",

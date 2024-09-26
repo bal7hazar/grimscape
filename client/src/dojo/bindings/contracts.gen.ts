@@ -72,27 +72,6 @@ export async function setupWorld(provider: DojoProvider) {
             }
         };
             
-
-    
-        // Call the `perform` system with the specified Account and calldata
-        const perform = async (props: { account: Account, direction: number }) => {
-            try {
-                return await provider.execute(
-                    props.account,
-                    {
-                        contractName: contract_name,
-                        entrypoint: "perform",
-                        calldata: [props.direction],
-                    },
-                    "grimscape"
-                );
-            } catch (error) {
-                console.error("Error executing perform:", error);
-                throw error;
-            }
-        };
-            
-
     
         // Call the `multiperform` system with the specified Account and calldata
         const multiperform = async (props: { account: Account, directions: number[] }) => {
@@ -135,7 +114,7 @@ export async function setupWorld(provider: DojoProvider) {
             
 
         return {
-            signup, rename, create, perform, multiperform, world
+            signup, rename, create, multiperform, world
         };
     }
 

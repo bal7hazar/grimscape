@@ -1,11 +1,8 @@
 import type { IWorld } from "./bindings/contracts.gen";
 import { toast } from "sonner";
-import * as SystemTypes from "./bindings/contracts.gen";
-import { uuid } from "@latticexyz/utils";
 import { ClientModels } from "./models";
-import { getEntityIdFromKeys, shortenHex } from "@dojoengine/utils";
+import { shortenHex } from "@dojoengine/utils";
 import { Account } from "starknet";
-import { Entity } from "@dojoengine/recs";
 
 export type SystemCalls = ReturnType<typeof systems>;
 

@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x3f698291e7825fd6c9deb02e66109ee78c66a6b43266b66aeb58d9a2ddf3a9a"
-class_hash = "0x5e30aefc96d79f83470048b83394f3d2b14708bcc6abae9ffcdc4267d30fe35"
-original_class_hash = "0x5e30aefc96d79f83470048b83394f3d2b14708bcc6abae9ffcdc4267d30fe35"
+class_hash = "0x4c7f903437332be44f72932fd862b818a721f731bd7e43c5c8d4c336b8c84f9"
+original_class_hash = "0x4c7f903437332be44f72932fd862b818a721f731bd7e43c5c8d4c336b8c84f9"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/grimscape-Actions-70c595b8.json"
 reads = []
@@ -43,15 +43,15 @@ systems = [
     "signup",
     "rename",
     "create",
-    "perform",
+    "update",
     "multiperform",
 ]
 manifest_name = "grimscape-Actions-70c595b8"
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x2a2125e982dcf37996d2c7a2f440df7304ff7d18d8980aeb023909985728cfb"
-original_class_hash = "0x2a2125e982dcf37996d2c7a2f440df7304ff7d18d8980aeb023909985728cfb"
+class_hash = "0x5a21cdc0928b1c3aa4f48e2cebf4707bd55656ab9fa1641c25c9a8628b4b6ba"
+original_class_hash = "0x5a21cdc0928b1c3aa4f48e2cebf4707bd55656ab9fa1641c25c9a8628b4b6ba"
 abi = "manifests/dev/deployment/abis/models/grimscape-Adventurer-1ffbe10a.json"
 tag = "grimscape-Adventurer"
 qualified_path = "grimscape::models::index::adventurer"
@@ -108,23 +108,23 @@ type = "u16"
 key = false
 
 [[models.members]]
-name = "weapon"
-type = "u8"
-key = false
-
-[[models.members]]
 name = "attribute_points"
 type = "u8"
 key = false
 
 [[models.members]]
-name = "gears"
-type = "u32"
+name = "attributes"
+type = "u64"
 key = false
 
 [[models.members]]
-name = "attributes"
-type = "u32"
+name = "gears"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "slots"
+type = "u128"
 key = false
 
 [[models.members]]
@@ -139,8 +139,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x37fbc8f3f42d566de9aabdd15468cb4d0c12c0301cbe0a78d43c99fcfc317a0"
-original_class_hash = "0x37fbc8f3f42d566de9aabdd15468cb4d0c12c0301cbe0a78d43c99fcfc317a0"
+class_hash = "0xbf46d127012e9e445c5b3fcdb18ad298f6bb325625411bd26f7f707358ad88"
+original_class_hash = "0xbf46d127012e9e445c5b3fcdb18ad298f6bb325625411bd26f7f707358ad88"
 abi = "manifests/dev/deployment/abis/models/grimscape-AdventurerHit-5ef66a0e.json"
 tag = "grimscape-AdventurerHit"
 qualified_path = "grimscape::events::adventurer_hit"
@@ -178,8 +178,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x107fd8d458b8a055f017021cff501f7f9f4f9c03f7a8539aebea8b3c6569829"
-original_class_hash = "0x107fd8d458b8a055f017021cff501f7f9f4f9c03f7a8539aebea8b3c6569829"
+class_hash = "0x7c3362027a37f713d54c6945b6ca4d8983134a6516a2248aedd18116b23189"
+original_class_hash = "0x7c3362027a37f713d54c6945b6ca4d8983134a6516a2248aedd18116b23189"
 abi = "manifests/dev/deployment/abis/models/grimscape-AdventurerUpdate-3f687141.json"
 tag = "grimscape-AdventurerUpdate"
 qualified_path = "grimscape::events::adventurer_update"

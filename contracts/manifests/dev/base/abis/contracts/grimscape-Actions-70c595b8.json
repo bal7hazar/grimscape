@@ -186,10 +186,10 @@
       },
       {
         "type": "function",
-        "name": "perform",
+        "name": "update",
         "inputs": [
           {
-            "name": "direction",
+            "name": "attribute",
             "type": "core::integer::u8"
           }
         ],

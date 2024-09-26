@@ -95,19 +95,6 @@ pub struct Mob {
     pub level: u8,
     pub base_health: u16,
 }
-
-#[derive(Copy, Drop, Serde)]
-#[dojo::model]
-pub struct Inventory {
-    #[key]
-    pub realm_id: u32,
-    #[key]
-    pub dungeon_id: u32,
-    #[key]
-    pub id: u32,
-    pub gears: u64, // Weapon Chest Head Waist Foot Hand Neck Ring
-    pub slots: u128, // 16 slots of 8 bits
-}
 // #[derive(Copy, Drop, Serde)]
 // #[dojo::model]
 // pub struct Chest {

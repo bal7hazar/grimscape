@@ -8,19 +8,6 @@ export class Packer {
     }
     return result;
   }
-  public static sized_unpack(
-    packed: bigint,
-    size: bigint,
-    len: number,
-  ): number[] {
-    const result = [];
-    const mask = (1n << size) - 1n;
-    for (let i = 0; i < len; i++) {
-      result.push(Number(packed & mask));
-      packed >>= size;
-    }
-    return result;
-  }
 
   public static pack(unpacked: number[], size: bigint) {
     let packed = 0n;

@@ -118,11 +118,19 @@ export function systems({
     );
   };
 
+  const update = async ({ account, ...props }: any) => {
+    await handleTransaction(
+      account,
+      () => client.actions.update({ account, ...props }),
+      "Adventurer has been upgraded.",
+    );
+  }
+
   const multiperform = async ({ account, ...props }: any) => {
     await handleTransaction(
       account,
       () => client.actions.multiperform({ account, ...props }),
-      "Player has performed multi actions.",
+      "Adventurer has performed multi actions.",
     );
   }
 
@@ -130,6 +138,7 @@ export function systems({
     signup,
     rename,
     create,
+    update,
     multiperform,
   };
 }

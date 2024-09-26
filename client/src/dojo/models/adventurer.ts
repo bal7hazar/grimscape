@@ -1,6 +1,7 @@
 import { ComponentValue } from "@dojoengine/recs";
 import { ROOM_HEIGHT, ROOM_WIDTH } from "../constants";
 import { Direction, DirectionType } from "../types/direction";
+import { Packer } from "../helpers/packer";
 
 export class Adventurer {
   public realm_id: number;
@@ -15,8 +16,8 @@ export class Adventurer {
   public gold: number;
   public weapon: number;
   public attribute_points: number;
-  public gears: number; // Head, Chest, Waist, Feet
-  public attributes: number; // Str, Dex, Vit, Cha
+  public gears: number[];
+  public attributes: number[];
   public seed: string;
   public player_id: string;
 
@@ -33,14 +34,38 @@ export class Adventurer {
     this.gold = adventurer.gold;
     this.weapon = adventurer.weapon;
     this.attribute_points = adventurer.attribute_points;
-    this.gears = adventurer.gears;
-    this.attributes = adventurer.attributes;
+    this.gears = Packer.unpack(BigInt(adventurer.gears), 8n);
+    this.attributes = Packer.unpack(BigInt(adventurer.attributes), 8n);
     this.seed = `0x${adventurer.seed.toString(16)}`.replace('0x0x', '0x');
     this.player_id = `0x${adventurer.player_id.toString(16)}`.replace('0x0x', '0x');
   }
 
   isDead() {
     return this.health == 0;
+  }
+
+  getStrength() {
+    return this.attributes.length < 1 ? 0 : this.attributes[0];
+  }
+
+  getDexterity() {
+    return this.attributes.length < 2 ? 0 : this.attributes[1];
+  }
+
+  getVitality() {
+    return this.attributes.length < 3 ? 0 : this.attributes[2];
+  }
+
+  getIntelligence() {
+    return this.attributes.length < 4 ? 0 : this.attributes[3];
+  }
+
+  getWisdom() {
+    return this.attributes.length < 5 ? 0 : this.attributes[4];
+  }
+
+  getCharisma() {
+    return this.attributes.length < 6 ? 0 : this.attributes[5];
   }
 
   getX() {

@@ -71,7 +71,25 @@ export async function setupWorld(provider: DojoProvider) {
                 throw error;
             }
         };
-            
+    
+        // Call the `update` system with the specified Account and calldata
+        const update = async (props: { account: Account, attribute: number }) => {
+            try {
+                return await provider.execute(
+                    props.account,
+                    {
+                        contractName: contract_name,
+                        entrypoint: "update",
+                        calldata: [props.attribute],
+                    },
+                    "grimscape"
+                );
+            } catch (error) {
+                console.error("Error executing update:", error);
+                throw error;
+            }
+        };
+          
     
         // Call the `multiperform` system with the specified Account and calldata
         const multiperform = async (props: { account: Account, directions: number[] }) => {
@@ -114,7 +132,7 @@ export async function setupWorld(provider: DojoProvider) {
             
 
         return {
-            signup, rename, create, multiperform, world
+            signup, rename, create, update, multiperform, world
         };
     }
 

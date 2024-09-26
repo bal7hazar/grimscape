@@ -15,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/ui/elements/tooltip"
+import { Attributes } from "../components/Attributes";
 
 export const Adventurer = () => {
   const {
@@ -30,7 +31,7 @@ export const Adventurer = () => {
   return (
     <div className={`relative ${!adventurer.health && "grayscale"}`}>
       <div className="absolute left-0">
-        <Avatar health={adventurer.health} level={adventurer.getLevel()} />
+        <Avatar health={adventurer.health} level={adventurer.getLevel()} points={adventurer.attribute_points} />
       </div>
       <div className="absolute left-24">
         <Health health={adventurer.health} total={adventurer.base_health} />
@@ -38,14 +39,17 @@ export const Adventurer = () => {
       <div className="absolute top-6 left-24">
         <Experience experience={adventurer.getExperience()} total={adventurer.getTotalExperience()} />
       </div>
-      <div className="absolute left-24 top-12">
+      <div className="absolute top-12 left-24">
+        <Attributes str={adventurer.getStrength()} dex={adventurer.getDexterity()} vit={adventurer.getVitality()} int={adventurer.getIntelligence()} wis={adventurer.getWisdom()} cha={adventurer.getCharisma()} points={adventurer.attribute_points}/>
+      </div>
+      <div className="absolute top-[74px] left-24">
         <Gold gold={adventurer.gold} />
       </div>
     </div>
   );
 };
 
-export const Avatar = ({ health, level }: { health: number, level: number }) => {
+export const Avatar = ({ health, level, points }: { health: number, level: number, points: number }) => {
   const handleClick = useCallback(() => {
     EventBus.emit("center-camera");
   }, []);
@@ -57,6 +61,10 @@ export const Avatar = ({ health, level }: { health: number, level: number }) => 
           <img src={!health ? dead : adventurer} alt="adventurer" />
           <div className="absolute top-1 left-1 rounded-full flex justify-center items-center h-5 w-5 bg-slate-900">
             <p className="text-xs">{level}</p>
+          </div>
+          <div className="absolute top-1 right-1 rounded-full flex justify-center items-center h-5 w-5 bg-purple-700">
+            <div className={`absolute rounded-full bg-purple-700 h-5 w-5 ${points > 0 && "animate-ping"}`}/>
+            <p className="absolute text-xs">{points}</p>
           </div>
         </TooltipTrigger>
         <TooltipContent>

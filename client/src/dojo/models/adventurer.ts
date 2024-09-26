@@ -14,7 +14,7 @@ export class Adventurer {
   public xp: number;
   public gold: number;
   public weapon: number;
-  public skill_points: number;
+  public attribute_points: number;
   public gears: number; // Head, Chest, Waist, Feet
   public attributes: number; // Str, Dex, Vit, Cha
   public seed: string;
@@ -32,7 +32,7 @@ export class Adventurer {
     this.xp = adventurer.xp;
     this.gold = adventurer.gold;
     this.weapon = adventurer.weapon;
-    this.skill_points = adventurer.skill_points;
+    this.attribute_points = adventurer.attribute_points;
     this.gears = adventurer.gears;
     this.attributes = adventurer.attributes;
     this.seed = `0x${adventurer.seed.toString(16)}`.replace('0x0x', '0x');

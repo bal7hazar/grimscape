@@ -7,7 +7,9 @@ use origami_map::map::{Map, MapTrait};
 use grimscape::constants;
 use grimscape::models::index::Adventurer;
 use grimscape::types::direction::Direction;
+use grimscape::types::attribute::{Attribute, AttributeTrait, AttributeAssert};
 use grimscape::helpers::seeder::Seeder;
+use grimscape::helpers::packer::Packer;
 
 mod errors {
     const ADVENTURER_INVALID_BEAST: felt252 = 'Adventurer: invalid beast';
@@ -16,6 +18,7 @@ mod errors {
     const ADVENTURER_INVALID_DIRECTION: felt252 = 'Adventurer: invalid direction';
     const ADVENTURER_IS_DEAD: felt252 = 'Adventurer: is dead';
     const ADVENTURER_NOT_DEAD: felt252 = 'Adventurer: not dead';
+    const ADVENTURER_NOT_UPGRADABLE: felt252 = 'Adventurer: not upgradable';
 }
 
 #[generate_trait]
@@ -36,10 +39,8 @@ impl AdventurerImpl of AdventurerTrait {
             base_health: constants::ADVENTURER_DEFAULT_HEALTH,
             xp: 1,
             gold: constants::ADVENTURER_DEFAULT_GOLD,
-            weapon: 0,
-            skill_points: 0,
-            gears: 0,
-            attributes: 0,
+            attribute_points: 0,
+            attributes: constants::ADVENTURER_DEFAULT_ATTRIBUTES,
             seed,
             player_id,
         }
@@ -66,7 +67,7 @@ impl AdventurerImpl of AdventurerTrait {
         let level: u8 = self.level();
         self.xp += xp;
         self.gold += gold;
-        self.skill_points += self.level() - level;
+        self.attribute_points += self.level() - level;
     }
 
     #[inline]
@@ -121,6 +122,20 @@ impl AdventurerImpl of AdventurerTrait {
             _ => self.position,
         };
     }
+
+    #[inline]
+    fn upgrade(ref self: Adventurer, attribute: Attribute) {
+        // [Check] Attribute is valid
+        attribute.assert_is_valid();
+        // [Check] Attribute points
+        self.assert_is_upgradable();
+        // [Effect] Remove attribute points
+        self.attribute_points -= 1;
+        // [Effect] Upgrade attribute
+        let index = attribute.index();
+        let value: u8 = Packer::get(self.attributes, index, constants::ATTRIBUTE_SIZE);
+        self.attributes = Packer::set(self.attributes, index, constants::ATTRIBUTE_SIZE, value + 1);
+    }
 }
 
 #[generate_trait]
@@ -143,6 +158,11 @@ impl AdventurerAssert of AssertTrait {
     #[inline]
     fn assert_is_dead(self: Adventurer) {
         assert(self.is_dead(), errors::ADVENTURER_NOT_DEAD);
+    }
+
+    #[inline]
+    fn assert_is_upgradable(self: Adventurer) {
+        assert(self.attribute_points > 0, errors::ADVENTURER_NOT_UPGRADABLE);
     }
 }
 

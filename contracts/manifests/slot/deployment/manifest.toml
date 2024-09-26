@@ -113,7 +113,7 @@ type = "u8"
 key = false
 
 [[models.members]]
-name = "skill_points"
+name = "attribute_points"
 type = "u8"
 key = false
 

@@ -10,6 +10,7 @@ mod types {
     mod offense;
     mod defense;
     mod direction;
+    mod attribute;
 }
 
 mod elements {
@@ -130,6 +131,7 @@ mod helpers {
     mod bitmap;
     mod math;
     mod seeder;
+    mod packer;
 }
 
 #[cfg(test)]
@@ -139,6 +141,6 @@ mod tests {
     mod test_actions_move;
     mod test_actions_explore;
     mod test_actions_interact;
-    mod test_actions_multi;
+    mod test_actions_update;
 }
 

@@ -29,7 +29,7 @@ export interface Adventurer {
     xp: Number;
     gold: Number;
     weapon: Number;
-    skill_points: Number;
+    attribute_points: Number;
     gears: Number;
     attributes: Number;
     seed: BigInt;
@@ -48,7 +48,7 @@ export const AdventurerDefinition = {
     xp: RecsType.Number,
     gold: RecsType.Number,
     weapon: RecsType.Number,
-    skill_points: RecsType.Number,
+    attribute_points: RecsType.Number,
     gears: RecsType.Number,
     attributes: RecsType.Number,
     seed: RecsType.BigInt,
@@ -298,7 +298,7 @@ export function defineContractComponents(world: World) {
                     xp: RecsType.Number,
                     gold: RecsType.Number,
                     weapon: RecsType.Number,
-                    skill_points: RecsType.Number,
+                    attribute_points: RecsType.Number,
                     gears: RecsType.Number,
                     attributes: RecsType.Number,
                     seed: RecsType.BigInt,

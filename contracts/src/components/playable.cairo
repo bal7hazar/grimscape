@@ -26,6 +26,7 @@ mod PlayableComponent {
     use grimscape::models::mob::{Mob, MobTrait, MobAssert, MobItem, MobPartialOrd};
     use grimscape::types::beast::{Beast, BeastTrait};
     use grimscape::types::direction::{Direction, DirectionTrait};
+    use grimscape::types::attribute::{Attribute, AttributeTrait};
     use grimscape::helpers::seeder::Seeder;
 
     // Errors
@@ -108,71 +109,31 @@ mod PlayableComponent {
             store.set_player(player);
         }
 
-        fn perform(self: @ComponentState<TContractState>, world: IWorldDispatcher, direction: u8) {
+        fn update(
+            self: @ComponentState<TContractState>, world: IWorldDispatcher, attribute: Attribute,
+        ) {
             // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
-            let mut emitter: Emitter = EmitterTrait::new(world);
+            let store: Store = StoreTrait::new(world);
 
             // [Check] Player exists
             let player_id: felt252 = get_caller_address().into();
-            let mut player = store.get_player(player_id);
+            let player = store.get_player(player_id);
             player.assert_is_created();
 
             // [Check] Dungeon is not done
-            let mut realm = store.get_realm(REALM_ID);
+            let realm = store.get_realm(REALM_ID);
             let dungeon_id = realm.dungeon_count;
-            let mut dungeon = store.get_dungeon(realm.id, dungeon_id);
+            let dungeon = store.get_dungeon(realm.id, dungeon_id);
             dungeon.assert_not_done();
 
             // [Check] Adventurer is not dead
             let mut adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
             adventurer.assert_not_dead();
 
-            // [Effect] Perform action
-            let mut room = store
-                .get_room(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y);
+            // [Effect] Upgrade attribute
+            adventurer.upgrade(attribute);
 
-            let direction: Direction = direction.into();
-            if room.can_interact(adventurer.position, direction) {
-                // [Effect] Perform an interaction
-                self
-                    .attack(
-                        direction,
-                        ref realm,
-                        ref dungeon,
-                        ref adventurer,
-                        ref room,
-                        ref store,
-                        ref emitter,
-                    );
-            } else if room.can_leave(adventurer.position, direction) {
-                // [Effect] Perform an exploration
-                room = self
-                    .explore(
-                        direction,
-                        ref realm,
-                        ref dungeon,
-                        ref adventurer,
-                        ref room,
-                        ref store,
-                        ref emitter
-                    );
-            } else {
-                // [Effect] Perform a move
-                self
-                    .move(
-                        direction,
-                        ref realm,
-                        ref dungeon,
-                        ref adventurer,
-                        ref room,
-                        ref store,
-                        ref emitter,
-                    );
-            }
-
-            // [Effect] Update entities
-            store.set_room(room);
+            // [Effect] Store entities
             store.set_adventurer(adventurer);
         }
 

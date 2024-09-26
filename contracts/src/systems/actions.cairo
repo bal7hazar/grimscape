@@ -13,7 +13,7 @@ trait IActions<TContractState> {
     fn signup(self: @TContractState, name: felt252);
     fn rename(self: @TContractState, name: felt252);
     fn create(self: @TContractState);
-    fn perform(self: @TContractState, direction: u8);
+    fn update(self: @TContractState, attribute: u8);
     fn multiperform(self: @TContractState, directions: Array<u8>);
 }
 
@@ -80,8 +80,8 @@ mod Actions {
             self.playable.create(self.world())
         }
 
-        fn perform(self: @ContractState, direction: u8) {
-            self.playable.perform(self.world(), direction)
+        fn update(self: @ContractState, attribute: u8) {
+            self.playable.update(self.world(), attribute.into())
         }
 
         fn multiperform(self: @ContractState, mut directions: Array<u8>) {

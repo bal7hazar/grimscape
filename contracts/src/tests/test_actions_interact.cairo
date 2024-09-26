@@ -31,16 +31,19 @@ fn test_actions_interact() {
     let store = StoreTrait::new(world);
 
     // [Move]
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::None.into()); // Pass
+    let directions: Array<u8> = array![
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(), // Explore
+        Direction::West.into(),
+        Direction::None.into(), // Pass
+    ];
+    systems.actions.multiperform(directions);
 
     // [Assert] Adventurer
     let player = store.get_player(context.player_id);
@@ -56,7 +59,8 @@ fn test_actions_interact() {
     let mob_health = mob.health;
 
     // [Interact] Attack
-    systems.actions.perform(Direction::North.into()); // 26 -> 16
+    let directions: Array<u8> = array![Direction::North.into(),]; // 26 -> 16
+    systems.actions.multiperform(directions);
 
     // [Assert] Adventurer
     let adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
@@ -68,15 +72,14 @@ fn test_actions_interact() {
     assert_eq!(mob.health < mob_health, true);
 
     // [Interact] Attack
-    systems.actions.perform(Direction::North.into()); // 16 -> 6
-    systems.actions.perform(Direction::North.into()); // 6 -> 0
+    let directions: Array<u8> = array![
+        Direction::North.into(), // 16 -> 6
+         Direction::North.into(), // 6 -> 0
+    ]; // 26 -> 16
+    systems.actions.multiperform(directions);
 
     // [Assert] Mob
     let mob = store
         .get_mob(realm.id, dungeon.id, adventurer.id, adventurer.x, adventurer.y, mob.id);
     assert_eq!(mob.health, 0);
-
-    systems.actions.perform(Direction::East.into());
-    systems.actions.perform(Direction::East.into());
-    systems.actions.perform(Direction::West.into());
 }

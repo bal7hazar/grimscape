@@ -29,7 +29,6 @@ pub struct Dungeon {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-#[dojo::event]
 pub struct Adventurer {
     #[key]
     pub realm_id: u32,
@@ -44,10 +43,8 @@ pub struct Adventurer {
     pub base_health: u16,
     pub xp: u16,
     pub gold: u16,
-    pub weapon: u8,
-    pub skill_points: u8,
-    pub gears: u32, // Head, Chest, Waist, Feet
-    pub attributes: u32, // Str, Dex, Vit, Cha
+    pub attribute_points: u8,
+    pub attributes: u64, // Str, Dex, Vit, Int, Wsd, Cha
     pub seed: felt252,
     pub player_id: felt252,
 }
@@ -75,7 +72,6 @@ pub struct Room {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-#[dojo::event]
 pub struct Mob {
     #[key]
     pub realm_id: u32,
@@ -96,6 +92,19 @@ pub struct Mob {
     pub health: u16,
     pub level: u8,
     pub base_health: u16,
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Inventory {
+    #[key]
+    pub realm_id: u32,
+    #[key]
+    pub dungeon_id: u32,
+    #[key]
+    pub id: u32,
+    pub gears: u64, // Weapon Chest Head Waist Foot Hand Neck Ring
+    pub slots: u128, // 16 slots of 8 bits
 }
 // #[derive(Copy, Drop, Serde)]
 // #[dojo::model]

@@ -39,14 +39,17 @@ fn test_actions_explore() {
     let adventurer_y = adventurer.y;
 
     // [Move]
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
-    systems.actions.perform(Direction::West.into());
+    let directions: Array<u8> = array![
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(),
+        Direction::West.into(), // Explore
+    ];
+    systems.actions.multiperform(directions);
 
     // [Assert] Adventurer
     let adventurer = store.get_adventurer(realm.id, dungeon.id, player.adventurer_id);
